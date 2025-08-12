@@ -11,7 +11,6 @@ struct AppFont {
 extension Font {
     static let recipesNavTitle = Font.custom(AppFont.bold, size: 24)
     
-
 }
 
 // MARK: - Text Extensions with Font Weights
