@@ -6,12 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5273138A2E4B14850063C17E /* SavedRecipesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */; };
+		527313A72E4B1C280063C17E /* SavedRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527313A62E4B1C280063C17E /* SavedRecipesCell.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		527313A62E4B1C280063C17E /* SavedRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesCell.swift; sourceTree = "<group>"; };
 		F451DFA22E4A7EC400EB0C05 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F451DFB12E4A809100EB0C05 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		F451DFB82E4A82F100EB0C05 /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
 		F451DFB92E4A83D100EB0C05 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
-		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesContentView.swift; sourceTree = "<group>"; };
+		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SavedRecipesContentView.swift; path = Modules/SavedRecipes/SavedRecipesContentView.swift; sourceTree = SOURCE_ROOT; };
 		F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentView.swift; sourceTree = "<group>"; };
 		F451DFBD2E4A84B100EB0C05 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */,
+				527313A62E4B1C280063C17E /* SavedRecipesCell.swift */,
 			);
 			path = SavedRecipes;
 			sourceTree = "<group>";
@@ -207,6 +214,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5273138A2E4B14850063C17E /* SavedRecipesContentView.swift in Sources */,
+				527313A72E4B1C280063C17E /* SavedRecipesCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
