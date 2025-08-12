@@ -2,12 +2,11 @@ import SwiftUI
 
 struct SavedRecipesContentView: View {
     var body: some View {
-        NavigationView {
-            ScrollView {
-                SavedRecipesCell()
-                SavedRecipesCell()
+        NavigationStack {
+            List {
                 SavedRecipesCell()
             }
+            .listStyle(.plain)
             .navigationTitle("Saved recipes")
         }
     }
