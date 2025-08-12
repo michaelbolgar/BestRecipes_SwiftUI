@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DCBE43962E4AEEA7005A37F5 /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBE43952E4AEEA7005A37F5 /* TrendingCell.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		DCBE43952E4AEEA7005A37F5 /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		F451DFA22E4A7EC400EB0C05 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F451DFB12E4A809100EB0C05 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		F451DFB82E4A82F100EB0C05 /* OnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentView.swift; sourceTree = "<group>"; };
@@ -27,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		DCBE43922E4ADA13005A37F5 /* SeeAll */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SeeAll;
+			sourceTree = "<group>";
+		};
 		F451DFA42E4A7EC400EB0C05 /* BestRecipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -87,6 +97,7 @@
 				F451DFB72E4A82D600EB0C05 /* Onboarding */,
 				F451DFB62E4A82D100EB0C05 /* Home */,
 				F451DFB42E4A82BE00EB0C05 /* SavedRecipes */,
+				DCBE43922E4ADA13005A37F5 /* SeeAll */,
 				F451DFB32E4A80CE00EB0C05 /* Profile */,
 			);
 			path = Modules;
@@ -128,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				F451DFBD2E4A84B100EB0C05 /* PopularCell.swift */,
+				DCBE43952E4AEEA7005A37F5 /* TrendingCell.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -148,6 +160,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				DCBE43922E4ADA13005A37F5 /* SeeAll */,
 				F451DFA42E4A7EC400EB0C05 /* BestRecipes */,
 				F451E0102E4A871700EB0C05 /* Design_System */,
 			);
@@ -207,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCBE43962E4AEEA7005A37F5 /* TrendingCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
