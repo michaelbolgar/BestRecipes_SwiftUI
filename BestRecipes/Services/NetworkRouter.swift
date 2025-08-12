@@ -6,3 +6,22 @@
 //
 
 import Foundation
+
+enum NetworkRouter {
+    static func buildURLRequest(_ endpoint: Endpoint) -> URLRequest? {
+        URLComponents(string: endpoint.baseURL)
+            .flatMap {
+                var components = $0
+                components.path = endpoint.path
+                return components.url
+            }
+            .map {
+                var request = URLRequest(url: $0)
+                request.addValue(API.apiKey, forHTTPHeaderField: API.header)
+                request.httpMethod = endpoint.httpMethod.rawValue
+                return request
+            }
+    }
+    
+}
+
