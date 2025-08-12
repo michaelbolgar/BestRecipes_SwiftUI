@@ -2,6 +2,9 @@ import SwiftUI
 
 struct AppColor {
 
+    // MARK: - Background color
+    static let backgroundColor = UIColor.white
+    
     // MARK: - Neutral
     static let black100 = UIColor(red: 24/255, green: 24/255, blue: 24/255, alpha: 1)
     static let black90  = UIColor(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)
