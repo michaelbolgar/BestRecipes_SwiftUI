@@ -27,4 +27,7 @@ struct AppColor {
 
     static let greenSuccess100 = UIColor(red: 49/255,  green: 176/255, blue: 87/255,  alpha: 1)
     static let greenSuccess10  = UIColor(red: 206/255, green: 236/255, blue: 215/255, alpha: 1)
+    
+    static let backgrountRatingView = UIColor(red: 48/255, green: 48/255, blue: 48/255, alpha: 0.3)
+    static let secondaryTextColor = UIColor(red: 145/255, green: 145/255, blue: 145/255, alpha: 1)
 }
