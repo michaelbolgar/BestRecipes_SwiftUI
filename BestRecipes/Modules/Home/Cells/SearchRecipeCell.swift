@@ -37,6 +37,7 @@ struct SearchRecipeCell: View {
                 
             }
         }
+        .background(Color.appBackground)
         .overlay {
             RoundedRectangle(cornerRadius: Offsets.x3)
                 .stroke(.neutral30, lineWidth: 1)

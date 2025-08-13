@@ -13,7 +13,7 @@ struct HomeContentView: View {
     // MARK: - Body
     var body: some View {
         ZStack(alignment: .top) {
-            Color(AppColor.backgroundColor)
+            Color(.appBackground)
                 .ignoresSafeArea(.all)
             VStack(spacing: Offsets.x0) {
                 hederView(searchText: $viewModel.searchText)
@@ -61,12 +61,12 @@ struct HomeContentView: View {
                 showDetail: { recipeID in
                     selectedRecipeID = recipeID
                 })
-            .padding(.top, Offsets.x3)
+            .padding(.top, Offsets.x2)
         }
     }
     
     private func popularViewSection() -> some View {
-        Group {
+        VStack(alignment: .leading) {
             SeeAllSectionView(
                 title: SeeAllExploreType.popularCategories.title,
                 isShowAll: viewModel.trendingNowRecipes.isEmpty == false
@@ -75,13 +75,14 @@ struct HomeContentView: View {
             CategoryButtonCell(onCategorySelected: {_ in })
                 .padding(.top, Offsets.x1)
             
-            PopularCategoryCell(
+            PopularCategoriesCell(
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
                     selectedRecipeID = recipeID
-                    
                 }
             )
+          
+            .padding(.top, Offsets.x4)
         }
     }
     
@@ -89,10 +90,10 @@ struct HomeContentView: View {
         Group {
             SeeAllSectionView(
                 title: SeeAllExploreType.cuisineByCountry.title,
-                isShowAll: viewModel.cuisineByCountrys.isEmpty == false
+                isShowAll: viewModel.cuisineByCountries.isEmpty == false
             )
             
-            CountryRecipeCell(
+            СuisineByCountriesCell(
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
                     selectedRecipeID = recipeID

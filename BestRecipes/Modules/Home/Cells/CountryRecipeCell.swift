@@ -2,13 +2,13 @@
 
 import SwiftUI
 
-struct CountryRecipeCell: View {
+struct СuisineByCountriesCell: View {
     // MARK: - Properties
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
     
     enum Drawing {
-        static let roundSize: CGFloat = 110
+        static let roundSize: CGFloat = 130
     }
     
     // MARK: - Body
@@ -23,7 +23,7 @@ struct CountryRecipeCell: View {
             } else {
                 HStack {
                     ForEach(recipe) { recipe in
-                        ContryRoundCell(
+                        СuisineByCountryCell(
                             image: recipe.image,
                             title: recipe.title
                         )
@@ -39,5 +39,5 @@ struct CountryRecipeCell: View {
 }
 
 #Preview {
-    CountryRecipeCell(recipe: [], showDetail: {_ in})
+    СuisineByCountriesCell(recipe: [], showDetail: {_ in})
 }
