@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct PopularCell: View {
+    let recipe: RecipeModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+   
+        
     }
 }
 
 #Preview {
-    PopularCell()
+    PopularCell(recipe: RecipeModel.popularCategoryMock[0])
 }

@@ -26,6 +26,7 @@ struct SeeAllSectionView: View {
                         .recipesSeeAllTextStyle()
                         .padding(.trailing, Offsets.x3)
                     AppImages.arrowRight
+                        .foregroundStyle(.neutral100)
                 }
             }
         }

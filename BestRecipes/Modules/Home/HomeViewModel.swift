@@ -11,9 +11,9 @@ import Foundation
 final class HomeViewModel: ObservableObject {
     
     @Published var searchText: String = ""
-    @Published var trendingNowRecipes: [RecipeModel] = []
-    @Published var popularCategoryRecipes: [RecipeModel] = []
-    @Published var cuisineByCountrys: [RecipeModel] = []
+    @Published var trendingNowRecipes: [RecipeModel] = RecipeModel.trendingMock
+    @Published var popularCategoryRecipes: [RecipeModel] = RecipeModel.popularCategoryMock
+    @Published var cuisineByCountrys: [RecipeModel] = RecipeModel.cuisineByCountryMock
     
     
     // MARK: - Init
