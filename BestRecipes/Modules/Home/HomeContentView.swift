@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeContentView: View {
     // MARK: - Properties
     @StateObject private var viewModel: HomeViewModel
+    @State private var selectedRecipeID: Int? = nil
     
     //    MARK: - INIT
     init() {
@@ -16,7 +17,9 @@ struct HomeContentView: View {
                 .ignoresSafeArea(.all)
             
             VStack(spacing: 0) {
+                
                 hederView(searchText: $viewModel.searchText)
+                trendingViewSection()
                 
                 CategoryButtonCell(onCategorySelected: {_ in })
                     .padding(.top, Offsets.x4)
@@ -40,6 +43,23 @@ struct HomeContentView: View {
             SearchRecipeCell(searchText: searchText)
         }
     }
+    
+    private func trendingViewSection() -> some View {
+        Group {
+            SeeAllSectionView(
+                title: SeeAllExploreType.trendingNow.title,
+                isShowAll: viewModel.trendingNowRecipes.isEmpty == false
+            )
+            
+            TrendingNowCell(
+                recipe: viewModel.trendingNowRecipes,
+                showDetail: { recipeID in
+                    selectedRecipeID = recipeID
+                })
+        }
+    }
+    
+    
 }
 
 extension HomeContentView {

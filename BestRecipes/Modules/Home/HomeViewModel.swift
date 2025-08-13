@@ -11,7 +11,7 @@ import Foundation
 final class HomeViewModel: ObservableObject {
     
     @Published var searchText: String = ""
-    
+    @Published var trendingNowRecipes: [RecipeModel] = []
     
     // MARK: - Init
     init() {

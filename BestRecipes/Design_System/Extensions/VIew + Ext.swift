@@ -105,3 +105,29 @@ public extension View {
         )
     }
 }
+
+struct ShimmerView: View {
+    let ratio: Double
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundStyle(.neutral20)
+                .shimmering()
+            
+            VStack(alignment: .leading) {
+                Spacer()
+                Text("                      ")
+                    .redacted(reason: .placeholder)
+                Text("           ")
+                    .redacted(reason: .placeholder)
+            }
+        }
+        .frame(width: 343/ratio, height: 215/ratio)
+    }
+}
+// https://github.com/markiv/SwiftUI-Shimmer/blob/main/README.md // about shimming
+
+#Preview {
+    ShimmerView(ratio: 1)
+}

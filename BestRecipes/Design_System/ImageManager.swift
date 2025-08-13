@@ -5,6 +5,8 @@ enum AppImages {
     // MARK: - Core
     static let search = Image(.search)
     static let xmark = Image(systemName: "xmark")
+    static let arrowRight = Image(systemName: "arrow.right")
+    
     // MARK: - Onboarding
     static let startOnboarding = Image(systemName: "startPage")
     static let onboardingPageOne = Image(systemName: "cookPage1")

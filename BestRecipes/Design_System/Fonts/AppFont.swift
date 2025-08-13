@@ -10,6 +10,8 @@ struct AppFont {
 // MARK: - Font Extensions for BestRecipesApp
 extension Font {
     static let recipesNavTitle = Font.custom(AppFont.bold, size: 24)
+    static let recipesTitle = Font.custom(AppFont.semibold, size: 20)
+    static let recipesMiniTitle = Font.custom(AppFont.semibold, size: 14)
     static let placeholderText = Font.custom(AppFont.regular, size: 14)
     static let categoryButtonText = Font.custom(AppFont.semibold, size: 16)
 }
@@ -27,6 +29,18 @@ extension Text {
         self
             .font(.placeholderText)
             .foregroundStyle(.neutral30)
+    }
+    
+    func recipesTitleStyle() -> some View {
+        self
+            .font(.recipesTitle)
+            .foregroundStyle(.neutral100)
+    }
+    
+    func recipesSeeAllTextStyle() -> some View {
+        self
+            .font(.recipesMiniTitle)
+            .foregroundStyle(.redPrimary50)
     }
     
     func recipesCategoryButtonStyle() -> some View {
