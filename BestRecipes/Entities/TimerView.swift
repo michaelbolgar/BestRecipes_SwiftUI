@@ -5,7 +5,8 @@ struct TimerView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(uiColor: AppColor.backgrountRatingView))
+                .fill(.backgrountRatingView)
+                .opacity(0.5)
                 .frame(width: 41, height: 25)
                 .padding(8)
             Text(timer)
