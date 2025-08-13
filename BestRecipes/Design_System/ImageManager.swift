@@ -3,8 +3,8 @@ import SwiftUI
 enum AppImages {
 
     // MARK: - Core
-    static let search = Image(systemName: "magnifyingglass")
-
+    static let search = Image(.search)
+    static let xmark = Image(systemName: "xmark")
     // MARK: - Onboarding
     static let startOnboarding = Image(systemName: "startPage")
     static let onboardingPageOne = Image(systemName: "cookPage1")
