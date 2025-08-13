@@ -23,7 +23,6 @@ struct TrendingNowCell: View {
                     }
                 }
             }
-            .padding(.leading, 24)
         }
     }
 }

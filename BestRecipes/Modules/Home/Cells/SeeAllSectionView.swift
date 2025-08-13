@@ -29,7 +29,6 @@ struct SeeAllSectionView: View {
                 }
             }
         }
-        .padding(.leading, 24)
     }
 }
 

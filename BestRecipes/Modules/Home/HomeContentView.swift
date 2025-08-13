@@ -20,8 +20,8 @@ struct HomeContentView: View {
                 
                 hederView(searchText: $viewModel.searchText)
                 trendingViewSection()
-                
-                CategoryButtonCell(onCategorySelected: {_ in })
+                    .padding(.top, Offsets.x4)
+                popularViewSection()
                     .padding(.top, Offsets.x4)
                 Spacer()
             }
@@ -36,7 +36,6 @@ struct HomeContentView: View {
     private func hederView(searchText: Binding<String>) -> some View {
         VStack(alignment: .leading) {
             Text(constText.hederText)
-                
                 .recipesNavTitleStyle()
                 .lineLimit(2)
                 .allowsTightening(true)
@@ -56,12 +55,24 @@ struct HomeContentView: View {
                 showDetail: { recipeID in
                     selectedRecipeID = recipeID
                 })
+            .padding(.top, Offsets.x3)
         }
     }
     
-    
+    private func popularViewSection() -> some View {
+        Group {
+            SeeAllSectionView(
+                title: SeeAllExploreType.popularCategories.title,
+                isShowAll: viewModel.trendingNowRecipes.isEmpty == false
+            )
+            
+            CategoryButtonCell(onCategorySelected: {_ in })
+                .padding(.top, Offsets.x3)
+        }
+    }
 }
 
+// MARK: - Extension
 extension HomeContentView {
     enum constText {
         static let hederText: String = "Get amazing recipes for cooking"
@@ -70,5 +81,4 @@ extension HomeContentView {
 
 #Preview {
     HomeContentView()
-     
 }
