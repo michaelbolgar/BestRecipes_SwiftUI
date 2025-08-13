@@ -22,7 +22,7 @@ struct CategoryButton: View {
                 .foregroundColor(isSelected ? .appBackground : .redPrimary20)
                 .padding(.horizontal, Offsets.x3)
                 .frame(height: Offsets.x9)
-                .background(isSelected ? .redPrimary50 : .appBackground)
+                .background(isSelected ? .redPrimary50 : .appWhite)
                 .clipShape(RoundedRectangle(cornerRadius: Offsets.x3))
                 .animation(.easeInOut(duration: 0.2), value: isSelected)
         }

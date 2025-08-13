@@ -8,7 +8,7 @@ struct CountryRecipeCell: View {
     var showDetail: (Int) -> Void
     
     enum Drawing {
-        static let roundSize: CGFloat = 110
+        static let roundSize: CGFloat = 130
     }
     
     // MARK: - Body
