@@ -41,7 +41,7 @@ struct SavedRecipesCell: View {
                     .clipShape(Circle())
                 Text("By Zeelicious Foods")
                     .font(.custom(AppFont.regular, size: 12))
-                    .foregroundStyle(Color(uiColor: AppColor.secondaryTextColor))
+                    .foregroundStyle(.secondary)
             }
         }
     }
