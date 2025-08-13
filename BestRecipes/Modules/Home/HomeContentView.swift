@@ -15,17 +15,23 @@ struct HomeContentView: View {
         ZStack(alignment: .top) {
             Color(AppColor.backgroundColor)
                 .ignoresSafeArea(.all)
-            
-            VStack(spacing: 0) {
-                
+            VStack(spacing: Offsets.x0) {
                 hederView(searchText: $viewModel.searchText)
-                trendingViewSection()
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: Offsets.x0) {
+                        
+                        trendingViewSection()
+                            .padding(.top, Offsets.x4)
+                        popularViewSection()
+                            .padding(.top, Offsets.x4)
+                        countryPopularViewSection()
+                            .padding(.top, Offsets.x4)
+                        Spacer()
+                    }
                     .padding(.top, Offsets.x4)
-                popularViewSection()
-                    .padding(.top, Offsets.x4)
-                Spacer()
+                }
             }
-            .padding(.top, Offsets.x4)
             .padding(.horizontal, Offsets.x4)
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -67,7 +73,32 @@ struct HomeContentView: View {
             )
             
             CategoryButtonCell(onCategorySelected: {_ in })
-                .padding(.top, Offsets.x3)
+                .padding(.top, Offsets.x1)
+            
+            PopularCategoryCell(
+                recipe: viewModel.popularCategoryRecipes,
+                showDetail: { recipeID in
+                    selectedRecipeID = recipeID
+                    
+                }
+            )
+        }
+    }
+    
+    private func countryPopularViewSection() -> some View {
+        Group {
+            SeeAllSectionView(
+                title: SeeAllExploreType.cuisineByCountry.title,
+                isShowAll: viewModel.cuisineByCountrys.isEmpty == false
+            )
+            
+            CountryRecipeCell(
+                recipe: viewModel.popularCategoryRecipes,
+                showDetail: { recipeID in
+                    selectedRecipeID = recipeID
+                    
+                }
+            )
         }
     }
 }

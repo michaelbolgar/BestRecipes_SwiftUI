@@ -9,22 +9,22 @@
 import SwiftUI
 
 struct SeeAllSectionView: View {
-    
+    // MARK: - Properties
     let title: String
     var isShowAll = false
     
+    // MARK: - Body
     var body: some View {
         HStack {
             Text(title)
-                .recipesTitleStyle()
-                .frame(width: 200, height: 24, alignment: .leading)
+                .recipesMaxTitleStyle()
             
             Spacer()
             if isShowAll {
                 HStack(spacing: Offsets.x0 ) {
                     Text("See All")
                         .recipesSeeAllTextStyle()
-                        .padding(.trailing, 14)
+                        .padding(.trailing, Offsets.x3)
                     AppImages.arrowRight
                 }
             }

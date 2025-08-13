@@ -4,6 +4,7 @@
 enum SeeAllExploreType: Hashable, CaseIterable {
     case trendingNow
     case popularCategories
+    case cuisineByCountry
     case recentRecipe
 
     
@@ -11,7 +12,9 @@ enum SeeAllExploreType: Hashable, CaseIterable {
         switch self {
         case .trendingNow: return "Trending now 🔥"
         case .popularCategories: return "Popular category"
+        case .cuisineByCountry: return "Cuisine by Country"
         case .recentRecipe: return "Recent recipe"
+            
         }
     }
 }
@@ -23,7 +26,7 @@ protocol ButtonType {}
 // MARK: - Extensions to Categorize Cases
 extension SeeAllExploreType: HeaderType {
     static var headerCases: [SeeAllExploreType] {
-        return [.trendingNow, .popularCategories, .recentRecipe]
+        return [.trendingNow, .popularCategories, .cuisineByCountry, .recentRecipe]
     }
 }
 

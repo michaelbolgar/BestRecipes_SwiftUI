@@ -128,6 +128,19 @@ struct ShimmerView: View {
 }
 // https://github.com/markiv/SwiftUI-Shimmer/blob/main/README.md // about shimming
 
+// Круглый шимер для использования в качестве placeholder
+struct ShimmerCircle: View {
+    let size: CGFloat
+    
+    var body: some View {
+        Circle()
+            .fill(Color.gray.opacity(0.3))
+            .frame(width: size, height: size)
+            .shimmering()
+    }
+}
+
+
 #Preview {
     ShimmerView(ratio: 1)
 }

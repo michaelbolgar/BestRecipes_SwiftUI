@@ -6,6 +6,7 @@ enum AppImages {
     static let search = Image(.search)
     static let xmark = Image(systemName: "xmark")
     static let arrowRight = Image(systemName: "arrow.right")
+    static let mockImage = Image(.mock)
     
     // MARK: - Onboarding
     static let startOnboarding = Image(systemName: "startPage")

@@ -12,6 +12,9 @@ final class HomeViewModel: ObservableObject {
     
     @Published var searchText: String = ""
     @Published var trendingNowRecipes: [RecipeModel] = []
+    @Published var popularCategoryRecipes: [RecipeModel] = []
+    @Published var cuisineByCountrys: [RecipeModel] = []
+    
     
     // MARK: - Init
     init() {

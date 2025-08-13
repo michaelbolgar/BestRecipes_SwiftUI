@@ -10,6 +10,10 @@ import SwiftUI
 
 struct CategoryButtonCell: View {
     // MARK: - Properties
+    @State private var selectedCategoryId: Int = 1
+    
+    let onCategorySelected: (CategoryModel) -> Void
+    
     private let categoryNames = ["Main course", "Side dish", "Dessert", "Appetizer", "Salad", "Bread", "Breakfast", "Soup", "Beverage", "Sauce", "Marinade", "Fingerfood", "Snack", "Drink"]
     
     private var categories: [CategoryModel] {
@@ -17,10 +21,6 @@ struct CategoryButtonCell: View {
             CategoryModel(id: index, name: name)
         }
     }
-    
-    let onCategorySelected: (CategoryModel) -> Void
-    
-    @State private var selectedCategoryId: Int = 1
     
     // MARK: - Body
     var body: some View {
@@ -37,12 +37,10 @@ struct CategoryButtonCell: View {
                         
                     )
                     .clipShape(RoundedRectangle(cornerRadius: Offsets.x2))
-                    .zIndex(1)
                 }
                 .clipped()
             }
         }
-        .padding(.leading, 24)
     }
 }
 

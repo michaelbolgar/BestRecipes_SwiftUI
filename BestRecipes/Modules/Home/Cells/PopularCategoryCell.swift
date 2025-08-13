@@ -1,7 +1,8 @@
+//
 
 import SwiftUI
 
-struct TrendingNowCell: View {
+struct PopularCategoryCell: View {
     // MARK: - Properties
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
@@ -17,7 +18,7 @@ struct TrendingNowCell: View {
                 } else {
                     ForEach(recipe) { recipe in
                         SavedRecipesCell()
-                            .padding(.vertical, Offsets.x2)
+                            .padding(.vertical, Offsets.x0)
                             .onTapGesture {
                                 showDetail(recipe.id)
                             }
@@ -29,5 +30,5 @@ struct TrendingNowCell: View {
 }
 
 #Preview {
-    TrendingNowCell(recipe: [], showDetail: {_ in })
+    PopularCategoryCell(recipe: [], showDetail: {_ in })
 }
