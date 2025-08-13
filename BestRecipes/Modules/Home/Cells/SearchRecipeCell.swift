@@ -17,7 +17,7 @@ struct SearchRecipeCell: View {
     
     // MARK: - Body
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: Offsets.x0) {
             AppImages.search
                 .frame(width: Offsets.x5, height: Offsets.x5)
                 .foregroundStyle(.neutral90)
