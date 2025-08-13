@@ -8,16 +8,39 @@
 import SwiftUI
 
 struct SearchRecipeCell: View {
+    // MARK: - Properties
    @Binding var searchText: String
+    
     enum Drawing {
-        static let placeholderText = "search"
+        static let placeholderText = "Search recipes"
     }
+    
+    // MARK: - Body
     var body: some View {
-        TextField("", text: $searchText)
-            .placeholder(when: searchText.isEmpty) {
-                Text(Drawing.placeholderText)
+        HStack(spacing: 0) {
+            AppImages.search
+                .frame(width: Offsets.x5, height: Offsets.x5)
+                .foregroundStyle(.neutral90)
+                .padding(Offsets.x4)
+            
+            TextField(Drawing.placeholderText, text: $searchText)
+
+            
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                } label: {
+                    AppImages.xmark
+                        .foregroundStyle(.neutral20)
+                        .padding(Offsets.x4)
+                }
+                
             }
-        
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: Offsets.x3)
+                .stroke(.neutral30, lineWidth: 1)
+        }
     }
 }
 
