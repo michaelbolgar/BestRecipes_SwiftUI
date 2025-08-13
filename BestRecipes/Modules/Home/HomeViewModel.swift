@@ -13,7 +13,7 @@ final class HomeViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var trendingNowRecipes: [RecipeModel] = RecipeModel.trendingMock
     @Published var popularCategoryRecipes: [RecipeModel] = RecipeModel.popularCategoryMock
-    @Published var cuisineByCountrys: [RecipeModel] = RecipeModel.cuisineByCountryMock
+    @Published var cuisineByCountries: [RecipeModel] = RecipeModel.cuisineByCountryMock
     
     
     // MARK: - Init

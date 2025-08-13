@@ -144,10 +144,71 @@ struct ShimmerCircle: View {
     }
 }
 
+struct ShimmerForPopular: View {
+    var body: some View {
+        ZStack {
+            VStack {
+                RoundedTopCircleShape(
+                    circleDiameter: 110,
+                    rectangleHeight: 176,
+                    rectangleCornerRadius: 12
+                )
+                
+                .foregroundColor(.redPrimary20)
+                .shimmering()
+                .frame(width: 150, height: 110 + 176)
+            }
+            Spacer()
+            VStack(alignment: .leading) {
+                Text("           ")
+                    .redacted(reason: .placeholder)
+                Text("     ")
+                    .redacted(reason: .placeholder)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.bottom, 12)
+    }
+}
+
+struct RoundedTopCircleShape: Shape {
+    var circleDiameter: CGFloat
+    var rectangleHeight: CGFloat
+    var rectangleCornerRadius: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        let circleRadius = circleDiameter / 2
+        let circleCenterX = rect.midX
+        let circleCenterY = circleRadius
+
+        var path = Path()
+
+        // Рисуем верхнюю часть - круг
+        path.addArc(
+            center: CGPoint(x: circleCenterX, y: circleCenterY),
+            radius: circleRadius,
+            startAngle: .degrees(180),
+            endAngle: .degrees(0),
+            clockwise: false
+        )
+
+        // Рисуем боковые стороны и основание прямоугольника с закруглениями
+        let rectTop = circleDiameter / 2
+        _ = rectTop + rectangleHeight
+
+        path.addRoundedRect(
+            in: CGRect(x: rect.minX, y: rectTop, width: rect.width, height: rectangleHeight),
+            cornerSize: CGSize(width: rectangleCornerRadius, height: rectangleCornerRadius)
+        )
+
+        return path
+    }
+}
 
 #Preview {
     VStack {
         ShimmerView(ratio: 1)
         ShimmerCircle(size: 110)
+        ShimmerForPopular()
     }
 }

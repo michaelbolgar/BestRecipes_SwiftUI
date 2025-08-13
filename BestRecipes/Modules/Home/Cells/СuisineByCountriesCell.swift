@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContryRoundCell: View {
+struct СuisineByCountryCell: View {
     
     // MARK: - Properties
     let image: URL
@@ -48,6 +48,6 @@ struct ContryRoundCell: View {
 }
 
 #Preview {
-    ContryRoundCell(image: URL(string: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg")!, title: "USA")
+    СuisineByCountryCell(image: URL(string: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg")!, title: "USA")
         .padding()
 }

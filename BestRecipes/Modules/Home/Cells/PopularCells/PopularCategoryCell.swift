@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct PopularCategoryCell: View {
+struct PopularCategoriesCell: View {
     // MARK: - Properties
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
@@ -13,11 +13,11 @@ struct PopularCategoryCell: View {
             HStack {
                 if recipe.isEmpty  {
                     ForEach(1..<6) { plug in
-                        ShimmerView(ratio: 1)
+                        ShimmerForPopular()
                     }
                 } else {
                     ForEach(recipe) { recipe in
-                        SavedRecipesCell()
+                        PopularCell(recipe: recipe)
                             .padding(.vertical, Offsets.x0)
                             .onTapGesture {
                                 showDetail(recipe.id)
@@ -30,5 +30,5 @@ struct PopularCategoryCell: View {
 }
 
 #Preview {
-    PopularCategoryCell(recipe: [], showDetail: {_ in })
+    PopularCategoriesCell(recipe: RecipeModel.popularCategoryMock, showDetail: {_ in })
 }

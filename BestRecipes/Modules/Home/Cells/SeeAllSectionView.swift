@@ -30,6 +30,7 @@ struct SeeAllSectionView: View {
                 }
             }
         }
+        .background(Color.appBackground)
     }
 }
 

@@ -6,6 +6,7 @@ struct RecipeModel: Identifiable {
     let title: String
     let image: URL
     let spoonacularScore: Double
+    let time: String
 }
 
 extension RecipeModel {
@@ -15,31 +16,36 @@ extension RecipeModel {
             id: 1,
             title: "Spaghetti Carbonara",
             image: URL(string: "https://spoonacular.com/recipeImages/716429-312x231.jpg")!,
-            spoonacularScore: 95.0
+            spoonacularScore: 95.0,
+            time: "5 min"
         ),
         RecipeModel(
             id: 2,
             title: "Chicken Parmesan",
             image: URL(string: "https://spoonacular.com/recipeImages/715538-312x231.jpg")!,
-            spoonacularScore: 90.5
+            spoonacularScore: 90.5,
+            time: "5 min"
         ),
         RecipeModel(
             id: 3,
             title: "Beef Stroganoff",
             image: URL(string: "https://spoonacular.com/recipeImages/632660-312x231.jpg")!,
-            spoonacularScore: 88.0
+            spoonacularScore: 88.0,
+            time: "5 min"
         ),
         RecipeModel(
             id: 4,
             title: "Pad Thai",
             image: URL(string: "https://spoonacular.com/recipeImages/664823-312x231.jpg")!,
-            spoonacularScore: 92.0
+            spoonacularScore: 92.0,
+            time: "5 min"
         ),
         RecipeModel(
             id: 5,
             title: "Greek Salad",
             image: URL(string: "https://spoonacular.com/recipeImages/715446-312x231.jpg")!,
-            spoonacularScore: 85.0
+            spoonacularScore: 85.0,
+            time: "5 min"
         )
     ]
     /// Моковые данные для популярных рецептов (trending)
