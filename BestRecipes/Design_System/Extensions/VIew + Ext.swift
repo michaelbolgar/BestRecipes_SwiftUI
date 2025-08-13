@@ -112,7 +112,7 @@ struct ShimmerView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundStyle(.neutral20)
+                .foregroundStyle(.redPrimary20)
                 .shimmering()
             
             VStack(alignment: .leading) {
@@ -133,14 +133,21 @@ struct ShimmerCircle: View {
     let size: CGFloat
     
     var body: some View {
-        Circle()
-            .fill(Color.gray.opacity(0.3))
-            .frame(width: size, height: size)
-            .shimmering()
+        VStack(spacing: 8) {
+            Circle()
+                .foregroundStyle(.redPrimary20)
+                .frame(width: size, height: size)
+                .shimmering()
+            Text("           ")
+                .redacted(reason: .placeholder)
+        }
     }
 }
 
 
 #Preview {
-    ShimmerView(ratio: 1)
+    VStack {
+        ShimmerView(ratio: 1)
+        ShimmerCircle(size: 110)
+    }
 }
