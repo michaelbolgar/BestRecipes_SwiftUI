@@ -6,7 +6,8 @@ struct RatingView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(uiColor: AppColor.backgrountRatingView))
+                .fill(.backgrountRatingView)
+                .opacity(0.5)
                 .frame(width: 58, height: 27)
                 .padding(8)
             HStack {
