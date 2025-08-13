@@ -17,6 +17,9 @@ struct HomeContentView: View {
             
             VStack(spacing: 0) {
                 hederView(searchText: $viewModel.searchText)
+                
+                CategoryButtonCell(onCategorySelected: {_ in })
+                    .padding(.top, Offsets.x4)
                 Spacer()
             }
             .padding(.top, Offsets.x4)

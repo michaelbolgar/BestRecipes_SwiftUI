@@ -11,6 +11,7 @@ struct AppFont {
 extension Font {
     static let recipesNavTitle = Font.custom(AppFont.bold, size: 24)
     static let placeholderText = Font.custom(AppFont.regular, size: 14)
+    static let categoryButtonText = Font.custom(AppFont.semibold, size: 16)
 }
 
 // MARK: - Text Extensions with Font Weights
@@ -26,6 +27,12 @@ extension Text {
         self
             .font(.placeholderText)
             .foregroundStyle(.neutral30)
+    }
+    
+    func recipesCategoryButtonStyle() -> some View {
+        self
+            .font(.categoryButtonText)
+            .foregroundStyle(.redPrimary20)
     }
     
 }
