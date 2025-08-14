@@ -13,6 +13,7 @@ enum NetworkRouter {
             .flatMap {
                 var components = $0
                 components.path = endpoint.path
+                components.queryItems = endpoint.queryItems
                 return components.url
             }
             .map {

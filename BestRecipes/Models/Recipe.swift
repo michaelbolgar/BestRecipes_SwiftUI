@@ -8,8 +8,8 @@
 import Foundation
 
 struct Recipe: Decodable {
-    let number: Int?
-    let totalResults: Int?
+    let number: Int
+    let totalResults: Int
     let results: [Result]
    
 }
