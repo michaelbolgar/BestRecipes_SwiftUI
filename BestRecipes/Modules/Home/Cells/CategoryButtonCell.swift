@@ -33,7 +33,7 @@ struct CategoryButtonCell: View {
                         onTap: {
                             selectedCategoryId = category.id
                             onCategorySelected(category)
-                        },
+                        }
                         
                     )
                     .clipShape(RoundedRectangle(cornerRadius: Offsets.x2))
