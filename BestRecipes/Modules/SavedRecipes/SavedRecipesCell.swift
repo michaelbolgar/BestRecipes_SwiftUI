@@ -25,12 +25,6 @@ struct SavedRecipesCell: View {
             HStack {
                 Text("How to make sharwama at home")
                     .font(.custom(AppFont.bold, size: 16))
-                Spacer()
-                Button {
-                    // action
-                } label: {
-                    Image(.burgerButton)
-                }
             }
             .padding(.vertical, 12)
             
