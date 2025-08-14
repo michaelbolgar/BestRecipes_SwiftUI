@@ -1,2 +1,31 @@
+//
+//  Endpoint.swift
+//  BestRecipes
+//
+//  Created by Alexander Abanshin on 12.08.2025.
+//
 
-final class NetworkingService {}
+final class NetworkingService {
+    func fetch<T: Decodable>(from endpoint: Endpoint) async throws -> T {
+        guard let urlRequest = NetworkRouter.buildURLRequest(endpoint) else {
+            throw NetworkError.invalidRequest
+        }
+        
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.invalidResponse(statusCode: 0)
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw NetworkError.invalidResponse(statusCode: httpResponse.statusCode)
+            }
+            
+            do {
+                return try JSONDecoder().decode(T.self, from: data)
+            } catch {
+                throw NetworkError.decodingFailed(error)
+            }
+            
+    }
+}
