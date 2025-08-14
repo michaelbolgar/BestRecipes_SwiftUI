@@ -13,7 +13,8 @@ enum Endpoint {
     ///   - number: Максимальное количество возвращаемых рецептов (1-100)
     ///   - minLikes: Минимальное количество лайков (по умолчанию 100)
     ///   - mealType: Тип блюда (например, "breakfast", "salad"), опционально
-    case popularRecipes(number: Int, minLikes: Int = 100, mealType: String? = nil)
+    ///   - cuisine: Кухня (например, "Italian", "Mexican"), опционально
+    case popularRecipes(number: Int, minLikes: Int = 100, mealType: MealType? = nil, cuisine: Cuisine? = nil)
     /// Получение трендовых рецептов (сортировка по дате добавления)
     /// - Parameters:
     ///   - number: Максимальное количество возвращаемых рецептов (1-100)
@@ -41,7 +42,7 @@ enum Endpoint {
         var items = [URLQueryItem(name: "apiKey", value: API.apiKey)]
         
         switch self {
-        case .popularRecipes(let number, let minLikes, let mealType):
+        case .popularRecipes(let number, let minLikes, let mealType, let cuisine):
             items.append(contentsOf: [
                 URLQueryItem(name: "sort", value: "popularity"),
                 URLQueryItem(name: "number", value: "\(number)"),
@@ -50,7 +51,10 @@ enum Endpoint {
             ])
             
             if let mealType = mealType {
-                items.append(URLQueryItem(name: "type", value: mealType))
+                items.append(URLQueryItem(name: "type", value: mealType.rawValue))
+            }
+            if let cuisine = cuisine {
+                items.append(URLQueryItem(name: "cuisine", value: cuisine.rawValue))
             }
             
         case .trendingRecipes(let number, let days):
