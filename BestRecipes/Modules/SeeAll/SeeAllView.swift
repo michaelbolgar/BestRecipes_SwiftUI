@@ -7,13 +7,13 @@
 
 import SwiftUI
 
+
 struct SeeAllView: View {
-    let type: SeeAllExploreType
-    let items: [RecipeModel]
+    @ObservedObject var viewModel: SeeAllViewModel
 
     var body: some View {
         List {
-            ForEach(items) { item in
+            ForEach(viewModel.items) { item in
                 RecipeListRow(recipe: item)
                     .listRowSeparator(.hidden)
                     .listRowInsets(.init(top: 8, leading: 0, bottom: 16, trailing: 0))
@@ -21,17 +21,15 @@ struct SeeAllView: View {
         }
         .listStyle(.plain)
         .padding(.horizontal, Offsets.x4)
-        .navigationTitle(type.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(viewModel.type.title)
         .background(Color.appBackground.ignoresSafeArea())
     }
 }
 
 #Preview("Trending now") {
     NavigationStack {
-        SeeAllView(type: .trendingNow, items: RecipeModel.trendingMock)
+        SeeAllView(viewModel: SeeAllViewModel(type: .trendingNow))
     }
 }
-
 
 
