@@ -9,8 +9,11 @@ import SwiftUI
 
 
 struct SeeAllView: View {
-    @ObservedObject var viewModel: SeeAllViewModel
+    @StateObject var viewModel: SeeAllViewModel
 
+    init(type: SeeAllType) {
+        self._viewModel = StateObject(wrappedValue: SeeAllViewModel(type: type))
+    }
     var body: some View {
         List {
             ForEach(viewModel.items) { item in
@@ -28,7 +31,7 @@ struct SeeAllView: View {
 
 #Preview("Trending now") {
     NavigationStack {
-        SeeAllView(viewModel: SeeAllViewModel(type: .trendingNow))
+        SeeAllView(type: .trendingNow)
     }
 }
 

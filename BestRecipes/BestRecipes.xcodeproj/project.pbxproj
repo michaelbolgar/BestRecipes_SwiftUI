@@ -34,7 +34,7 @@
 		E12B35C82E4C887500050A82 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35C62E4C887500050A82 /* CategoryModel.swift */; };
 		E12B35CA2E4C896400050A82 /* TrendingNowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35C92E4C896400050A82 /* TrendingNowCell.swift */; };
 		E12B35CC2E4C89CE00050A82 /* SeeAllSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CB2E4C89CE00050A82 /* SeeAllSectionView.swift */; };
-		E12B35CE2E4C8D3600050A82 /* SeeAllExploreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CD2E4C8D3600050A82 /* SeeAllExploreType.swift */; };
+		E12B35CE2E4C8D3600050A82 /* SeeAllType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */; };
 		E12B35D02E4C8F8100050A82 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */; };
 		E12B36A72E4CB46800050A82 /* PopularCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A62E4CB46800050A82 /* PopularCategoryCell.swift */; };
 		E12B36A92E4CB63100050A82 /* CountryRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */; };
@@ -68,7 +68,7 @@
 		E12B35C62E4C887500050A82 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		E12B35C92E4C896400050A82 /* TrendingNowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingNowCell.swift; sourceTree = "<group>"; };
 		E12B35CB2E4C89CE00050A82 /* SeeAllSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllSectionView.swift; sourceTree = "<group>"; };
-		E12B35CD2E4C8D3600050A82 /* SeeAllExploreType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllExploreType.swift; sourceTree = "<group>"; };
+		E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllType.swift; sourceTree = "<group>"; };
 		E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		E12B36A62E4CB46800050A82 /* PopularCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCategoryCell.swift; sourceTree = "<group>"; };
 		E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRecipeCell.swift; sourceTree = "<group>"; };
@@ -231,7 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */,
-				E12B35CD2E4C8D3600050A82 /* SeeAllExploreType.swift */,
+				E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */,
 				E12B35C62E4C887500050A82 /* CategoryModel.swift */,
 			);
 			path = Models;
@@ -434,7 +434,7 @@
 				E12B34262E4BDBE600050A82 /* HomeContentView.swift in Sources */,
 				5E6FA6B52E4E23490050C809 /* CustomCheckbox.swift in Sources */,
 				6D494C6C2E4B229B00ED37D1 /* NetworkError.swift in Sources */,
-				E12B35CE2E4C8D3600050A82 /* SeeAllExploreType.swift in Sources */,
+				E12B35CE2E4C8D3600050A82 /* SeeAllType.swift in Sources */,
 				E12B36A92E4CB63100050A82 /* CountryRecipeCell.swift in Sources */,
 				E12B36A72E4CB46800050A82 /* PopularCategoryCell.swift in Sources */,
 				E12B36D12E4CEC6A00050A82 /* PopularCell.swift in Sources */,

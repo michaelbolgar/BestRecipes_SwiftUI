@@ -3,7 +3,13 @@ import SwiftUI
 struct HomeContentView: View {
     // MARK: - Properties
     @StateObject private var viewModel: HomeViewModel
-    @State private var selectedRecipeID: Int? = nil
+    
+    @State private var navigationPath = NavigationPath()
+    
+    enum Route: Hashable {
+        case recipeDetail(id: Int)
+        case seeAll(type: SeeAllType)
+    }
     
     //    MARK: - INIT
     init() {
@@ -12,31 +18,43 @@ struct HomeContentView: View {
     
     // MARK: - Body
     var body: some View {
-        ZStack(alignment: .top) {
-            Color(.appBackground)
-                .ignoresSafeArea(.all)
-            VStack(spacing: Offsets.x0) {
-                hederView(searchText: $viewModel.searchText)
-                
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: Offsets.x0) {
-                        
-                        trendingViewSection()
-                            .padding(.top, Offsets.x4)
-                        popularViewSection()
-                            .padding(.top, Offsets.x4)
-                        countryPopularViewSection()
-                            .padding(.top, Offsets.x4)
-                        Spacer()
+        NavigationStack(path: $navigationPath) {
+            ZStack(alignment: .top) {
+                Color(.appBackground)
+                    .ignoresSafeArea(.all)
+                VStack(spacing: Offsets.x0) {
+                    hederView(searchText: $viewModel.searchText)
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: Offsets.x0) {
+                            
+                            trendingViewSection()
+                                .padding(.top, Offsets.x4)
+                            popularViewSection()
+                                .padding(.top, Offsets.x4)
+                            countryPopularViewSection()
+                                .padding(.top, Offsets.x4)
+                            Spacer()
+                        }
+                        .padding(.top, Offsets.x4)
                     }
-                    .padding(.top, Offsets.x4)
+                }
+                .padding(.horizontal, Offsets.x4)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .recipeDetail(let id):
+                    RecipeDetailView(
+                        viewModel: RecipeDetailViewModel(),
+                        isIngredientChecked: true
+                    )
+                case .seeAll(let type):
+                    SeeAllView(type: type)
                 }
             }
-            .padding(.horizontal, Offsets.x4)
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        
     }
     // MARK: - Views
     private func hederView(searchText: Binding<String>) -> some View {
@@ -52,14 +70,16 @@ struct HomeContentView: View {
     private func trendingViewSection() -> some View {
         Group {
             SeeAllSectionView(
-                title: SeeAllExploreType.trendingNow.title,
-                isShowAll: viewModel.trendingNowRecipes.isEmpty == false
+                title: SeeAllType.trendingNow.title,
+                isShowAll: !viewModel.trendingNowRecipes.isEmpty
             )
-            
+            .onTapGesture {
+                navigationPath.append(Route.seeAll(type: .trendingNow))
+            }
             TrendingNowCell(
                 recipe: viewModel.trendingNowRecipes,
                 showDetail: { recipeID in
-                    selectedRecipeID = recipeID
+                    navigationPath.append(Route.recipeDetail(id: recipeID))
                 })
             .padding(.top, Offsets.x2)
         }
@@ -68,17 +88,19 @@ struct HomeContentView: View {
     private func popularViewSection() -> some View {
         VStack(alignment: .leading) {
             SeeAllSectionView(
-                title: SeeAllExploreType.popularCategories.title,
-                isShowAll: viewModel.trendingNowRecipes.isEmpty == false
+                title: SeeAllType.popularCategories.title,
+                isShowAll: !viewModel.trendingNowRecipes.isEmpty
             )
-            
+            .onTapGesture {
+                navigationPath.append(Route.seeAll(type: .popularCategories))
+            }
             CategoryButtonCell(onCategorySelected: {_ in })
                 .padding(.top, Offsets.x1)
             
             PopularCategoriesCell(
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
-                    selectedRecipeID = recipeID
+                    navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
             )
           
@@ -89,15 +111,17 @@ struct HomeContentView: View {
     private func countryPopularViewSection() -> some View {
         Group {
             SeeAllSectionView(
-                title: SeeAllExploreType.cuisineByCountry.title,
-                isShowAll: viewModel.cuisineByCountries.isEmpty == false
+                title: SeeAllType.cuisineByCountry.title,
+                isShowAll: !viewModel.cuisineByCountries.isEmpty
             )
+            .onTapGesture {
+                navigationPath.append(Route.seeAll(type: .cuisineByCountry))
+            }
             
             СuisineByCountriesCell(
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
-                    selectedRecipeID = recipeID
-                    
+                    navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
             )
         }
