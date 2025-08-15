@@ -1,7 +1,7 @@
 
 
 // MARK: - EventType
-enum SeeAllExploreType: Hashable, CaseIterable {
+enum SeeAllType: Hashable, CaseIterable {
     case trendingNow
     case popularCategories
     case cuisineByCountry
@@ -24,8 +24,8 @@ protocol HeaderType {}
 protocol ButtonType {}
 
 // MARK: - Extensions to Categorize Cases
-extension SeeAllExploreType: HeaderType {
-    static var headerCases: [SeeAllExploreType] {
+extension SeeAllType: HeaderType {
+    static var headerCases: [SeeAllType] {
         return [.trendingNow, .popularCategories, .cuisineByCountry, .recentRecipe]
     }
 }

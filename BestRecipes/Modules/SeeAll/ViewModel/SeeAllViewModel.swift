@@ -9,9 +9,9 @@ import Foundation
 
 final class SeeAllViewModel: ObservableObject {
     @Published var items: [RecipeModel] = []
-    let type: SeeAllExploreType
+    let type: SeeAllType
 
-    init(type: SeeAllExploreType) {
+    init(type: SeeAllType) {
         self.type = type
         loadItems()
     }
