@@ -1,9 +1,11 @@
 //
-//  Endpoint.swift
+//  NetworkingService 2.swift
 //  BestRecipes
 //
-//  Created by Alexander Abanshin on 12.08.2025.
+//  Created by KOZLOVA Anastasia on 15.08.2025.
 //
+
+import Foundation
 
 final class NetworkingService {
     func fetch<T: Decodable>(from endpoint: Endpoint) async throws -> T {
