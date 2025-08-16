@@ -40,6 +40,8 @@
 		E12B36A92E4CB63100050A82 /* CountryRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */; };
 		E12B36AB2E4CB6D200050A82 /* СuisineByCountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36AA2E4CB6D200050A82 /* СuisineByCountryCell.swift */; };
 		E12B36D12E4CEC6A00050A82 /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36D02E4CEC6A00050A82 /* PopularCell.swift */; };
+		F4F723832E4E49B8007AB583 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F723822E4E49B0007AB583 /* Tabbar.swift */; };
+		F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F723AF2E4E4AE3007AB583 /* TabModel.swift */; };
 		E12D13292E511C1A009C587A /* IHomeNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D13282E511C1A009C587A /* IHomeNetworking.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +84,8 @@
 		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SavedRecipesContentView.swift; path = Modules/SavedRecipes/SavedRecipesContentView.swift; sourceTree = SOURCE_ROOT; };
 		F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentView.swift; sourceTree = "<group>"; };
 		F451DFBD2E4A84B100EB0C05 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
+		F4F723822E4E49B0007AB583 /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
+		F4F723AF2E4E4AE3007AB583 /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -292,6 +296,7 @@
 		F451DFB22E4A80C500EB0C05 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				F4F723812E4E49A3007AB583 /* Tabbar */,
 				5E6FA6A92E4DFF180050C809 /* RecipeDetails */,
 				DCBE43FA2E4D71F4005A37F5 /* SeeAll */,
 				F451DFB72E4A82D600EB0C05 /* Onboarding */,
@@ -347,6 +352,15 @@
 				5210E3662E4BAF1F00B6E177 /* TimerView.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		F4F723812E4E49A3007AB583 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				F4F723AF2E4E4AE3007AB583 /* TabModel.swift */,
+				F4F723822E4E49B0007AB583 /* Tabbar.swift */,
+			);
+			path = Tabbar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -428,7 +442,9 @@
 				5210E3652E4BAE7F00B6E177 /* BookmarkView.swift in Sources */,
 				6D494C702E4B23A800ED37D1 /* Endpoint.swift in Sources */,
 				DCBE44022E4D7C88005A37F5 /* SeeAllViewModel.swift in Sources */,
+				F4F723832E4E49B8007AB583 /* Tabbar.swift in Sources */,
 				E12B35C52E4C885300050A82 /* CategoryButtonCell.swift in Sources */,
+				F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */,
 				E12B35CC2E4C89CE00050A82 /* SeeAllSectionView.swift in Sources */,
 				E12B35D02E4C8F8100050A82 /* RecipeModel.swift in Sources */,
 				E12B35902E4C6A0C00050A82 /* HomeViewModel.swift in Sources */,
