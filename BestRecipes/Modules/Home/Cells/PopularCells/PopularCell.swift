@@ -32,15 +32,17 @@ struct PopularCell: View {
                     VStack {
                         Text(recipe.title)
                             .recipesTitleStyle()
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.7)
+                            .lineLimit(3)
+                            .truncationMode(.tail)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.9)
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Time")
                                     .recipesPlaceholderStyle()
                                 
-                                Text(recipe.time)
+                                Text(recipe.readyInMinutes)
                                     .recipesTitleStyle()
                             }
                             Spacer()
@@ -48,10 +50,10 @@ struct PopularCell: View {
                         }
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12)
-                        .frame(width: 150)
                     }
                 }
             }
+            .frame(width: 150)
             .overlay(roundImageView(), alignment: .top)
         }
     }
@@ -88,9 +90,9 @@ struct PopularCell: View {
     PopularCell(recipe:
     RecipeModel(
         id: 4,
-        title: "Pad Thai",
+        title: "https://spoonacular.com/recipeImages/664823-312x231.jpg",
         image: URL(string: "https://spoonacular.com/recipeImages/664823-312x231.jpg")!,
         spoonacularScore: 92.0,
-        time: "5 min"
+        readyInMinutes: "5 min"
     ))
 }

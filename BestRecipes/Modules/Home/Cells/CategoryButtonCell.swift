@@ -10,31 +10,22 @@ import SwiftUI
 
 struct CategoryButtonCell: View {
     // MARK: - Properties
-    @State private var selectedCategoryId: Int = 1
+    @State private var selectedCategory: MealType = .mainCourse
     
-    let onCategorySelected: (CategoryModel) -> Void
-    
-    private let categoryNames = ["Main course", "Side dish", "Dessert", "Appetizer", "Salad", "Bread", "Breakfast", "Soup", "Beverage", "Sauce", "Marinade", "Fingerfood", "Snack", "Drink"]
-    
-    private var categories: [CategoryModel] {
-        categoryNames.enumerated().map { index, name in
-            CategoryModel(id: index, name: name)
-        }
-    }
+    let onCategorySelected: (MealType) -> Void
     
     // MARK: - Body
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(categories) { category in
+                ForEach(MealType.allCases) { category in
                     CategoryButton(
-                        categoryName: category.name,
-                        isSelected: category.id == selectedCategoryId,
+                        categoryName: category.displayName,
+                        isSelected: category == selectedCategory,
                         onTap: {
-                            selectedCategoryId = category.id
+                            selectedCategory = category
                             onCategorySelected(category)
                         }
-                        
                     )
                     .clipShape(RoundedRectangle(cornerRadius: Offsets.x2))
                 }

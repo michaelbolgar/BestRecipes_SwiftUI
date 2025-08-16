@@ -8,46 +8,56 @@
 import Foundation
 
 
+@MainActor
 final class HomeViewModel: ObservableObject {
-    private let networkService = NetworkingService()
+    private let networkService: IHomeNetworking
     
     @Published var searchText: String = ""
-    @Published var trendingNowRecipes: [RecipeModel] = RecipeModel.trendingMock
-    @Published var popularCategoryRecipes: [RecipeModel] = RecipeModel.popularCategoryMock
-    @Published var cuisineByCountries: [RecipeModel] = RecipeModel.cuisineByCountryMock
+    @Published var trendingNowRecipes: [RecipeModel] = []
+    @Published var popularCategoryRecipes: [RecipeModel] = []
+    @Published var cuisineByCountries: [RecipeModel] = []
     
-    @Published var currentCategory: String? = nil
+    @Published var currentCategory: MealType = .mainCourse {
+        didSet {
+            Task {
+                await fetchPopularCategoryRecipes()
+            }
+        }
+    }
     
     @Published var error: Error? = nil
     
     // MARK: - Init
-    init() {
-     
+    init(networkService: IHomeNetworking = HomeNetworking()) {
+        self.networkService = networkService
+        Task {
+            await fetchTrendingNowRecipes()
+            await fetchPopularCategoryRecipes()
+        }
     }
     
     // MARK: - Fetch Data
-    func fetchTrendingNowRecipes() {
+    func fetchTrendingNowRecipes() async {
         do {
-            let result = 
+            trendingNowRecipes = try await networkService.fetchTrendingNowRecipes()
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
         }
     }
     
-    func fetchPopularCategoryRecipes() {
+    func fetchPopularCategoryRecipes() async {
         do {
-            
+            popularCategoryRecipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
         }
     }
     
-    func fetchCuisineByCountries() {
+    func fetchCuisineByCountries(country: String) async {
         do {
-            
+            cuisineByCountries = try await networkService.fetchCuisineByCountries(country)
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
         }
     }
-  
 }

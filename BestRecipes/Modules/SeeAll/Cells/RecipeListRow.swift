@@ -35,7 +35,7 @@ struct RecipeListRow: View {
                 BookmarkView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
-                TimerView(timer: recipe.time)
+                TimerView(timer: recipe.readyInMinutes)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
             .frame(height: 200)
