@@ -1,4 +1,4 @@
-enum Tab: String, CaseIterable {
+enum Tab: String {
     case home
     case savedRecipes
     case notification
