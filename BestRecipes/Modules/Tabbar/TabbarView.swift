@@ -2,9 +2,9 @@ import SwiftUI
 
 private enum TabbarConstants {
     static let tabbarHeight: CGFloat = 80
-    static let iconSize: CGFloat = 24
-    static let plusButtonSize: CGFloat = 48
-    static let plusButtonOffsetY: CGFloat = 30
+    static let iconSize: CGFloat = Offsets.x7
+    static let plusButtonSize: CGFloat = Offsets.x12
+    static let plusButtonOffsetY: CGFloat = Offsets.x7
 }
 
 struct TabbarView: View {
@@ -28,6 +28,7 @@ struct TabbarView: View {
                     tabbarButton(tab: .notification)
                     tabbarButton(tab: .profile)
                 }
+                .padding(.top, -Offsets.x3)
                 .frame(maxWidth: .infinity)
             }
         }
