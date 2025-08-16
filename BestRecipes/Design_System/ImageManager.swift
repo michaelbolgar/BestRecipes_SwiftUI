@@ -7,7 +7,13 @@ enum AppImages {
     static let xmark = Image(systemName: "xmark")
     static let arrowRight = Image(systemName: "arrow.right")
     static let mockImage = Image(.mock)
-    
+
+    // MARK: - Tabbar
+    static let home = Image(.homeInactive)
+    static let savedRecipes = Image(.savedRecipesInactive)
+    static let notification = Image(.notificationInactive)
+    static let profile = Image(.profileInactive)
+
     // MARK: - Onboarding
     static let startOnboarding = Image(systemName: "startPage")
     static let onboardingPageOne = Image(systemName: "cookPage1")

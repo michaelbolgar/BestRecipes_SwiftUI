@@ -9,7 +9,7 @@ import Foundation
 
 
 final class HomeViewModel: ObservableObject {
-    
+
     @Published var searchText: String = ""
     @Published var trendingNowRecipes: [RecipeModel] = RecipeModel.trendingMock
     @Published var popularCategoryRecipes: [RecipeModel] = RecipeModel.popularCategoryMock
@@ -20,5 +20,4 @@ final class HomeViewModel: ObservableObject {
     init() {
      
     }
-    
 }
