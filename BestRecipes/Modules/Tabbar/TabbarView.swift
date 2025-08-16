@@ -13,20 +13,26 @@ struct TabbarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing:  calculateSpacing()) {
-                tabbarButton(tab: .home)
-                tabbarButton(tab: .savedRecipes)
-                plusButton(tab: .plus)
-                tabbarButton(tab: .notification)
-                tabbarButton(tab: .profile)
+
+            ZStack {
+                CurvedTabbarShape()
+                    .fill(.white)
+                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: -2)
+                    .frame(height: TabbarConstants.tabbarHeight)
+                    .frame(maxWidth: .infinity)
+
+                HStack(spacing:  calculateSpacing()) {
+                    tabbarButton(tab: .home)
+                    tabbarButton(tab: .savedRecipes)
+                    plusButton(tab: .plus)
+                    tabbarButton(tab: .notification)
+                    tabbarButton(tab: .profile)
+                }
+                .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
         }
-        .frame(height: TabbarConstants.tabbarHeight)
-        .frame(maxWidth: .infinity)
-        .background(.white)
-        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: -2)
     }
+
 
     private func tabbarButton(tab: Tab) -> some View {
         Button(action: {
@@ -85,5 +91,5 @@ struct TabbarView: View {
 }
 
 #Preview {
-    TabbarView(selectedTab: .constant(.home))
+    AppCoordinator()
 }
