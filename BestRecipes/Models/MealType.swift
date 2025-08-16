@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MealType: String {
+enum MealType: String, CaseIterable, Identifiable {
     case mainCourse = "main course"
     case sideDish = "side dish"
     case dessert
@@ -22,4 +22,10 @@ enum MealType: String {
     case fingerfood
     case snack
     case drink
+    
+    var id: String { rawValue }
+    
+    var displayName: String {
+        rawValue.capitalized
+    }
 }

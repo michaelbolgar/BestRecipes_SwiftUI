@@ -11,8 +11,8 @@ import SwiftUI
 struct SeeAllView: View {
     @StateObject var viewModel: SeeAllViewModel
 
-    init(type: SeeAllType) {
-        self._viewModel = StateObject(wrappedValue: SeeAllViewModel(type: type))
+    init(type: SeeAllType, items: [RecipeModel]) {
+        self._viewModel = StateObject(wrappedValue: SeeAllViewModel(type: type, items: items))
     }
     var body: some View {
         List {
@@ -31,7 +31,7 @@ struct SeeAllView: View {
 
 #Preview("Trending now") {
     NavigationStack {
-        SeeAllView(type: .trendingNow)
+        SeeAllView(type: .trendingNow, items: RecipeModel.trendingMock)
     }
 }
 

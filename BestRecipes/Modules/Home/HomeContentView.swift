@@ -8,7 +8,7 @@ struct HomeContentView: View {
     
     enum Route: Hashable {
         case recipeDetail(id: Int)
-        case seeAll(type: SeeAllType)
+        case seeAll(type: SeeAllType, items: [RecipeModel])
     }
     
     //    MARK: - INIT
@@ -50,8 +50,8 @@ struct HomeContentView: View {
                         viewModel: RecipeDetailViewModel(),
                         isIngredientChecked: true
                     )
-                case .seeAll(let type):
-                    SeeAllView(type: type)
+                case .seeAll(let type, let items):
+                    SeeAllView(type: type, items: items)
                 }
             }
         }
@@ -74,7 +74,11 @@ struct HomeContentView: View {
                 isShowAll: !viewModel.trendingNowRecipes.isEmpty
             )
             .onTapGesture {
-                navigationPath.append(Route.seeAll(type: .trendingNow))
+                navigationPath.append(Route.seeAll(
+                    type: .trendingNow,
+                    items: viewModel.trendingNowRecipes
+                )
+                )
             }
             TrendingNowCell(
                 recipe: viewModel.trendingNowRecipes,
@@ -92,9 +96,14 @@ struct HomeContentView: View {
                 isShowAll: !viewModel.trendingNowRecipes.isEmpty
             )
             .onTapGesture {
-                navigationPath.append(Route.seeAll(type: .popularCategories))
+                navigationPath.append(Route.seeAll(
+                    type: .popularCategories,
+                    items: viewModel.popularCategoryRecipes
+                )
+                )
             }
-            CategoryButtonCell(onCategorySelected: {_ in })
+            CategoryButtonCell(onCategorySelected: { category in
+                viewModel.currentCategory = category})
                 .padding(.top, Offsets.x1)
             
             PopularCategoriesCell(
@@ -115,11 +124,15 @@ struct HomeContentView: View {
                 isShowAll: !viewModel.cuisineByCountries.isEmpty
             )
             .onTapGesture {
-                navigationPath.append(Route.seeAll(type: .cuisineByCountry))
+                navigationPath.append(Route.seeAll(
+                    type: .cuisineByCountry,
+                    items: viewModel.cuisineByCountries
+                )
+                )
             }
             
             СuisineByCountriesCell(
-                recipe: viewModel.popularCategoryRecipes,
+                recipe: viewModel.cuisineByCountries,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
