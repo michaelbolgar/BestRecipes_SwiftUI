@@ -10,15 +10,16 @@ private enum TabbarConstants {
 struct TabbarView: View {
 
     @Binding var selectedTab: Tab
+    let imageManager = ImageManager()
 
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing:  calculateSpacing()) {
-                tabbarButton(tab: .home, iconName: "house")
-                tabbarButton(tab: .savedRecipes, iconName: "bookmark")
-                plusButton(tab: .plus, iconName: "plusButton")
-                tabbarButton(tab: .notification, iconName: "bell")
-                tabbarButton(tab: .profile, iconName: "person")
+                tabbarButton(tab: .home)
+                tabbarButton(tab: .savedRecipes)
+                plusButton(tab: .plus)
+                tabbarButton(tab: .notification)
+                tabbarButton(tab: .profile)
             }
             .frame(maxWidth: .infinity)
         }
@@ -28,29 +29,35 @@ struct TabbarView: View {
         .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: -2)
     }
 
-    private func tabbarButton(tab: Tab, iconName: String) -> some View {
+    private func tabbarButton(tab: Tab) -> some View {
         Button(action: {
             selectedTab = tab
         }) {
             VStack {
-                Image(systemName: iconName)
+                fetchTabImage(tab: tab)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
             }
-            .frame(width: 24)
-            .foregroundStyle(selectedTab == tab ? .redPrimary80 : .neutral30)
+        }
+        .frame(width: TabbarConstants.iconSize, height: TabbarConstants.iconSize)
+    }
+
+    private func fetchTabImage(tab: Tab) -> Image {
+        if selectedTab == tab {
+            return imageManager.activeTab(name: tab)
+        } else {
+            return imageManager.inactiveTab(name: tab)
         }
     }
 
-    private func plusButton(tab: Tab, iconName: String) -> some View {
+    private func plusButton(tab: Tab) -> some View {
         Button {
             withAnimation(.easeInOut) {
                 print("plus tapped")
             }
         } label: {
             ZStack {
-                Image(iconName)
+                AppImages.plusButton
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: TabbarConstants.plusButtonSize, height: TabbarConstants.plusButtonSize)
