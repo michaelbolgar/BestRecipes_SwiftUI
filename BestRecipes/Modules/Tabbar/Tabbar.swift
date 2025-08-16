@@ -10,7 +10,6 @@ private enum TabbarConstants {
 struct TabbarView: View {
 
     @Binding var selectedTab: Tab
-    let imageManager = ImageManager()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -42,12 +41,21 @@ struct TabbarView: View {
         .frame(width: TabbarConstants.iconSize, height: TabbarConstants.iconSize)
     }
 
+    // MARK: - Creating tabbar icons
     private func fetchTabImage(tab: Tab) -> Image {
         if selectedTab == tab {
-            return imageManager.activeTab(name: tab)
+            return activeTab(name: tab)
         } else {
-            return imageManager.inactiveTab(name: tab)
+            return inactiveTab(name: tab)
         }
+    }
+
+    private func activeTab(name: Tab) -> Image {
+        Image(name.activeTab)
+    }
+
+    private func inactiveTab(name: Tab) -> Image {
+        Image(name.inactiveTab)
     }
 
     private func plusButton(tab: Tab) -> some View {
@@ -66,6 +74,7 @@ struct TabbarView: View {
         .offset(y: -TabbarConstants.plusButtonOffsetY)
     }
 
+    // MARK: - Tabbar Layout
     private func calculateSpacing() -> CGFloat {
         let totalWidth = UIScreen.main.bounds.width
         let numberOfItems = 5
