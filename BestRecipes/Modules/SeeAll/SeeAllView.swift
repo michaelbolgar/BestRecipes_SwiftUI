@@ -26,6 +26,13 @@ struct SeeAllView: View {
         .padding(.horizontal, Offsets.x4)
         .navigationTitle(viewModel.type.title)
         .background(Color.appBackground.ignoresSafeArea())
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackBarButtonView()
+            }
+        }
     }
 }
 

@@ -26,6 +26,13 @@ struct CuisineSeeAll: View {
         .padding(.horizontal, Offsets.x4)
         .navigationTitle("Popular cuisines")
         .background(Color.appBackground.ignoresSafeArea())
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackBarButtonView()
+            }
+        }
     }
 }
 

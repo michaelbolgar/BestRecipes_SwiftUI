@@ -7,7 +7,7 @@ struct СuisineByCountryCell: View {
     let title: String
     
     enum Drawing {
-        static let roundSize: CGFloat = 180
+        static let roundSize: CGFloat = 130
     }
     
     // MARK: - Body
