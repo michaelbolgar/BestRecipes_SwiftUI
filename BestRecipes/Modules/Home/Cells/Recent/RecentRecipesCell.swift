@@ -18,7 +18,7 @@ struct RecentRecipesCell: View {
             bluring()
             recipeName()
         }
-        .frame(width: Constants.cellWidth, height: 190)
+        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
     }
 
 
