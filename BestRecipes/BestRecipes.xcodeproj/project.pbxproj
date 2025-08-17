@@ -45,6 +45,8 @@
 		E12D142C2E51CB3F009C587A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14262E51CB3F009C587A /* NetworkError.swift */; };
 		E12D142D2E51CB3F009C587A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14242E51CB3F009C587A /* API.swift */; };
 		E12D142E2E51CB3F009C587A /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14252E51CB3F009C587A /* Endpoint.swift */; };
+		F4B6AEB52E51FB1E0018B316 /* RecentRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB42E51FB070018B316 /* RecentRecipesCell.swift */; };
+		F4B6AEB72E51FBB60018B316 /* RecentRecipesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB62E51FBAC0018B316 /* RecentRecipesModel.swift */; };
 		F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F723AF2E4E4AE3007AB583 /* TabModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -90,7 +92,8 @@
 		F451DFB92E4A83D100EB0C05 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SavedRecipesContentView.swift; path = Modules/SavedRecipes/SavedRecipesContentView.swift; sourceTree = SOURCE_ROOT; };
 		F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentView.swift; sourceTree = "<group>"; };
-		F451DFBD2E4A84B100EB0C05 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
+		F4B6AEB42E51FB070018B316 /* RecentRecipesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipesCell.swift; sourceTree = "<group>"; };
+		F4B6AEB62E51FBAC0018B316 /* RecentRecipesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipesModel.swift; sourceTree = "<group>"; };
 		F4F723AF2E4E4AE3007AB583 /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -219,6 +222,7 @@
 				E12B34D82E4BE3A400050A82 /* SearchRecipeView.swift */,
 				E12D13ED2E51ABB7009C587A /* TrendingNow */,
 				E12B36F62E4D16B200050A82 /* Popular */,
+				F4B6AEB82E5200BC0018B316 /* Recent */,
 				E12D13F22E51BB0B009C587A /* Cuisine */,
 			);
 			path = Cells;
@@ -234,6 +238,7 @@
 		E12B35C72E4C887500050A82 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F4B6AEB62E51FBAC0018B316 /* RecentRecipesModel.swift */,
 				E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */,
 				E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */,
 			);
@@ -372,12 +377,19 @@
 		F451DFBC2E4A84A600EB0C05 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				F451DFBD2E4A84B100EB0C05 /* PopularCell.swift */,
 				5210E3622E4BA4D600B6E177 /* RatingView.swift */,
 				5210E3642E4BAE7F00B6E177 /* BookmarkView.swift */,
 				5210E3662E4BAF1F00B6E177 /* TimerView.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		F4B6AEB82E5200BC0018B316 /* Recent */ = {
+			isa = PBXGroup;
+			children = (
+				F4B6AEB42E51FB070018B316 /* RecentRecipesCell.swift */,
+			);
+			path = Recent;
 			sourceTree = "<group>";
 		};
 		F4F723812E4E49A3007AB583 /* Tabbar */ = {
@@ -470,9 +482,11 @@
 				E12D142A2E51CB3F009C587A /* NetworkRouter.swift in Sources */,
 				E12D142B2E51CB3F009C587A /* NetworkingService.swift in Sources */,
 				E12D142C2E51CB3F009C587A /* NetworkError.swift in Sources */,
+				F4B6AEB52E51FB1E0018B316 /* RecentRecipesCell.swift in Sources */,
 				E12D142D2E51CB3F009C587A /* API.swift in Sources */,
 				E12D142E2E51CB3F009C587A /* Endpoint.swift in Sources */,
 				E12B35C52E4C885300050A82 /* CategoryButtonCell.swift in Sources */,
+				F4B6AEB72E51FBB60018B316 /* RecentRecipesModel.swift in Sources */,
 				F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */,
 				E12D141F2E51CB11009C587A /* CurvedTabbarShape.swift in Sources */,
 				E12D14202E51CB11009C587A /* TabbarView.swift in Sources */,
