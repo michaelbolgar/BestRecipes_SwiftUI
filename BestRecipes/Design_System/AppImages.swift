@@ -9,10 +9,11 @@ enum AppImages {
     static let mockImage = Image(.mock)
 
     // MARK: - Tabbar
-    static let home = Image(.homeInactive)
-    static let savedRecipes = Image(.savedRecipesInactive)
-    static let notification = Image(.notificationInactive)
-    static let profile = Image(.profileInactive)
+//    static let home = Image(.homeInactive)
+//    static let savedRecipes = Image(.savedRecipesInactive)
+//    static let notification = Image(.notificationInactive)
+//    static let profile = Image(.profileInactive)
+    static let plusButton = Image(.plusButton)
 
     // MARK: - Onboarding
     static let startOnboarding = Image(systemName: "startPage")
