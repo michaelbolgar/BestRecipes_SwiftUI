@@ -1,7 +1,7 @@
 import Foundation
 
 struct RecentRecipesModel: Identifiable, Equatable, Hashable {
-    let id: Int // probably not needed bc of fetching from UserDefaults
+    let id: Int
     let title: String
     let image: URL // or image?
     let author: String
