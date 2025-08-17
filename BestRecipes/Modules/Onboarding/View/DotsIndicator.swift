@@ -7,20 +7,37 @@
 
 import SwiftUI
 
-struct DotsIndicator: View {
+struct PagerPills: View {
     let count: Int
     let index: Int
-    
+
+    var spacing: CGFloat = 12
+    var inactiveWidth: CGFloat = 22
+    var activeWidth: CGFloat = 28
+    var height: CGFloat = 6
+    var inactiveColor: Color = .white.opacity(0.85)
+    var strokeColor: Color = .white.opacity(0.2)
+
+    var activeGradient = LinearGradient(
+        colors: [Color(red: 1.0, green: 0.72, blue: 0.80),
+                 Color(red: 1.0, green: 0.70, blue: 0.40)],
+        startPoint: .leading, endPoint: .trailing
+    )
+
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: spacing) {
             ForEach(0..<count, id: \.self) { i in
-                Circle()
-                    .frame(width: i == index ? 10 : 8, height: i == index ? 10 : 8)
-                    .opacity(i == index ? 1.0 : 0.4)
-                    .foregroundStyle(.white)
-                    .animation(.easeInOut(duration: 0.2), value: index)
+                Capsule()
+                    .fill(i == index ? AnyShapeStyle(activeGradient) : AnyShapeStyle(inactiveColor))
+                    .frame(width: i == index ? activeWidth : inactiveWidth, height: height)
+                    .overlay(
+                        Capsule().stroke(strokeColor, lineWidth: 1)
+                    )
+                    .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
+                    .animation(.spring(response: 0.25, dampingFraction: 0.8), value: index)
             }
         }
-        .padding(.horizontal, 16)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Page \(index + 1) of \(count)")
     }
 }

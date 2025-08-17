@@ -9,8 +9,8 @@ struct RedButtonCapsule: View {
             Text(title)
                 .fontWeight(.semibold)
                 .foregroundColor(.white)
-                .padding(.vertical, Offsets.x2)
-                .padding(.horizontal, Offsets.x8)
+                .padding(.vertical, Offsets.x3)
+                .padding(.horizontal, 50)
                 .background(Color(AppColor.redPrimary50))
                 .clipShape(Capsule())
         }

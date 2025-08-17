@@ -10,7 +10,7 @@ import SwiftUI
 let demoPages: [OnboardingPage] = [
     .init(
         titleParts: [
-            .init(text: "Best ", color: .white),
+            .init(text: "Best\n", color: .white),
             .init(text: "Recipe", color: .white)
         ],
         subtitle: "Find best recipes for cooking",
@@ -19,8 +19,8 @@ let demoPages: [OnboardingPage] = [
     ),
     .init(
         titleParts: [
-            .init(text: "Recipes from\nall over the\n", color: .white),
-            .init(text: "World", color: .orangeRating100)
+            .init(text: "Recipes from\n all ", color: .white),
+            .init(text: "over the\n World", color: .orangeRating100)
         ],
         subtitle: "",
         textButtom: "Continue",

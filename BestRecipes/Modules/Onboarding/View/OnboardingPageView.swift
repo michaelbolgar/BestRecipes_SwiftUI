@@ -9,7 +9,8 @@ import SwiftUI
 
 struct OnboardingPageView: View {
     let page: OnboardingPage
-
+    var isFirstPage: Bool = false
+    
     private var coloredTitle: Text {
         page.titleParts.reduce(Text("")) { acc, part in
             acc + Text(part.text).foregroundColor(part.color)
@@ -23,36 +24,51 @@ struct OnboardingPageView: View {
                 .scaledToFill()
                 .overlay(
                     LinearGradient(
-                        gradient: Gradient(colors: [.clear, .black.opacity(0.7), .black]),
+                        colors: [.clear, .black.opacity(0.35), .black.opacity(0.9)],
                         startPoint: .center, endPoint: .bottom
                     )
                 )
                 .ignoresSafeArea()
+                .overlay(alignment: .top) {
+                    if isFirstPage {
+                        HStack(spacing: 8) {
+                            Image(systemName: "star.fill")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.black)
+                            Text("100k+")
+                                .font(.custom(AppFont.semibold, size: 16))
+                                .foregroundColor(.white)
+                            Text("Premium recipes")
+                                .font(.custom(AppFont.regular, size: 16))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.top, 60)
+                        .frame(maxWidth: .infinity)
+                    }
+                }
 
-            VStack(spacing: 8) {
+            VStack(spacing: 12) {
                 coloredTitle
-                    .font(.onboardingTitle)
+                    .font(.custom(AppFont.semibold, size: isFirstPage ? 56 : 40))
                     .multilineTextAlignment(.center)
-                    .lineLimit(nil)
+                    .frame(maxWidth: .infinity)
 
                 if !page.subtitle.isEmpty {
                     Text(page.subtitle)
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundStyle(.white)
+                        .font(.custom(AppFont.regular, size: 16))
+                        .foregroundColor(.white.opacity(0.9))
                         .multilineTextAlignment(.center)
                 }
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 24)
-            .padding(.bottom, 120)
+            .padding(.bottom, isFirstPage ? 140 : 120)
         }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(page.titleParts.map(\.text).joined()) \(page.subtitle)")
     }
 }
 
 
 
 #Preview {
-    OnboardingPageView(page: demoPages[2])
+    OnboardingPageView(page: demoPages[0])
 }

@@ -35,5 +35,6 @@ final class OnboardingViewModel: ObservableObject {
     func skip(onFinish: () -> Void) {
         hasSeenOnboarding = true
         onFinish()
+        print("Skip")
     }
 }
