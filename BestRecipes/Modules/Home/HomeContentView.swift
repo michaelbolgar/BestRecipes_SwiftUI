@@ -51,14 +51,22 @@ struct HomeContentView: View {
             .navigationDestination(for: Route.self) { route in
                 switch route {
                 case .recipeDetail(let id):
-                    RecipeDetailView(
-                        viewModel: RecipeDetailViewModel(),
-                        isIngredientChecked: true
-                    )
+                    RecipeDetailView(recipeID: id)
                 case .seeAll(let type, let items):
                     SeeAllView(type: type, items: items)
+                    
                 case .seeAllCuisine(let items):
-                    CuisineSeeAll(сuisine: items)
+                    CuisineSeeAll(cuisine: items) { country in
+                        Task {
+                            await viewModel.fetchCuisineByCountries(country)
+                            navigationPath.append(
+                                Route.seeAll(
+                                    type: .cuisineByCountry,
+                                    items: viewModel.cuisineByCountries
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -139,9 +147,9 @@ struct HomeContentView: View {
                 сuisine: viewModel.countries,
                 showSeeAll: { country in
                     Task {
-                       
+                        
                         await viewModel.fetchCuisineByCountries(country)
-                   
+                        
                         navigationPath.append(Route.seeAll(
                             type: .cuisineByCountry,
                             items: viewModel.cuisineByCountries

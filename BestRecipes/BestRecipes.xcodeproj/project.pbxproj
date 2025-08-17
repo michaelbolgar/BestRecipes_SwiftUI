@@ -32,7 +32,7 @@
 		E12B35CE2E4C8D3600050A82 /* SeeAllType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */; };
 		E12B35D02E4C8F8100050A82 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */; };
 		E12B36A72E4CB46800050A82 /* PopularCategoriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A62E4CB46800050A82 /* PopularCategoriesSection.swift */; };
-		E12B36A92E4CB63100050A82 /* CountryRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */; };
+		E12B36A92E4CB63100050A82 /* СuisineByCountriesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36A82E4CB63100050A82 /* СuisineByCountriesSection.swift */; };
 		E12B36AB2E4CB6D200050A82 /* СuisineByCountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36AA2E4CB6D200050A82 /* СuisineByCountryCell.swift */; };
 		E12B36D12E4CEC6A00050A82 /* PopularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12B36D02E4CEC6A00050A82 /* PopularCell.swift */; };
 		E12D13EC2E51AB1E009C587A /* TrendingNowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D13EB2E51AB1E009C587A /* TrendingNowCell.swift */; };
@@ -73,7 +73,7 @@
 		E12B35CD2E4C8D3600050A82 /* SeeAllType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllType.swift; sourceTree = "<group>"; };
 		E12B35CF2E4C8F8100050A82 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		E12B36A62E4CB46800050A82 /* PopularCategoriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCategoriesSection.swift; sourceTree = "<group>"; };
-		E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRecipeCell.swift; sourceTree = "<group>"; };
+		E12B36A82E4CB63100050A82 /* СuisineByCountriesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "СuisineByCountriesSection.swift"; sourceTree = "<group>"; };
 		E12B36AA2E4CB6D200050A82 /* СuisineByCountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "СuisineByCountryCell.swift"; sourceTree = "<group>"; };
 		E12B36D02E4CEC6A00050A82 /* PopularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularCell.swift; sourceTree = "<group>"; };
 		E12D13EB2E51AB1E009C587A /* TrendingNowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingNowCell.swift; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 		E12D13F22E51BB0B009C587A /* Cuisine */ = {
 			isa = PBXGroup;
 			children = (
-				E12B36A82E4CB63100050A82 /* CountryRecipeCell.swift */,
+				E12B36A82E4CB63100050A82 /* СuisineByCountriesSection.swift */,
 				E12B36AA2E4CB6D200050A82 /* СuisineByCountryCell.swift */,
 				E12D13F02E51BB02009C587A /* CuisineSeeAll.swift */,
 			);
@@ -496,7 +496,7 @@
 				E12B34262E4BDBE600050A82 /* HomeContentView.swift in Sources */,
 				5E6FA6B52E4E23490050C809 /* CustomCheckbox.swift in Sources */,
 				E12B35CE2E4C8D3600050A82 /* SeeAllType.swift in Sources */,
-				E12B36A92E4CB63100050A82 /* CountryRecipeCell.swift in Sources */,
+				E12B36A92E4CB63100050A82 /* СuisineByCountriesSection.swift in Sources */,
 				E12B36A72E4CB46800050A82 /* PopularCategoriesSection.swift in Sources */,
 				E12B36D12E4CEC6A00050A82 /* PopularCell.swift in Sources */,
 				527314822E4B5F1E0063C17E /* SavedRecipesContentView.swift in Sources */,

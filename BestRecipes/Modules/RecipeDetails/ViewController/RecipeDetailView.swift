@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-  @ObservedObject var viewModel: RecipeDetailViewModel
-  @State var isIngredientChecked: Bool
+  @StateObject var viewModel: RecipeDetailViewModel
+  @State private var isIngredientChecked: Bool = false
 
+    init(recipeID: Int) {
+        self._viewModel = StateObject(wrappedValue: RecipeDetailViewModel(recipeID: recipeID))
+    }
+    
   var body: some View {
     ZStack(alignment: .top) {
         Color.appBackground
@@ -143,6 +147,6 @@ struct RecipeDetailView: View {
 
 #Preview("RecipeDetailView") {
     NavigationStack {
-      RecipeDetailView(viewModel: RecipeDetailViewModel(), isIngredientChecked: false)
+      RecipeDetailView(recipeID: 323)
     }
 }
