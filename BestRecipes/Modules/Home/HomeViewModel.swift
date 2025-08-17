@@ -25,15 +25,14 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+
     @Published var error: Error? = nil
     
+    let countries: [Cuisine] = Cuisine.allCases
     // MARK: - Init
     init(networkService: IHomeNetworking = HomeNetworking()) {
         self.networkService = networkService
-        Task {
-            await fetchTrendingNowRecipes()
-            await fetchPopularCategoryRecipes()
-        }
+
     }
     
     // MARK: - Fetch Data
@@ -53,9 +52,9 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func fetchCuisineByCountries(country: String) async {
+    func fetchCuisineByCountries(_ currentCountry: Cuisine) async {
         do {
-            cuisineByCountries = try await networkService.fetchCuisineByCountries(country)
+            cuisineByCountries = try await networkService.fetchCuisineByCountries(currentCountry)
         } catch {
             self.error = error
         }

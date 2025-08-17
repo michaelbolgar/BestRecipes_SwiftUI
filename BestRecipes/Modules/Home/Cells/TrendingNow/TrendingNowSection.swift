@@ -1,8 +1,7 @@
-//
 
 import SwiftUI
 
-struct PopularCategoriesCell: View {
+struct TrendingNowSection: View {
     // MARK: - Properties
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
@@ -13,12 +12,12 @@ struct PopularCategoriesCell: View {
             HStack {
                 if recipe.isEmpty  {
                     ForEach(1..<6) { plug in
-                        ShimmerForPopular()
+                        ShimmerView(ratio: 1)
                     }
                 } else {
                     ForEach(recipe) { recipe in
-                        PopularCell(recipe: recipe)
-                            .padding(.vertical, Offsets.x0)
+                        TrendingNowCell(recipe: recipe)
+                            .padding(.vertical, Offsets.x2)
                             .onTapGesture {
                                 showDetail(recipe.id)
                             }
@@ -30,5 +29,5 @@ struct PopularCategoriesCell: View {
 }
 
 #Preview {
-    PopularCategoriesCell(recipe: RecipeModel.popularCategoryMock, showDetail: {_ in })
+    TrendingNowSection(recipe: [], showDetail: {_ in })
 }

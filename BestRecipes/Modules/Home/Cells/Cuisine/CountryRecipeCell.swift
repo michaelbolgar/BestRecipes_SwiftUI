@@ -2,10 +2,10 @@
 
 import SwiftUI
 
-struct СuisineByCountriesCell: View {
+struct СuisineByCountriesSection: View {
     // MARK: - Properties
-    let recipe: [RecipeModel]
-    var showDetail: (Int) -> Void
+    let сuisine: [Cuisine]
+    var showSeeAll: (Cuisine) -> Void
     
     enum Drawing {
         static let roundSize: CGFloat = 130
@@ -14,7 +14,7 @@ struct СuisineByCountriesCell: View {
     // MARK: - Body
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            if recipe.isEmpty  {
+            if сuisine.isEmpty  {
                 HStack(spacing: Offsets.x4) {
                     ForEach(1..<6) { _ in
                         ShimmerCircle(size: Drawing.roundSize)
@@ -22,14 +22,14 @@ struct СuisineByCountriesCell: View {
                 }
             } else {
                 HStack {
-                    ForEach(recipe) { recipe in
+                    ForEach(сuisine) { сuisine in
                         СuisineByCountryCell(
-                            image: recipe.image,
-                            title: recipe.title
+                            image: сuisine.imageName,
+                            title: сuisine.displayName
                         )
                         .padding(.vertical, Offsets.x2)
                         .onTapGesture {
-                            showDetail(recipe.id)
+                            showSeeAll(сuisine)
                         }
                     }
                 }
@@ -39,5 +39,5 @@ struct СuisineByCountriesCell: View {
 }
 
 #Preview {
-    СuisineByCountriesCell(recipe: [], showDetail: {_ in})
+    СuisineByCountriesSection(сuisine: [], showSeeAll: {_ in})
 }
