@@ -1,5 +1,5 @@
 //
-//  SearchRecipeCell.swift
+//  SearchRecipeView.swift
 //  BestRecipes
 //
 //  Created by Келлер Дмитрий on 13.08.2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchRecipeCell: View {
+struct SearchRecipeView: View {
     // MARK: - Properties
    @Binding var searchText: String
     
@@ -46,5 +46,5 @@ struct SearchRecipeCell: View {
 }
 
 #Preview {
-    SearchRecipeCell(searchText: .constant("search"))
+    SearchRecipeView(searchText: .constant("search"))
 }

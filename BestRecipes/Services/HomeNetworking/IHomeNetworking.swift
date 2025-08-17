@@ -11,7 +11,7 @@ protocol IHomeNetworking {
     
     func fetchTrendingNowRecipes() async throws -> [RecipeModel]
     func fetchPopularCategoryRecipes(_ category: MealType) async throws -> [RecipeModel]
-    func fetchCuisineByCountries(_ country: String) async throws -> [RecipeModel]
+    func fetchCuisineByCountries(_ country: Cuisine) async throws -> [RecipeModel]
 }
 
 final class HomeNetworking: IHomeNetworking {
@@ -33,8 +33,8 @@ final class HomeNetworking: IHomeNetworking {
         return response.results.map { $0.toUIModel() }
     }
     
-    func fetchCuisineByCountries(_ country: String) async throws -> [RecipeModel] {
-        let endpoint = Endpoint.popularRecipes(number: 10, cuisine: Cuisine(rawValue: country))
+    func fetchCuisineByCountries(_ country: Cuisine) async throws -> [RecipeModel] {
+        let endpoint = Endpoint.popularRecipes(number: 10, cuisine: country)
         let response: Recipe = try await networkingService.fetch(from: endpoint)
         return response.results.map { $0.toUIModel() }
     }
