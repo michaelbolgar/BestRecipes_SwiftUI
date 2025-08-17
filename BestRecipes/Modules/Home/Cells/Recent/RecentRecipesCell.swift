@@ -7,37 +7,22 @@ struct RecentRecipesCell: View {
 
     enum Constants {
         static let cellWidth: CGFloat = 125
+        static let cellHeight: CGFloat = 190
         static let cornerRadius: CGFloat = 12
     }
 
     // MARK: - Body
     var body: some View {
         ZStack {
-            Color(.appBackground)
-                .ignoresSafeArea()
-
-            VStack(spacing: Offsets.x2) {
-
-                fetchImage()
-
-                VStack(alignment: .leading, spacing: Offsets.x0) {
-                    Text(recipe.title)
-                        .recipesTitleStyle()
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.9)
-
-                    Text("By \(recipe.author)")
-                        .recipesPlaceholderStyle()
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.9)
-                }
-            }
-            .frame(width: 125)
+            fetchImage()
+            bluring()
+            recipeName()
         }
+        .frame(width: Constants.cellWidth, height: 190)
     }
 
-    // MARK: Helper methods
 
+    // MARK: Helper methods
     /// func for fetching Image from UserDefaults
     private func fetchImage() -> some View {
         /// uncomment after implementring UserDefault
@@ -60,23 +45,32 @@ struct RecentRecipesCell: View {
         image
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: Constants.cellWidth, height: Constants.cellWidth)
+            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
             .clipped()
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
 
-    /// func for bluring given image
-    private func blurImage(image: Image) -> some View {
-        fetchImage()
-    }
-}
-
-struct BluredImage: View {
-
-    var body: some View {
-        ZStack {
-//            Image(recipe.image)
+    private func bluring() -> some View {
+        VStack {
+            Spacer()
+            Rectangle()
+                .fill(Color.white.opacity(0.75))
+                .frame(height: Constants.cellHeight / 4)
+                .blur(radius: 4)
         }
+        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+    }
+
+    private func recipeName() -> some View {
+        VStack(alignment: .leading, spacing: Offsets.x0) {
+            Text(recipe.title)
+                .recipesTitleStyle()
+                .lineLimit(2)
+                .minimumScaleFactor(0.9)
+        }
+        .frame(maxHeight: .infinity, alignment: .bottom)
+        .padding(.leading, -Offsets.x4)
+        .padding(.bottom, 6)
     }
 }
 
