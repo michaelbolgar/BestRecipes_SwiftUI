@@ -11,7 +11,7 @@ struct RedButtonCapsule: View {
                 .foregroundColor(.white)
                 .padding(.vertical, Offsets.x2)
                 .padding(.horizontal, Offsets.x8)
-                .background(Color(AppColor.redPrimary50))
+                .background(.redPrimary50)
                 .clipShape(Capsule())
         }
     }

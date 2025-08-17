@@ -64,7 +64,7 @@ struct TrendingNowCell: View {
                     .resizable()
                     .frame(width: 32, height: 32)
                     .clipShape(Circle())
-                Text("By Zeelicious Foods")
+                Text(recipe.author)
                     .font(.custom(AppFont.regular, size: 12))
                     .foregroundStyle(.secondary)
             }

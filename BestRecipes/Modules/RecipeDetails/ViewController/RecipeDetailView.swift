@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-  @ObservedObject var viewModel: RecipeDetailViewModel
-  @State var isIngredientChecked: Bool
+  @StateObject var viewModel: RecipeDetailViewModel
+  @State private var isIngredientChecked: Bool = false
 
+    init(recipeID: Int) {
+        self._viewModel = StateObject(wrappedValue: RecipeDetailViewModel(recipeID: recipeID))
+    }
+    
   var body: some View {
     ZStack(alignment: .top) {
-      Color(.appBackground)
+        Color.appBackground
         .ignoresSafeArea(.all)
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading) {
@@ -36,7 +40,14 @@ struct RecipeDetailView: View {
     }
     .listStyle(.plain)
     .padding(.horizontal, Offsets.x4)
-    .navigationTitle(viewModel.items.title)
+    .navigationTitle("Recipe detail")
+    .navigationBarTitleDisplayMode(.inline)
+    .navigationBarBackButtonHidden()
+    .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+            BackBarButtonView()
+        }
+    }
   }
   
   private func headerSection() -> some View {
@@ -136,6 +147,6 @@ struct RecipeDetailView: View {
 
 #Preview("RecipeDetailView") {
     NavigationStack {
-      RecipeDetailView(viewModel: RecipeDetailViewModel(), isIngredientChecked: false)
+      RecipeDetailView(recipeID: 323)
     }
 }

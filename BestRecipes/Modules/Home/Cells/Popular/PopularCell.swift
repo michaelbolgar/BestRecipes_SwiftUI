@@ -87,12 +87,5 @@ struct PopularCell: View {
 }
 
 #Preview {
-    PopularCell(recipe:
-    RecipeModel(
-        id: 4,
-        title: "https://spoonacular.com/recipeImages/664823-312x231.jpg",
-        image: URL(string: "https://spoonacular.com/recipeImages/664823-312x231.jpg")!,
-        spoonacularScore: 92.0,
-        readyInMinutes: "5 min"
-    ))
+    PopularCell(recipe: RecipeModel.popularCategoryMock.first!)
 }

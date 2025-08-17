@@ -9,26 +9,43 @@ import SwiftUI
 
 struct CuisineSeeAll: View {
     // MARK: - Properties
-    let сuisine: [Cuisine]
+    let cuisine: [Cuisine]
+    var showSeeAll: (Cuisine) -> Void
+    
+    // Две колонки
+    private let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
     
     var body: some View {
-        List {
-            ForEach(сuisine) { item in
-                СuisineByCountryCell(
-                    image: item.imageName,
-                    title: item.displayName
-                )
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(.init(top: 8, leading: 0, bottom: 16, trailing: 0))
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 8) {
+                ForEach(cuisine) { item in
+                    СuisineByCountryCell(
+                        image: item.imageName,
+                        title: item.displayName
+                    )
+                    .onTapGesture {
+                        showSeeAll(item)
+                    }
+                }
+            }
+            .padding(.horizontal, Offsets.x4)
+            .padding(.top, Offsets.x4)
+        }
+        .background(Color.appBackground.ignoresSafeArea())
+        .navigationTitle("Popular cuisines")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackBarButtonView()
             }
         }
-        .listStyle(.plain)
-        .padding(.horizontal, Offsets.x4)
-        .navigationTitle("Popular cuisines")
-        .background(Color.appBackground.ignoresSafeArea())
     }
 }
 
 #Preview {
-    CuisineSeeAll(сuisine: [])
+    CuisineSeeAll(cuisine: [], showSeeAll: {_ in})
 }
