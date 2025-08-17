@@ -9,6 +9,7 @@ struct HomeContentView: View {
     enum Route: Hashable {
         case recipeDetail(id: Int)
         case seeAll(type: SeeAllType, items: [RecipeModel])
+        case seeAllCuisine(_ items: [Cuisine])
     }
     
     //    MARK: - INIT
@@ -41,6 +42,10 @@ struct HomeContentView: View {
                 }
                 .padding(.horizontal, Offsets.x4)
             }
+            .task {
+                await viewModel.fetchTrendingNowRecipes()
+                await viewModel.fetchPopularCategoryRecipes()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Route.self) { route in
@@ -52,6 +57,8 @@ struct HomeContentView: View {
                     )
                 case .seeAll(let type, let items):
                     SeeAllView(type: type, items: items)
+                case .seeAllCuisine(let items):
+                    CuisineSeeAll(сuisine: items)
                 }
             }
         }
@@ -63,7 +70,7 @@ struct HomeContentView: View {
                 .recipesNavTitleStyle()
                 .lineLimit(2)
                 .allowsTightening(true)
-            SearchRecipeCell(searchText: searchText)
+            SearchRecipeView(searchText: searchText)
         }
     }
     
@@ -80,7 +87,7 @@ struct HomeContentView: View {
                 )
                 )
             }
-            TrendingNowCell(
+            TrendingNowSection(
                 recipe: viewModel.trendingNowRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
@@ -104,43 +111,47 @@ struct HomeContentView: View {
             }
             CategoryButtonCell(onCategorySelected: { category in
                 viewModel.currentCategory = category})
-                .padding(.top, Offsets.x1)
+            .padding(.top, Offsets.x1)
             
-            PopularCategoriesCell(
+            PopularCategoriesSection(
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
             )
-          
+            
             .padding(.top, Offsets.x4)
         }
     }
     
     private func countryPopularViewSection() -> some View {
-        Group {
+        VStack(alignment: .leading) {
             SeeAllSectionView(
                 title: SeeAllType.cuisineByCountry.title,
-                isShowAll: !viewModel.cuisineByCountries.isEmpty
+                isShowAll: !viewModel.countries.isEmpty
             )
             .onTapGesture {
-                navigationPath.append(Route.seeAll(
-                    type: .cuisineByCountry,
-                    items: viewModel.cuisineByCountries
-                )
+                navigationPath.append(Route.seeAllCuisine(viewModel.countries)
                 )
             }
             
-            СuisineByCountriesCell(
-                recipe: viewModel.cuisineByCountries,
-                showDetail: { recipeID in
-                    navigationPath.append(Route.recipeDetail(id: recipeID))
+            СuisineByCountriesSection(
+                сuisine: viewModel.countries,
+                showSeeAll: { country in
+                    Task {
+                       
+                        await viewModel.fetchCuisineByCountries(country)
+                   
+                        navigationPath.append(Route.seeAll(
+                            type: .cuisineByCountry,
+                            items: viewModel.cuisineByCountries
+                        ))
+                    }
                 }
             )
         }
     }
 }
-
 // MARK: - Extension
 extension HomeContentView {
     enum constText {

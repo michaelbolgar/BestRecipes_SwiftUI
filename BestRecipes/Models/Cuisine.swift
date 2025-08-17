@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Cuisine: String {
+enum Cuisine: String, CaseIterable, Identifiable {
     case african
     case american
     case british
@@ -34,4 +34,14 @@ enum Cuisine: String {
     case spanish
     case thai
     case vietnamese
+    
+    var id: String { rawValue }
+    
+    var displayName: String {
+        rawValue.capitalized
+    }
+    
+    var imageName: String {
+        rawValue
+    }
 }

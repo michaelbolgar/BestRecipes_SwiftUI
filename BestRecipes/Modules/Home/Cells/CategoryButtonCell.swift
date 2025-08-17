@@ -16,20 +16,26 @@ struct CategoryButtonCell: View {
     
     // MARK: - Body
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(MealType.allCases) { category in
-                    CategoryButton(
-                        categoryName: category.displayName,
-                        isSelected: category == selectedCategory,
-                        onTap: {
-                            selectedCategory = category
-                            onCategorySelected(category)
-                        }
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: Offsets.x2))
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(MealType.allCases, id: \.self) { category in
+                        CategoryButton(
+                            categoryName: category.displayName,
+                            isSelected: category == selectedCategory,
+                            onTap: {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    selectedCategory = category
+                                    onCategorySelected(category)
+                                    proxy.scrollTo(category, anchor: .center)
+                                }
+                            }
+                        )
+                        .id(category) 
+                        .clipShape(RoundedRectangle(cornerRadius: Offsets.x2))
+                    }
                 }
-                .clipped()
+                .padding(.horizontal, 16)
             }
         }
     }
