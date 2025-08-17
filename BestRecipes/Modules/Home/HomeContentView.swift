@@ -101,6 +101,7 @@ struct HomeContentView: View {
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 })
             .padding(.top, Offsets.x2)
+            .frame(width: 350)
         }
     }
     
