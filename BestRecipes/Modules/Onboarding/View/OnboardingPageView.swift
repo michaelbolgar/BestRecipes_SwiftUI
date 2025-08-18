@@ -67,8 +67,6 @@ struct OnboardingPageView: View {
     }
 }
 
-
-
 #Preview {
     OnboardingPageView(page: demoPages[0])
 }

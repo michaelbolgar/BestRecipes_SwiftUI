@@ -41,7 +41,7 @@ private extension OnboardingView {
     var bottomBar: some View {
         VStack {
             Spacer()
-
+            
             let pillsCount = max(0, vm.pages.count - 1)
             let pillsIndex = max(0, vm.index - 1)
 
