@@ -11,7 +11,7 @@ struct RedButtonRect: View {
                 .foregroundStyle(.white)
                 .padding(.vertical, Offsets.x3)
                 .padding(.horizontal, Offsets.x8)
-                .background(Color(AppColor.redPrimary50))
+                .background(.redPrimary50)
                 .cornerRadius(Offsets.x2)
         }
     }
