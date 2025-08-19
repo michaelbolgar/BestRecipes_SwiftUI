@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-  @ObservedObject var viewModel: RecipeDetailViewModel
-  @State var isIngredientChecked: Bool
+  @StateObject var viewModel: RecipeDetailViewModel
+  @State private var ingredientCheckedStatus: [Int: Bool] = [:]
 
+    init(recipeID: Int) {
+        self._viewModel = StateObject(wrappedValue: RecipeDetailViewModel(recipeID: recipeID))
+    }
+    
   var body: some View {
     ZStack(alignment: .top) {
-      Color(.appBackground)
+        Color.appBackground
         .ignoresSafeArea(.all)
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading) {
@@ -27,20 +31,28 @@ struct RecipeDetailView: View {
             .padding(.bottom, Offsets.x6)
           ingredientsTitleSection()
           VStack {
-            ForEach(viewModel.items.ingredients) { item in
+            ForEach(viewModel.items?.extendedIngredients ?? []) { item in
               ingredientSection(item)
             }
           }
         }
       }
     }
+    .task {
+        await viewModel.fetchRecipeDetails()
+    }
     .listStyle(.plain)
     .padding(.horizontal, Offsets.x4)
-    .navigationTitle(viewModel.items.title)
+    .navigationBarBackButtonHidden()
+    .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+            BackBarButtonView()
+        }
+    }
   }
   
   private func headerSection() -> some View {
-    Text(viewModel.items.title)
+    Text(viewModel.items?.title ?? "")
       .recipesNavTitleStyle()
       .lineLimit(2)
       .allowsTightening(true)
@@ -55,14 +67,14 @@ struct RecipeDetailView: View {
     HStack {
       titleSection(title: "Ingredients")
       Spacer()
-      Text("\(viewModel.items.ingredients.count) items")
+      Text("\(viewModel.items?.extendedIngredients.count ?? 0) items")
         .foregroundColor(.secondary)
         .font(.caption)
     }
   }
   
   private func imageSection() -> some View {
-    AsyncImage(url: viewModel.items.image) {
+    AsyncImage(url: viewModel.items?.image) {
       phase in
       switch phase {
       case .empty:
@@ -84,50 +96,43 @@ struct RecipeDetailView: View {
     HStack {
       Image(systemName: "star.fill")
         .foregroundColor(.black)
-      Text("\(String(format: "%.1f", viewModel.items.mark))")
+      Text("\(String(format: "%.1f", viewModel.items?.scoreOutOfFive ?? 5))")
         .fontWeight(.semibold)
-      Text("(\(viewModel.items.numbersOfReviews) Reviews)")
+      Text("(\(Int(viewModel.items?.aggregateLikes ?? 0)) Reviews)")
         .foregroundColor(.secondary)
     }
     .font(.caption)
   }
   
   private func instructionsSection() -> some View {
-    Text(viewModel.items.instructionText)
+    ForEach(viewModel.items?.analyzedInstructions.first?.steps ?? []) { item in
+      if item.number == viewModel.items?.analyzedInstructions.first?.steps.count {
+        Text("\(item.step)")
+          .foregroundColor(.redPrimary50)
+      } else {
+        Text("\(item.number). \(item.step)")
+      }
+    }
       .lineLimit(nil)
       .allowsTightening(true)
   }
   
-  private func ingredientSection(_ ingredient: IngredientMock) -> some View {
+  private func ingredientSection(_ ingredient: Ingredient) -> some View {
     ZStack {
       Rectangle()
         .frame(height: 76)
         .foregroundColor(.neutral10)
         .cornerRadius(12)
       HStack(spacing: 12) {
-        AsyncImage(url: ingredient.image) {
-          phase in
-          switch phase {
-          case .empty:
-            ShimmerView(ratio: 1)
-          case .success(let image):
-            image.resizable().scaledToFill()
-          case .failure:
-            AppImages.mockImage.resizable().scaledToFill()
-          @unknown default:
-            Color.neutral10
-          }
-        }
-        .frame(maxWidth: 52)
-        .frame(height: 52)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        Text(ingredient.name)
+        Text(ingredient.name.capitalized)
           .font(.recipesMiniTitle)
         Spacer()
-        Text("\(ingredient.weight)g")
+        Text("\(Int(ingredient.measures.metric.amount)) \(ingredient.measures.metric.unitShort)")
           .font(.caption)
           .foregroundColor(.secondary)
-        CustomCheckbox(isChecked: $isIngredientChecked)
+        CustomCheckbox(isChecked: Binding(get: { ingredientCheckedStatus[ingredient.id, default: false]},
+                                          set: { ingredientCheckedStatus[ingredient.id] = $0 })
+        )
       }
       .padding(.horizontal, 16)
     }
@@ -136,6 +141,6 @@ struct RecipeDetailView: View {
 
 #Preview("RecipeDetailView") {
     NavigationStack {
-      RecipeDetailView(viewModel: RecipeDetailViewModel(), isIngredientChecked: false)
+      RecipeDetailView(recipeID: 323)
     }
 }

@@ -20,6 +20,7 @@ struct Result: Decodable {
     let image: URL
     let spoonacularScore: Double
     let readyInMinutes: Int
+    let creditsText: String
     
     /// Рейтинг от 0 до 5, как в макете. С API приходит 0...100.
     var scoreOutOfFive: Double {
@@ -32,6 +33,7 @@ struct Result: Decodable {
             id: id,
             title: title,
             image: image,
+            author: creditsText,
             spoonacularScore: scoreOutOfFive,
             readyInMinutes: "\(String(describing: readyInMinutes)) min"
         )

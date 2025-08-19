@@ -44,15 +44,16 @@ struct RecipeListRow: View {
                 .font(.custom(AppFont.bold, size: 20))
                 .foregroundStyle(.neutral100)
                 .padding(.top, 12)
+                .multilineTextAlignment(.leading)
 
             HStack(spacing: 8) {
                 Image("mockImage")
                     .resizable()
                     .frame(width: 24, height: 24)
                     .clipShape(Circle())
-                Text("By Zeelicious Foods")
+                Text(recipe.author)
                     .font(.custom(AppFont.regular, size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.neutral100)
             }
             .padding(.top, 6)
         }
