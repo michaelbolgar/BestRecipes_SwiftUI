@@ -9,6 +9,7 @@ struct RedButtonRect: View {
             Text(title)
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
                 .padding(.vertical, Offsets.x3)
                 .padding(.horizontal, Offsets.x8)
                 .background(.redPrimary50)

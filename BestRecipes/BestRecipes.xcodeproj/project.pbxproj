@@ -127,6 +127,16 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		52A464322E51C60300309D3F /* CreateRecipe */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CreateRecipe;
+			sourceTree = "<group>";
+		};
+		E12B35942E4C785200050A82 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
 		F451DFA42E4A7EC400EB0C05 /* BestRecipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -364,6 +374,7 @@
 		F451DFB22E4A80C500EB0C05 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				52A464322E51C60300309D3F /* CreateRecipe */,
 				F4F723812E4E49A3007AB583 /* Tabbar */,
 				5E6FA6A92E4DFF180050C809 /* RecipeDetails */,
 				DCBE43FA2E4D71F4005A37F5 /* SeeAll */,
@@ -494,6 +505,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				52A464322E51C60300309D3F /* CreateRecipe */,
+				E12B35942E4C785200050A82 /* Models */,
 				F451DFA42E4A7EC400EB0C05 /* BestRecipes */,
 				F451E0102E4A871700EB0C05 /* Design_System */,
 			);
