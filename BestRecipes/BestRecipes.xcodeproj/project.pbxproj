@@ -51,8 +51,6 @@
 		E17D0BF42E54C93400CE0936 /* SearchHistoryStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17D0BF32E54C93400CE0936 /* SearchHistoryStoring.swift */; };
 		F4B6AEB52E51FB1E0018B316 /* RecentRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB42E51FB070018B316 /* RecentRecipesCell.swift */; };
 		F4B6AEB72E51FBB60018B316 /* RecentRecipesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB62E51FBAC0018B316 /* RecentRecipesModel.swift */; };
-		F4B6AEB52E51FB1E0018B316 /* RecentRecipesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB42E51FB070018B316 /* RecentRecipesCell.swift */; };
-		F4B6AEB72E51FBB60018B316 /* RecentRecipesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6AEB62E51FBAC0018B316 /* RecentRecipesModel.swift */; };
 		F4B6B06D2E54D3EB0018B316 /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B0652E54D3EB0018B316 /* OnboardingPage.swift */; };
 		F4B6B06E2E54D3EB0018B316 /* DotsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B0672E54D3EB0018B316 /* DotsIndicator.swift */; };
 		F4B6B06F2E54D3EB0018B316 /* DemoPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B0632E54D3EB0018B316 /* DemoPages.swift */; };
