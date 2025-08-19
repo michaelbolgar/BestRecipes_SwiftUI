@@ -17,7 +17,7 @@ struct SearchContentView: View {
         VStack(alignment: .leading, spacing: Offsets.x2) {
             if !viewModel.searchText.isEmpty {
                 // --- РЕЗУЛЬТАТЫ ПОИСКА ---
-                if viewModel.filteredRecipes().isEmpty {
+                if viewModel.searchResults.isEmpty {
                     Text("No results found")
                         .foregroundStyle(.secondary)
                         .padding(.top, Offsets.x4)
@@ -25,14 +25,13 @@ struct SearchContentView: View {
                 } else {
                     ScrollView {
                         searchResultView()
-                        .padding(.top, Offsets.x2)
+                            .padding(.top, Offsets.x2)
                     }
                 }
             } else {
                 // --- ПОДСКАЗКИ ---
                 ScrollView {
                     recentSearchesView()
-                    suggestionsView()
                 }
             }
         }
@@ -41,63 +40,28 @@ struct SearchContentView: View {
 }
 
 extension SearchContentView {
-//    MARK: - VIEWS
+    //    MARK: - VIEWS
     func searchResultView() -> some View {
         LazyVStack(alignment: .leading, spacing: Offsets.x3) {
-            ForEach(viewModel.filteredRecipes()) { recipe in
-                Button {
-                    onSelectRecipe(recipe.id)
-                } label: {
-                    HStack {
-                        Text(recipe.title)
-                            .font(.body)
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        AppImages.arrowRight
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, Offsets.x2)
-                }
-                Divider()
+            ForEach(viewModel.searchResults) { recipe in
+                TrendingNowCell(recipe: recipe)
             }
         }
     }
     
     func recentSearchesView() -> some View {
-            VStack(alignment: .leading, spacing: Offsets.x3) {
-                if !viewModel.recentSearches.isEmpty {
-                    Text("Recent Searches")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, Offsets.x2)
-                    
-                    ForEach(viewModel.recentSearches.reversed(), id: \.self) { item in
-                        Button {
-                            viewModel.searchText = item
-                        } label: {
-                            Text(item)
-                                .foregroundStyle(.primary)
-                                .padding(.vertical, Offsets.x2)
-                        }
-                        Divider()
-                    }
-                }
-            }
-    }
-    
-    func suggestionsView() -> some View {
-        VStack {
-            if !viewModel.getSuggestions().isEmpty {
-                Text("Suggestions")
+        VStack(alignment: .leading, spacing: Offsets.x3) {
+            if !viewModel.recentSearches.isEmpty {
+                Text("Recent Searches")
                     .font(.headline)
                     .foregroundStyle(.secondary)
-                    .padding(.top, Offsets.x4)
+                    .padding(.top, Offsets.x2)
                 
-                ForEach(viewModel.getSuggestions(), id: \.self) { suggestion in
+                ForEach(viewModel.recentSearches.reversed(), id: \.self) { item in
                     Button {
-                        viewModel.searchText = suggestion
+                        viewModel.searchText = item
                     } label: {
-                        Text(suggestion)
+                        Text(item)
                             .foregroundStyle(.primary)
                             .padding(.vertical, Offsets.x2)
                     }
@@ -106,6 +70,7 @@ extension SearchContentView {
             }
         }
     }
+    
 }
 #Preview {
     SearchContentView(viewModel: HomeViewModel(), onSelectRecipe: {_ in})

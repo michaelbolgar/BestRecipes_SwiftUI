@@ -8,7 +8,7 @@
 import Foundation
 
 enum API {
-    static let apiKey = "7bacf3f7cc7e408e9949dd374a8ddad7"
+    static let apiKey = "b6dbf7fcf5094745ac11204866483713"
     static let header = "x-api-key"
 }
 
@@ -21,5 +21,6 @@ enum HTTPMethod: String {
 static let apiKeys = [
     "7bacf3f7cc7e408e9949dd374a8ddad7",
     "46bd1b874bcc4121a3f55e170a70c23a"
+
 ]
 */

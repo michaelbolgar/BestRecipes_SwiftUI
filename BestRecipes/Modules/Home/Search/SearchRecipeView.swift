@@ -1,17 +1,16 @@
 //
-//  SearchRecipeViewWithSuggestions.swift
+//  SearchRecipeView 2.swift
 //  BestRecipes
 //
-//  Created by Келлер Дмитрий on 13.08.2025.
+//  Created by Келлер Дмитрий on 19.08.2025.
 //
+
 
 import SwiftUI
 
-struct SearchRecipeViewWithSuggestions: View {
+struct SearchRecipeView: View {
     // MARK: - Properties
     @Binding var searchText: String
-    var suggestions: [String]
-    var onSelectSuggestion: (String) -> Void
     
     var onTapSearch: (() -> Void)? = nil
     var onTapCancel: (() -> Void)? = nil
@@ -26,13 +25,23 @@ struct SearchRecipeViewWithSuggestions: View {
     var body: some View {
         HStack {
             HStack(spacing: Offsets.x0) {
+                Button {
+                    isFocused.toggle()
+                    onTapSearch?()
+            } label: {
                 AppImages.search
                     .frame(width: Offsets.x5, height: Offsets.x5)
                     .foregroundStyle(.neutral90)
                     .padding(Offsets.x4)
-                
+            }
+        
                 TextField(Drawing.placeholderText, text: $searchText)
-                
+                    .focused($isFocused)
+                    .onChange(of: isFocused) { newValue in
+                        if newValue {
+                            onTapSearch?()
+                        }
+                    }
                 if !searchText.isEmpty {
                     Button {
                         withAnimation {
@@ -62,16 +71,12 @@ struct SearchRecipeViewWithSuggestions: View {
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             }
         }
-        .focused($isFocused)
-        .onChange(of: isFocused) { newValue in
-            if newValue {
-                onTapSearch?()
-            }
-        }
         .animation(.easeOut(duration: 0.3), value: isFocused)
     }
 }
 
 #Preview {
-    SearchRecipeViewWithSuggestions(searchText: .constant("search"))
+    SearchRecipeView(
+        searchText: .constant("search"),
+    )
 }

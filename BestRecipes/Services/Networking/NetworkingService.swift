@@ -28,6 +28,5 @@ final class NetworkingService {
             } catch {
                 throw NetworkError.decodingFailed(error)
             }
-            
     }
 }

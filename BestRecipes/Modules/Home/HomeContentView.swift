@@ -81,11 +81,8 @@ struct HomeContentView: View {
                         .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             
-            SearchRecipeViewWithSuggestions(
+            SearchRecipeView(
                 searchText: searchText,
-                suggestions: viewModel.getSuggestions(),
-                onSelectSuggestion: { suggestion in
-                    viewModel.searchText = suggestion },
                 onTapSearch: {
                     withAnimation(.easeInOut) {
                         isHeaderHidden = true
@@ -99,15 +96,6 @@ struct HomeContentView: View {
                     }
                 }
             )
-            .searchSuggestions({
-                Section {
-                    ForEach(viewModel.filteredRecipes().prefix(5), id: \.id) {
-                        suggection in
-                        Text(suggection.title)
-                            .searchCompletion(suggection)
-                    }
-                }
-            })
             .padding(.top, isHeaderHidden ? -Offsets.x2 : Offsets.x0)
         }
         .animation(.easeInOut, value: isHeaderHidden)
