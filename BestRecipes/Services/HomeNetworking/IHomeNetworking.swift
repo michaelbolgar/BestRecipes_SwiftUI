@@ -23,9 +23,7 @@ final class HomeNetworking: IHomeNetworking {
     
     func fetchSearchRecipes(query: String) async throws -> [RecipeModel] {
         let endpoint = Endpoint.searchRecipes(query: query, number: 10)
-        print(endpoint)
         let response: Recipe = try await networkingService.fetch(from: endpoint)
-        print(response)
         return response.results.map { $0.toUIModel() }
     }
     
