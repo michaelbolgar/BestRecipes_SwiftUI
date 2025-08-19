@@ -138,9 +138,12 @@ struct HomeContentView: View {
     private var searchContent: some View {
         SearchContentView(
             viewModel: viewModel,
-            onSelectRecipe: {  recipeID in
+            onSelectRecipe: { recipeID in
             navigationPath.append(Route.recipeDetail(id: recipeID))
         })
+        .onAppear {
+            viewModel.loadRecentSearches()
+        }
     }
     
     private func trendingViewSection() -> some View {

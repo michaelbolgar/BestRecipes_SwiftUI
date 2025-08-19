@@ -36,7 +36,6 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    
     @Published var error: Error? = nil
     
     let countries: [Cuisine] = Cuisine.allCases
@@ -53,8 +52,8 @@ final class HomeViewModel: ObservableObject {
     
     func fetchSearchRecipes() async {
         do {
-            searchResults = try await networkService.fetchSearchRecipes(query: searchText)
             addSearchQuery(searchText)
+            searchResults = try await networkService.fetchSearchRecipes(query: searchText)
         } catch {
             self.error = error
         }
@@ -103,6 +102,10 @@ final class HomeViewModel: ObservableObject {
     
     func addSearchQuery(_ query: String) {
         searchHistoryService.saveQuery(query)
+        loadRecentSearches()
+    }
+    
+    func loadRecentSearches() {
         recentSearches = searchHistoryService.loadHistory()
     }
     

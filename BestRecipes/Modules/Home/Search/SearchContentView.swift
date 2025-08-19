@@ -42,9 +42,12 @@ struct SearchContentView: View {
 extension SearchContentView {
     //    MARK: - VIEWS
     func searchResultView() -> some View {
-        LazyVStack(alignment: .leading, spacing: Offsets.x3) {
+        LazyVStack(alignment: .leading, spacing: Offsets.x4) {
             ForEach(viewModel.searchResults) { recipe in
-                TrendingNowCell(recipe: recipe)
+                SearchRecipeCell(recipe: recipe)
+                    .onTapGesture {
+                        onSelectRecipe(recipe.id)
+                    }
             }
         }
     }
