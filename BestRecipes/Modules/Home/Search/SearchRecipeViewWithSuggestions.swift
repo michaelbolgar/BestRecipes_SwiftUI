@@ -1,5 +1,5 @@
 //
-//  SearchRecipeView.swift
+//  SearchRecipeViewWithSuggestions.swift
 //  BestRecipes
 //
 //  Created by Келлер Дмитрий on 13.08.2025.
@@ -7,9 +7,12 @@
 
 import SwiftUI
 
-struct SearchRecipeView: View {
+struct SearchRecipeViewWithSuggestions: View {
     // MARK: - Properties
     @Binding var searchText: String
+    var suggestions: [String]
+    var onSelectSuggestion: (String) -> Void
+    
     var onTapSearch: (() -> Void)? = nil
     var onTapCancel: (() -> Void)? = nil
     
@@ -35,7 +38,6 @@ struct SearchRecipeView: View {
                             onTapSearch?()
                         }
                     }
-                
                 if !searchText.isEmpty {
                     Button {
                         withAnimation {
@@ -64,11 +66,37 @@ struct SearchRecipeView: View {
                     }
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             }
+            
+            if isFocused && !suggestions.isEmpty {
+                VStack(alignment: .leading) {
+                    ForEach(suggestions, id: \.self) { suggestion in
+                        Button {
+                            onSelectSuggestion(suggestion)
+                            isFocused = false
+                        } label: {
+                            Text(suggestion)
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 12)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .buttonStyle(.plain)
+                        Divider()
+                    }
+                }
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .shadow(radius: 4)
+            }
         }
+
         .animation(.easeOut(duration: 0.3), value: isFocused)
     }
 }
 
 #Preview {
-    SearchRecipeView(searchText: .constant("search"))
+    SearchRecipeViewWithSuggestions(
+        searchText: .constant("search"),
+        suggestions: [],
+        onSelectSuggestion: {_ in}
+    )
 }
