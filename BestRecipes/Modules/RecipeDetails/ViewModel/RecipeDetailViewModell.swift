@@ -8,16 +8,27 @@
 import SwiftUI
 
 final class RecipeDetailViewModel: ObservableObject {
-    @Published var items: RecipeDetailModelMock = RecipeDetailModelMock.mockData
-    
+    @Published var items: DetailedRecipe?
+    @Published var error: Error? = nil
+    private var networkService: NetworkingService
     let recipeID: Int
     
-    init(recipeID: Int) {
+    init(recipeID: Int, networkService: NetworkingService = NetworkingService()) {
         self.recipeID = recipeID
-        loadItems()
+        self.networkService = networkService
     }
-    
-    private func loadItems() {
-        items = RecipeDetailModelMock.mockData
-    }
+
+  // MARK: - Fetch Data
+  func fetchRecipeDetails() async {
+      do {
+        let result: DetailedRecipe = try await networkService.fetch(from: .getRecipeInformation(id: recipeID))
+        await MainActor.run {
+          self.items = result
+        }
+      } catch {
+        await MainActor.run {
+          self.error = error
+        }
+      }
+  }
 }
