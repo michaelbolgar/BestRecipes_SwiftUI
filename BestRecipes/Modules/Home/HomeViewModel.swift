@@ -7,10 +7,10 @@
 
 import Foundation
 
-
 @MainActor
 final class HomeViewModel: ObservableObject {
     private let networkService: IHomeNetworking
+    private let searchHistoryService: ISearchHistory
     
     @Published var searchText: String = ""
     @Published var searchResults: [RecipeModel] = []
@@ -33,9 +33,12 @@ final class HomeViewModel: ObservableObject {
     
     let countries: [Cuisine] = Cuisine.allCases
     // MARK: - Init
-    init(networkService: IHomeNetworking = HomeNetworking()) {
+    init(
+        networkService: IHomeNetworking = HomeNetworking(),
+        searchHistoryService: ISearchHistory = SearchHistoryService()
+    ) {
         self.networkService = networkService
-
+        self.searchHistoryService = searchHistoryService
     }
     
     // MARK: - Fetch Data
@@ -81,5 +84,13 @@ final class HomeViewModel: ObservableObject {
         return Array(filteredResults.prefix(8))
     }
     
+    func addSearchQuery(_ query: String) {
+        searchHistoryService.saveQuery(query)
+        recentSearches = searchHistoryService.loadHistory()
+    }
     
+    func clearSearchHistory() {
+        searchHistoryService.clearHistory()
+        recentSearches = []
+    }
 }
