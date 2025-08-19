@@ -18,7 +18,7 @@ struct BackBarButtonView: View {
     // MARK: - Body
     var body: some View {
         Button(action: { dismiss() }) {
-            Image(systemName: "arrow.left")
+            Image(.arrowLeft)
                 .resizable()
                 .scaledToFit()
                 .frame(width: Drawing.iconSize, height: Drawing.iconSize)

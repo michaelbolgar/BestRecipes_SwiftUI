@@ -53,7 +53,7 @@ struct RecipeListRow: View {
                     .clipShape(Circle())
                 Text(recipe.author)
                     .font(.custom(AppFont.regular, size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.neutral100)
             }
             .padding(.top, 6)
         }
