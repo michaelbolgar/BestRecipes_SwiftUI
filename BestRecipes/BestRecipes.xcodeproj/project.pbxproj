@@ -256,6 +256,7 @@
 		E12B359F2E4C884100050A82 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				E12B35942E4C785200050A82 /* Models */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";

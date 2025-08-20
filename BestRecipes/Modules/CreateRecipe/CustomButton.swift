@@ -1,0 +1,58 @@
+//
+//  CustomButton.swift
+//  BestRecipes
+//
+//  Created by DimaTru on 20.08.2025.
+//
+
+import SwiftUI
+
+struct CustomButton: View {
+    var image = ""
+    var title = ""
+    @State private var label = 0
+    @State private var showPicker = false
+    @State private var selectedValue = 0
+    let pickerValues = Array(0...1000)
+    
+    var body: some View {
+        HStack {
+            Image(image)
+                .frame(width: 36, height: 36)
+            Text(title)
+                .font(.custom(AppFont.bold, size: 16))
+            Spacer()
+            Text("\(label)")
+                .font(.custom(AppFont.regular, size: 14))
+                .foregroundStyle(.secondary)
+            Button {
+                showPicker = true
+            } label: {
+                Image("Arrow-Right")
+            }
+            .sheet(isPresented: $showPicker) {
+                VStack {
+                    Picker("Enter value", selection: $selectedValue) {
+                        ForEach(pickerValues, id: \.self) { value in
+                            Text("\(value)").tag(value)
+                        }
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                    .labelsHidden()
+                    Button("Enter") {
+                        label = selectedValue
+                        showPicker = false
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.neutral10)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+#Preview {
+    CustomButton(image: "Serves", title: "Serves")
+}
