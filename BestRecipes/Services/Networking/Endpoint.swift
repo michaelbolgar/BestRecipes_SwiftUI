@@ -24,9 +24,17 @@ enum Endpoint {
     /// - Parameters:
     ///   - id: Уникальный идентификатор рецепта
     case getRecipeInformation(id: Int)
+    /// Получение картинки для рецепта
+    /// - Parameters:
+    ///   - imageName: Эндпоинт картинки
+    case getIngredientImage(imageName: String)
     
     var baseURL: String {
         return "https://api.spoonacular.com"
+    }
+  
+    var baseImgURL: String {
+      return "https://img.spoonacular.com"
     }
     
     var path: String {
@@ -35,6 +43,8 @@ enum Endpoint {
             return "/recipes/complexSearch"
         case .getRecipeInformation(let id):
             return "/recipes/\(id)/information"
+        case .getIngredientImage(imageName: let imageName):
+            return "/ingredients_100x100/\(imageName)"
         }
     }
     
@@ -69,7 +79,7 @@ enum Endpoint {
                 URLQueryItem(name: "addRecipeInformation", value: "true")
             ])
             
-        case .getRecipeInformation:
+        case .getRecipeInformation, .getIngredientImage:
            break
         }
         
@@ -78,7 +88,7 @@ enum Endpoint {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .popularRecipes, .trendingRecipes, .getRecipeInformation:
+        case .popularRecipes, .trendingRecipes, .getRecipeInformation, .getIngredientImage:
             return .get
         }
     }
