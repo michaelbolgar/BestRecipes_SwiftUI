@@ -10,11 +10,16 @@ import SwiftUI
 @main
 struct BestRecipesApp: App {
     
+//    var body: some Scene {
+//        WindowGroup {
+//            AppCoordinator()
+//        }
+//    }
 
-    
     var body: some Scene {
         WindowGroup {
-            AppCoordinator()
+            StartRouterView()
+                .preferredColorScheme(.none)
         }
     }
 }
