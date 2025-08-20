@@ -10,6 +10,7 @@ import SwiftUI
 struct IngredientsCell: View {
     @State private var itemName = ""
     @State private var quantity = ""
+    var onDelete: () -> Void
     
     var body: some View {
         HStack(spacing: 12) {
@@ -30,14 +31,14 @@ struct IngredientsCell: View {
                         .stroke(Color.secondary, lineWidth: 1)
                 }
             Button {
-                // action
+                onDelete()
             } label: {
-                Image("plusButtonIcone")
+                Image("minusButtonIcone")
             }
         }
     }
 }
 
-#Preview {
-    IngredientsCell()
-}
+//#Preview {
+//    IngredientsCell()
+//}
