@@ -18,14 +18,14 @@ struct LaunchScreen: View {
                 .resizable()
                 .frame(width: 300, height: 300)
                 .scaledToFill()
-                .onAppear()
+                .onAppear(perform: routeToStart)
         }
         .ignoresSafeArea(.all)
     }
 
     func routeToStart() {
         Task {
-            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            try? await Task.sleep(nanoseconds: 4_000_000_000)
             router.updateRouterState(with: .launchCompleted)
         }
     }
