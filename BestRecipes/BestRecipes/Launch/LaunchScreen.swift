@@ -14,7 +14,10 @@ struct LaunchScreen: View {
     var body: some View {
         ZStack {
             Color.appWhite
-            Image(.search)
+            Image(.logo)
+                .resizable()
+                .frame(width: 300, height: 300)
+                .scaledToFill()
                 .onAppear()
         }
         .ignoresSafeArea(.all)
