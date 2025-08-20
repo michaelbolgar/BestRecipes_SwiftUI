@@ -8,7 +8,7 @@ enum RouterState {
 }
 
 enum StartEvent {
-//    case launchCompleted
+    case launchCompleted
     case onboardingCompleted
 }
 
@@ -28,8 +28,8 @@ final class StartRouter: ObservableObject {
 
     private func handleStateChange(_ event: StartEvent) -> RouterState {
         switch event {
-//        case .launchCompleted:
-//            return rootState()
+        case .launchCompleted:
+            return rootState()
         case .onboardingCompleted:
             return rootState()
             // can be modified after adding authorization

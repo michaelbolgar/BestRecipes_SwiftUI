@@ -7,7 +7,7 @@ struct StartRouterView: View {
         NavigationStack {
             switch startRouter.routerState {
             case .launch:
-                MockContentView()
+                LaunchScreen(router: StartRouter())
             case .onboarding:
                 OnboardingView(vm: OnboardingViewModel(pages: demoPages), onFinish: {} )
             case .main:
