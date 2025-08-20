@@ -7,12 +7,15 @@
 
 import Foundation
 
-
 @MainActor
 final class HomeViewModel: ObservableObject {
     private let networkService: IHomeNetworking
+    private let searchHistoryService: ISearchHistory
     
     @Published var searchText: String = ""
+    @Published var searchResults: [RecipeModel] = []
+    @Published var recentSearches: [String] = []
+    
     @Published var trendingNowRecipes: [RecipeModel] = []
     @Published var popularCategoryRecipes: [RecipeModel] = []
     @Published var cuisineByCountries: [RecipeModel] = []
@@ -30,9 +33,12 @@ final class HomeViewModel: ObservableObject {
     
     let countries: [Cuisine] = Cuisine.allCases
     // MARK: - Init
-    init(networkService: IHomeNetworking = HomeNetworking()) {
+    init(
+        networkService: IHomeNetworking = HomeNetworking(),
+        searchHistoryService: ISearchHistory = SearchHistoryService()
+    ) {
         self.networkService = networkService
-
+        self.searchHistoryService = searchHistoryService
     }
     
     // MARK: - Fetch Data
@@ -58,5 +64,33 @@ final class HomeViewModel: ObservableObject {
         } catch {
             self.error = error
         }
+    }
+    
+//    MARK: - Search Methods
+    
+    func filteredRecipes() -> [RecipeModel] {
+        if searchText.isEmpty { return searchResults }
+        return searchResults.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+    }
+    
+    func getSuggestions() -> [String] {
+        if searchText.isEmpty {
+            return recentSearches.reversed()
+        }
+        let filteredResults = searchResults
+            .map { $0.title }
+            .filter { $0.localizedCaseInsensitiveContains(searchText) }
+        
+        return Array(filteredResults.prefix(8))
+    }
+    
+    func addSearchQuery(_ query: String) {
+        searchHistoryService.saveQuery(query)
+        recentSearches = searchHistoryService.loadHistory()
+    }
+    
+    func clearSearchHistory() {
+        searchHistoryService.clearHistory()
+        recentSearches = []
     }
 }

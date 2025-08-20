@@ -1,6 +1,12 @@
+//
+//  MiniRedButton.swift
+//  BestRecipes
+//
+//  Created by Келлер Дмитрий on 19.08.2025.
+//
 import SwiftUI
 
-struct RedButtonCapsule: View {
+struct MiniRedButton: View {
     var title: String
     var action: () -> Void
 
@@ -9,8 +15,7 @@ struct RedButtonCapsule: View {
             Text(title)
                 .fontWeight(.semibold)
                 .foregroundColor(.white)
-                .padding(.vertical, Offsets.x3)
-                .padding(.horizontal, 50)
+                .padding(Offsets.x1)
                 .background(.redPrimary50)
                 .clipShape(Capsule())
         }
@@ -18,7 +23,7 @@ struct RedButtonCapsule: View {
 }
 
 #Preview {
-    RedButtonCapsule(title: "Continue") {
+    MiniRedButton(title: "Cancel") {
         print("tap")
     }
 }
