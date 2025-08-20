@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct BestRecipesApp: App {
+    
+
+    
     var body: some Scene {
         WindowGroup {
-            HomeContentView()
+            AppCoordinator()
         }
     }
 }

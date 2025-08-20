@@ -12,6 +12,7 @@ struct SeeAllSectionView: View {
     // MARK: - Properties
     let title: String
     var isShowAll = false
+    var showAllAction: (() -> Void)? = nil
     
     // MARK: - Body
     var body: some View {
@@ -27,6 +28,9 @@ struct SeeAllSectionView: View {
                         .padding(.trailing, Offsets.x3)
                     AppImages.arrowRight
                         .foregroundStyle(.neutral100)
+                }
+                .onTapGesture {
+                    showAllAction?()
                 }
             }
         }
