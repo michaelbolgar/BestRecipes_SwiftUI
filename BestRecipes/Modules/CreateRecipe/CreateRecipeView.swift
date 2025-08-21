@@ -1,14 +1,8 @@
-//
-//  CreateRecipeView.swift
-//  BestRecipes
-//
-//  Created by DimaTru on 17.08.2025.
-//
-
 import SwiftUI
 
 struct CreateRecipeView: View {
     @State private var text = ""
+    @State private var ingredients: [String] = []
     
     var body: some View {
         NavigationStack {
@@ -35,7 +29,31 @@ struct CreateRecipeView: View {
                                 .stroke(Color.red, lineWidth: 1)
                         }
                     
+                    CustomButton(image: "Serves", title: "Serves")
+                    CustomButton(image: "CookTime", title: "CookTime")
                     
+                    LazyVStack(alignment: .leading) {
+                        Text("Ingredients")
+                            .font(.custom(AppFont.bold, size: 20))
+                        ForEach(ingredients.indices, id: \.self) { index in
+                            IngredientsCell(
+                                onDelete: {
+                                    ingredients.remove(at: index)
+                                }
+                            )
+                        }
+                        
+                        Button {
+                            ingredients.append("")
+                        } label: {
+                            HStack {
+                                Image("plus")
+                                Text("Add new Ingredient")
+                                    .font(.custom(AppFont.bold, size: 16))
+                                    .foregroundStyle(.black)
+                            }
+                        }
+                    }
                     
                     RedButtonRect(title: "Create recipe", action: { })
                 }
