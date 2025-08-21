@@ -32,7 +32,7 @@ final class StartRouter: ObservableObject {
     }
 
     private func rootState() -> RouterState {
-        guard storage.bool(for: .hasCompletedOnboarding) else {
+        guard storage.saveBool(for: .hasCompletedOnboarding) else {
             return .onboarding
         }
         return .main
