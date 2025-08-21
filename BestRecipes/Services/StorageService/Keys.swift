@@ -1,6 +1,8 @@
 import Foundation
 
 enum Keys: String {
-    case search = "search_history"
     case hasCompletedOnboarding = "hasCompletedOnboarding"
+    case favoriteRecipes = "favoriteRecipes"
+    case recentRecipes = "recentRecipes"
+    case searchHistory = "search_history"
 }
