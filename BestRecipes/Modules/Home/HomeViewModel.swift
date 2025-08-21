@@ -9,10 +9,18 @@ import Foundation
 
 @MainActor
 final class HomeViewModel: ObservableObject {
+    // MARK: - Properties
     private let networkService: IHomeNetworking
     private let searchHistoryService: ISearchHistory
     
-    @Published var searchText: String = ""
+    private var currentSearchTask: Task<Void, Never>?
+    
+    @Published var searchText: String = "" {
+        didSet {
+            debounceSearchTask()
+        }
+    }
+    
     @Published var searchResults: [RecipeModel] = []
     @Published var recentSearches: [String] = []
     
@@ -23,12 +31,11 @@ final class HomeViewModel: ObservableObject {
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
             Task {
-                await fetchPopularCategoryRecipes()
+                await  fetchPopularCategoryRecipes()
             }
         }
     }
     
-
     @Published var error: Error? = nil
     
     let countries: [Cuisine] = Cuisine.allCases
@@ -42,6 +49,16 @@ final class HomeViewModel: ObservableObject {
     }
     
     // MARK: - Fetch Data
+    
+    func fetchSearchRecipes() async {
+        do {
+            addSearchQuery(searchText)
+            searchResults = try await networkService.fetchSearchRecipes(query: searchText)
+        } catch {
+            self.error = error
+        }
+    }
+    
     func fetchTrendingNowRecipes() async {
         do {
             trendingNowRecipes = try await networkService.fetchTrendingNowRecipes()
@@ -66,31 +83,34 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-//    MARK: - Search Methods
+    //    MARK: - Search Methods
     
-    func filteredRecipes() -> [RecipeModel] {
-        if searchText.isEmpty { return searchResults }
-        return searchResults.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
-    }
-    
-    func getSuggestions() -> [String] {
-        if searchText.isEmpty {
-            return recentSearches.reversed()
+    // MARK: - Вebounce Search Task
+    private func debounceSearchTask() {
+        currentSearchTask?.cancel()
+        currentSearchTask = Task {
+            try? await Task.sleep(nanoseconds: 300_000_000)
+            guard !Task.isCancelled else { return }
+
+            if searchText.count > 2 {
+                await fetchSearchRecipes()
+            } else {
+                searchResults = []
+            }
         }
-        let filteredResults = searchResults
-            .map { $0.title }
-            .filter { $0.localizedCaseInsensitiveContains(searchText) }
-        
-        return Array(filteredResults.prefix(8))
     }
     
     func addSearchQuery(_ query: String) {
         searchHistoryService.saveQuery(query)
+        loadRecentSearches()
+    }
+    
+    func loadRecentSearches() {
         recentSearches = searchHistoryService.loadHistory()
     }
     
-    func clearSearchHistory() {
-        searchHistoryService.clearHistory()
-        recentSearches = []
+    func clearRecentSearches(_ query: String) {
+        searchHistoryService.clearRecentSearches(query)
+        recentSearches.removeAll(where: { $0 == query })
     }
 }

@@ -107,8 +107,7 @@ public extension View {
 }
 
 struct ShimmerView: View {
-    let ratio: Double
-    
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
@@ -116,14 +115,15 @@ struct ShimmerView: View {
                 .shimmering()
             
             VStack(alignment: .leading) {
-                Spacer()
                 Text("                      ")
                     .redacted(reason: .placeholder)
                 Text("           ")
                     .redacted(reason: .placeholder)
             }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
         }
-        .frame(width: 343/ratio, height: 215/ratio)
+        .frame(height: 215)
     }
 }
 // https://github.com/markiv/SwiftUI-Shimmer/blob/main/README.md // about shimming
@@ -147,27 +147,15 @@ struct ShimmerCircle: View {
 struct ShimmerForPopular: View {
     var body: some View {
         ZStack {
-            VStack {
                 RoundedTopCircleShape(
                     circleDiameter: 110,
                     rectangleHeight: 176,
                     rectangleCornerRadius: 12
                 )
-                
                 .foregroundColor(.redPrimary20)
                 .shimmering()
-                .frame(width: 150, height: 110 + 176)
-            }
-            Spacer()
-            VStack(alignment: .leading) {
-                Text("           ")
-                    .redacted(reason: .placeholder)
-                Text("     ")
-                    .redacted(reason: .placeholder)
-            }
         }
-        .padding(.horizontal, 12)
-        .padding(.bottom, 12)
+        .frame(width: 150, height: 276)
     }
 }
 
@@ -200,15 +188,12 @@ struct RoundedTopCircleShape: Shape {
             in: CGRect(x: rect.minX, y: rectTop, width: rect.width, height: rectangleHeight),
             cornerSize: CGSize(width: rectangleCornerRadius, height: rectangleCornerRadius)
         )
-
         return path
     }
 }
 
 #Preview {
-    VStack {
-        ShimmerView(ratio: 1)
-        ShimmerCircle(size: 110)
+ 
         ShimmerForPopular()
-    }
+    
 }

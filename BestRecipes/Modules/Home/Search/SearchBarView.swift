@@ -1,17 +1,16 @@
 //
-//  SearchRecipeViewWithSuggestions.swift
+//  SearchBarView 2.swift
 //  BestRecipes
 //
-//  Created by Келлер Дмитрий on 13.08.2025.
+//  Created by Келлер Дмитрий on 19.08.2025.
 //
+
 
 import SwiftUI
 
-struct SearchRecipeViewWithSuggestions: View {
+struct SearchBarView: View {
     // MARK: - Properties
     @Binding var searchText: String
-    var suggestions: [String]
-    var onSelectSuggestion: (String) -> Void
     
     var onTapSearch: (() -> Void)? = nil
     var onTapCancel: (() -> Void)? = nil
@@ -26,10 +25,14 @@ struct SearchRecipeViewWithSuggestions: View {
     var body: some View {
         HStack {
             HStack(spacing: Offsets.x0) {
-                AppImages.search
-                    .frame(width: Offsets.x5, height: Offsets.x5)
-                    .foregroundStyle(.neutral90)
-                    .padding(Offsets.x4)
+                Button {
+                    onTapSearch?()
+                } label: {
+                    AppImages.search
+                        .frame(width: Offsets.x5, height: Offsets.x5)
+                        .foregroundStyle(.neutral90)
+                        .padding(Offsets.x4)
+                }
                 
                 TextField(Drawing.placeholderText, text: $searchText)
                     .focused($isFocused)
@@ -38,6 +41,7 @@ struct SearchRecipeViewWithSuggestions: View {
                             onTapSearch?()
                         }
                     }
+            
                 if !searchText.isEmpty {
                     Button {
                         withAnimation {
@@ -50,6 +54,7 @@ struct SearchRecipeViewWithSuggestions: View {
                     }
                 }
             }
+          
             .background(Color.appBackground)
             .overlay {
                 RoundedRectangle(cornerRadius: Offsets.x3)
@@ -66,37 +71,13 @@ struct SearchRecipeViewWithSuggestions: View {
                     }
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             }
-            
-            if isFocused && !suggestions.isEmpty {
-                VStack(alignment: .leading) {
-                    ForEach(suggestions, id: \.self) { suggestion in
-                        Button {
-                            onSelectSuggestion(suggestion)
-                            isFocused = false
-                        } label: {
-                            Text(suggestion)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 12)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .buttonStyle(.plain)
-                        Divider()
-                    }
-                }
-                .background(Color(.systemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .shadow(radius: 4)
-            }
         }
-
         .animation(.easeOut(duration: 0.3), value: isFocused)
     }
 }
 
 #Preview {
-    SearchRecipeViewWithSuggestions(
+    SearchBarView(
         searchText: .constant("search"),
-        suggestions: [],
-        onSelectSuggestion: {_ in}
     )
 }

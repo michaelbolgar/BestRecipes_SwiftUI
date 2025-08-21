@@ -16,7 +16,7 @@ struct RecipeListRow: View {
                 AsyncImage(url: recipe.image) { phase in
                     switch phase {
                     case .empty:
-                        ShimmerView(ratio: 1)
+                        ShimmerView()
                     case .success(let image):
                         image.resizable().scaledToFill()
                     case .failure:

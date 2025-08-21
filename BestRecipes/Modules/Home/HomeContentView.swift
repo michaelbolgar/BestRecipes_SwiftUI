@@ -81,11 +81,8 @@ struct HomeContentView: View {
                         .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             
-            SearchRecipeViewWithSuggestions(
+            SearchBarView(
                 searchText: searchText,
-                suggestions: viewModel.getSuggestions(),
-                onSelectSuggestion: { suggestion in
-                    viewModel.searchText = suggestion },
                 onTapSearch: {
                     withAnimation(.easeInOut) {
                         isHeaderHidden = true
@@ -99,15 +96,6 @@ struct HomeContentView: View {
                     }
                 }
             )
-            .searchSuggestions({
-                Section {
-                    ForEach(viewModel.filteredRecipes().prefix(5), id: \.id) {
-                        suggection in
-                        Text(suggection.title)
-                            .searchCompletion(suggection)
-                    }
-                }
-            })
             .padding(.top, isHeaderHidden ? -Offsets.x2 : Offsets.x0)
         }
         .animation(.easeInOut, value: isHeaderHidden)
@@ -150,9 +138,12 @@ struct HomeContentView: View {
     private var searchContent: some View {
         SearchContentView(
             viewModel: viewModel,
-            onSelectRecipe: {  recipeID in
+            onSelectRecipe: { recipeID in
             navigationPath.append(Route.recipeDetail(id: recipeID))
         })
+        .onAppear {
+            viewModel.loadRecentSearches()
+        }
     }
     
     private func trendingViewSection() -> some View {
@@ -173,7 +164,7 @@ struct HomeContentView: View {
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 })
             .padding(.top, Offsets.x2)
-            .frame(width: 350)
+     
         }
     }
     
