@@ -5,8 +5,13 @@ import Foundation
 */
 
 protocol UserDefaultsService {
-    func bool(for key: Keys) -> Bool
-    func set(_ value: Any?, for key: Keys)
+    func hasCompletedOnboarding() -> Bool
+    func getFavoriteRecipes() -> [Recipe]?
+
+    func recordOnboardingIsCompleted()
+    func save(recipe: Recipe, for key: Keys)
+
+    func removeFromFavorites(recipeNumber: Int)
 }
 
 final class UserDefaultsServiceImpl: UserDefaultsService {
@@ -17,8 +22,12 @@ final class UserDefaultsServiceImpl: UserDefaultsService {
     }
 
     // MARK: Create
-    func set(_ value: Any?, for key: Keys) {
+    private func set(_ value: Any?, for key: Keys) {
         defaults.set(value, forKey: key.rawValue)
+    }
+
+    func recordOnboardingIsCompleted() {
+        defaults.set(true, forKey: Keys.hasCompletedOnboarding.rawValue)
     }
 
     /// setter for recipes, favorites or recent
@@ -37,7 +46,7 @@ final class UserDefaultsServiceImpl: UserDefaultsService {
     }
 
     // MARK: Read
-    func bool(for key: Keys) -> Bool {
+    private func bool(for key: Keys) -> Bool {
         defaults.bool(forKey: key.rawValue)
     }
 
