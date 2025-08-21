@@ -20,7 +20,7 @@ struct StartRouterView: View {
     }
 
     private func printSome() {
-        storage.set(true, for: .hasCompletedOnboarding)
+        storage.recordOnboardingIsCompleted()
         startRouter.updateRouterState(with: .onboardingCompleted)
     }
 }
