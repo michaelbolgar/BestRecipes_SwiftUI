@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct StartRouterView: View {
+    private let storage = UserDefaultsServiceImpl()
     @StateObject var startRouter = StartRouter()
 
     var body: some View {
@@ -11,7 +12,7 @@ struct StartRouterView: View {
             case .onboarding:
                 OnboardingView(vm: OnboardingViewModel(pages: demoPages), onFinish: { printSome() } )
             case .main:
-                AppCoordinator()
+                TabbarBuilder()
             }
         }
         .transition(.opacity)
@@ -19,7 +20,7 @@ struct StartRouterView: View {
     }
 
     private func printSome() {
-        UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        storage.set(true, for: .hasCompletedOnboarding)
         startRouter.updateRouterState(with: .onboardingCompleted)
     }
 }

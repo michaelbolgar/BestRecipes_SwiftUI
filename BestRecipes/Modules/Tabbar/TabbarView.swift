@@ -92,5 +92,5 @@ struct TabbarView: View {
 }
 
 #Preview {
-    AppCoordinator()
+    TabbarBuilder()
 }

@@ -15,12 +15,7 @@ enum StartEvent {
 final class StartRouter: ObservableObject {
 
     @Published var routerState: RouterState = .launch
-
-//    private let storage: UserDefaultsService
-//
-//    init(storage: UserDefaultsService) {
-//        self.storage = storage
-//    }
+    let storage: UserDefaultsService = UserDefaultsServiceImpl()
 
     func updateRouterState(with event: StartEvent) {
         routerState = handleStateChange(event)
@@ -37,7 +32,7 @@ final class StartRouter: ObservableObject {
     }
 
     private func rootState() -> RouterState {
-        guard UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") else {
+        guard storage.bool(for: .hasCompletedOnboarding) else {
             return .onboarding
         }
         return .main

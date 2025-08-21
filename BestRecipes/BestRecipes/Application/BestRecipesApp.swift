@@ -19,7 +19,7 @@ struct BestRecipesApp: App {
     var body: some Scene {
         WindowGroup {
             StartRouterView()
-                .preferredColorScheme(.none)
+                .preferredColorScheme(.light)
         }
     }
 }

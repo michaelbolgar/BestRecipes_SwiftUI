@@ -25,7 +25,7 @@ struct LaunchScreen: View {
 
     func routeToStart() {
         Task {
-            try? await Task.sleep(nanoseconds: 4_000_000_000)
+            try? await Task.sleep(nanoseconds: 3_000_000_000)
             router.updateRouterState(with: .launchCompleted)
         }
     }
