@@ -22,12 +22,15 @@ final class NetworkingService {
             guard (200...299).contains(httpResponse.statusCode) else {
                 throw NetworkError.invalidResponse(statusCode: httpResponse.statusCode)
             }
-            
+      
+            if let resultData = data as? T {
+                return resultData
+            }
+      
             do {
                 return try JSONDecoder().decode(T.self, from: data)
             } catch {
                 throw NetworkError.decodingFailed(error)
             }
-            
     }
 }

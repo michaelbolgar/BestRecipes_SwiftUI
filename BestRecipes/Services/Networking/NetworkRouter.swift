@@ -9,7 +9,11 @@ import Foundation
 
 enum NetworkRouter {
     static func buildURLRequest(_ endpoint: Endpoint) -> URLRequest? {
-        URLComponents(string: endpoint.baseURL)
+      var baseURL = endpoint.baseURL
+      if case .getIngredientImage = endpoint {
+        baseURL = endpoint.baseImgURL
+      }
+      return URLComponents(string: baseURL)
             .flatMap {
                 var components = $0
                 components.path = endpoint.path
