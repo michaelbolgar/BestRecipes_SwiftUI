@@ -1,5 +1,5 @@
 //
-//  SearchRecipeView 2.swift
+//  SearchBarView 2.swift
 //  BestRecipes
 //
 //  Created by Келлер Дмитрий on 19.08.2025.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SearchRecipeView: View {
+struct SearchBarView: View {
     // MARK: - Properties
     @Binding var searchText: String
     
@@ -26,15 +26,14 @@ struct SearchRecipeView: View {
         HStack {
             HStack(spacing: Offsets.x0) {
                 Button {
-                    isFocused.toggle()
                     onTapSearch?()
-            } label: {
-                AppImages.search
-                    .frame(width: Offsets.x5, height: Offsets.x5)
-                    .foregroundStyle(.neutral90)
-                    .padding(Offsets.x4)
-            }
-        
+                } label: {
+                    AppImages.search
+                        .frame(width: Offsets.x5, height: Offsets.x5)
+                        .foregroundStyle(.neutral90)
+                        .padding(Offsets.x4)
+                }
+                
                 TextField(Drawing.placeholderText, text: $searchText)
                     .focused($isFocused)
                     .onChange(of: isFocused) { newValue in
@@ -42,6 +41,7 @@ struct SearchRecipeView: View {
                             onTapSearch?()
                         }
                     }
+            
                 if !searchText.isEmpty {
                     Button {
                         withAnimation {
@@ -54,6 +54,7 @@ struct SearchRecipeView: View {
                     }
                 }
             }
+          
             .background(Color.appBackground)
             .overlay {
                 RoundedRectangle(cornerRadius: Offsets.x3)
@@ -76,7 +77,7 @@ struct SearchRecipeView: View {
 }
 
 #Preview {
-    SearchRecipeView(
+    SearchBarView(
         searchText: .constant("search"),
     )
 }

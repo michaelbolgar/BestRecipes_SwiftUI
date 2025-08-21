@@ -81,7 +81,7 @@ struct HomeContentView: View {
                         .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             
-            SearchRecipeView(
+            SearchBarView(
                 searchText: searchText,
                 onTapSearch: {
                     withAnimation(.easeInOut) {
@@ -164,7 +164,7 @@ struct HomeContentView: View {
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 })
             .padding(.top, Offsets.x2)
-            .frame(width: 350)
+     
         }
     }
     

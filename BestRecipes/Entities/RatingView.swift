@@ -5,11 +5,6 @@ struct RatingView: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.backgrountRatingView)
-                .opacity(0.5)
-                .frame(width: 58, height: 27)
-                .padding(8)
             HStack {
                 Image(systemName: "star.fill")
                     .resizable()
@@ -20,6 +15,7 @@ struct RatingView: View {
                     .foregroundStyle(.white)
             }
         }
+        .backgroundRatingStyle()
     }
 }
 

@@ -19,13 +19,13 @@ struct SearchContentView: View {
                 // --- РЕЗУЛЬТАТЫ ПОИСКА ---
                 if viewModel.searchResults.isEmpty {
                     Text("No results found")
-                        .foregroundStyle(.secondary)
-                        .padding(.top, Offsets.x4)
-                    Spacer()
+                        .recipesNavTitleStyle()
                 } else {
                     ScrollView {
                         searchResultView()
                             .padding(.top, Offsets.x2)
+                            .transition(.opacity)
+                            .animation(.easeInOut, value: viewModel.searchResults)
                     }
                 }
             } else {
@@ -61,20 +61,33 @@ extension SearchContentView {
                     .padding(.top, Offsets.x2)
                 
                 ForEach(viewModel.recentSearches.reversed(), id: \.self) { item in
-                    Button {
-                        viewModel.searchText = item
-                    } label: {
-                        Text(item)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, Offsets.x2)
+                    HStack {
+                        Button {
+                            withAnimation {
+                                viewModel.searchText = item
+                            }
+                        } label: {
+                            Text(item)
+                                .recipesTitleStyle()
+                                .padding(.vertical, Offsets.x2)
+                        }
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                viewModel.clearRecentSearches(item)
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundStyle(.red)
+                        }
+                        Divider()
                     }
-                    Divider()
                 }
             }
         }
     }
-    
 }
+
 #Preview {
     SearchContentView(viewModel: HomeViewModel(), onSelectRecipe: {_ in})
 }

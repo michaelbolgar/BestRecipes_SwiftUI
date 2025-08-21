@@ -12,61 +12,83 @@ struct TrendingNowCell: View {
     let recipe: RecipeModel
     
     enum Drawing {
-        static let imageHeight: CGFloat = 180
-        static let imageConrerRadius: CGFloat = 10
+        static let imageHeight: CGFloat = 200
+        static let imageCornerRadius: CGFloat = 10
+        static let cardWidth: CGFloat = 300
+        static let cardHeight: CGFloat = 240
     }
+    
     // MARK: - Body
     var body: some View {
-        VStack(alignment: .leading) {
-            ZStack {
-                AsyncImage(url: recipe.image) { phase in
-                    switch phase {
-                        
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: Drawing.imageHeight)
-                            .clipShape(
-                                RoundedRectangle(cornerRadius: Drawing.imageConrerRadius))
-                    case .failure:
-                        AppImages.mockImage
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: Drawing.imageHeight)
-                            .clipShape(
-                                RoundedRectangle(cornerRadius: Drawing.imageConrerRadius))
-                    case .empty:
-                        ShimmerView(ratio: 1)
-                    @unknown default:
-                        EmptyView()
-                    }
+        VStack(alignment: .leading, spacing: 8) {
+            ZStack(alignment: .bottom) {
+                ZStack {
+                    imageView()
+                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            .black.opacity(0.2),
+                            .black.opacity(0.01)
+                        ]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
                 }
-                RatingView(rating: recipe.spoonacularScore)
+                .frame(height: Drawing.imageHeight)
+                
+                
+                VStack(alignment: .leading, spacing: Offsets.x1) {
+                    RatingView(rating: recipe.spoonacularScore)
+                    TimerView(timer: recipe.readyInMinutes)
+                }
+                .padding(Offsets.x2)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
-                TimerView(timer: recipe.readyInMinutes)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                
                 BookmarkView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                
+                authorView()
             }
-            .frame(height: 180)
-            
+            .clipShape(RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
+            .frame(height: Drawing.imageHeight)
+            // Заголовок фиксированной высоты
+            Text(recipe.title)
+                .font(.custom(AppFont.bold, size: 16))
+                .lineLimit(2)
+                .padding(.top, Offsets.x1)
+        }
+        .frame(width: Drawing.cardWidth, height: Drawing.cardHeight)
+    }
+    
+    // MARK: - Subviews
+    func authorView() -> some View {
+        ZStack {
             HStack {
-                Text(recipe.title)
-                    .font(.custom(AppFont.bold, size: 16))
-            }
-            .padding(.vertical, 12)
-            
-            HStack {
-                Image("mockImage")
-                    .resizable()
-                    .frame(width: 32, height: 32)
-                    .clipShape(Circle())
-                Text(recipe.author)
+                Text("by: \(recipe.author)")
+                    .lineLimit(1)
                     .font(.custom(AppFont.regular, size: 12))
-                    .foregroundStyle(.neutral100)
+                    .foregroundStyle(.appWhite)
+                Spacer()
+            }
+        }
+        .backgroundRatingStyle(cornerRadius: Offsets.x0)
+    }
+    
+    func imageView() -> some View {
+        AsyncImage(url: recipe.image) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+            case .failure:
+                AppImages.mockImage
+                    .resizable()
+                    .scaledToFill()
+            case .empty:
+                ShimmerView()
+            @unknown default:
+                EmptyView()
             }
         }
     }

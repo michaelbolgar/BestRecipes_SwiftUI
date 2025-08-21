@@ -75,7 +75,7 @@ struct SearchRecipeCell: View {
                     .clipShape(
                         RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
             case .empty:
-                ShimmerView(ratio: 1)
+                ShimmerView()
             @unknown default:
                 EmptyView()
             }

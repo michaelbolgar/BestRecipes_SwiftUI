@@ -109,8 +109,8 @@ final class HomeViewModel: ObservableObject {
         recentSearches = searchHistoryService.loadHistory()
     }
     
-    func clearSearchHistory() {
-        searchHistoryService.clearHistory()
-        recentSearches = []
+    func clearRecentSearches(_ query: String) {
+        searchHistoryService.clearRecentSearches(query)
+        recentSearches.removeAll(where: { $0 == query })
     }
 }
