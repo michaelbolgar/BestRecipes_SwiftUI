@@ -17,22 +17,21 @@ struct SearchContentView: View {
         VStack(alignment: .leading, spacing: Offsets.x2) {
             if !viewModel.searchText.isEmpty {
                 // --- РЕЗУЛЬТАТЫ ПОИСКА ---
-                if viewModel.filteredRecipes().isEmpty {
+                if viewModel.searchResults.isEmpty {
                     Text("No results found")
-                        .foregroundStyle(.secondary)
-                        .padding(.top, Offsets.x4)
-                    Spacer()
+                        .recipesNavTitleStyle()
                 } else {
                     ScrollView {
                         searchResultView()
-                        .padding(.top, Offsets.x2)
+                            .padding(.top, Offsets.x2)
+                            .transition(.opacity)
+                            .animation(.easeInOut, value: viewModel.searchResults)
                     }
                 }
             } else {
                 // --- ПОДСКАЗКИ ---
                 ScrollView {
                     recentSearchesView()
-                    suggestionsView()
                 }
             }
         }
@@ -41,72 +40,54 @@ struct SearchContentView: View {
 }
 
 extension SearchContentView {
-//    MARK: - VIEWS
+    //    MARK: - VIEWS
     func searchResultView() -> some View {
-        LazyVStack(alignment: .leading, spacing: Offsets.x3) {
-            ForEach(viewModel.filteredRecipes()) { recipe in
-                Button {
-                    onSelectRecipe(recipe.id)
-                } label: {
-                    HStack {
-                        Text(recipe.title)
-                            .font(.body)
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        AppImages.arrowRight
-                            .foregroundStyle(.secondary)
+        LazyVStack(alignment: .leading, spacing: Offsets.x4) {
+            ForEach(viewModel.searchResults) { recipe in
+                SearchRecipeCell(recipe: recipe)
+                    .onTapGesture {
+                        onSelectRecipe(recipe.id)
                     }
-                    .padding(.vertical, Offsets.x2)
-                }
-                Divider()
             }
         }
     }
     
     func recentSearchesView() -> some View {
-            VStack(alignment: .leading, spacing: Offsets.x3) {
-                if !viewModel.recentSearches.isEmpty {
-                    Text("Recent Searches")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, Offsets.x2)
-                    
-                    ForEach(viewModel.recentSearches.reversed(), id: \.self) { item in
+        VStack(alignment: .leading, spacing: Offsets.x3) {
+            if !viewModel.recentSearches.isEmpty {
+                Text("Recent Searches")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, Offsets.x2)
+                
+                ForEach(viewModel.recentSearches.reversed(), id: \.self) { item in
+                    HStack {
                         Button {
-                            viewModel.searchText = item
+                            withAnimation {
+                                viewModel.searchText = item
+                            }
                         } label: {
                             Text(item)
-                                .foregroundStyle(.primary)
+                                .recipesTitleStyle()
                                 .padding(.vertical, Offsets.x2)
+                        }
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                viewModel.clearRecentSearches(item)
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundStyle(.red)
                         }
                         Divider()
                     }
                 }
             }
-    }
-    
-    func suggestionsView() -> some View {
-        VStack {
-            if !viewModel.getSuggestions().isEmpty {
-                Text("Suggestions")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
-                    .padding(.top, Offsets.x4)
-                
-                ForEach(viewModel.getSuggestions(), id: \.self) { suggestion in
-                    Button {
-                        viewModel.searchText = suggestion
-                    } label: {
-                        Text(suggestion)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, Offsets.x2)
-                    }
-                    Divider()
-                }
-            }
         }
     }
 }
+
 #Preview {
     SearchContentView(viewModel: HomeViewModel(), onSelectRecipe: {_ in})
 }

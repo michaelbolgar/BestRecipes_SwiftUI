@@ -78,7 +78,7 @@ struct RecipeDetailView: View {
       phase in
       switch phase {
       case .empty:
-        ShimmerView(ratio: 1)
+        ShimmerView()
       case .success(let image):
         image.resizable().scaledToFill()
       case .failure:
@@ -132,7 +132,7 @@ struct RecipeDetailView: View {
               .background(Color.white)
               .clipShape(RoundedRectangle(cornerRadius: 8))
           } else {
-            ShimmerView(ratio: 1)
+            ShimmerView()
           }
         }
         .frame(maxWidth: 52)
