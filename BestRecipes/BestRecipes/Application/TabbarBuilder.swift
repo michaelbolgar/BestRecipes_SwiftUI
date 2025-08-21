@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AppCoordinator: View {
+struct TabbarBuilder: View {
     @State private var selectedTab: Tab = .home
 
     var body: some View {
@@ -30,6 +30,6 @@ struct AppCoordinator: View {
 }
 
 #Preview {
-   AppCoordinator()
+   TabbarBuilder()
 }
 
