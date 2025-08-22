@@ -8,6 +8,8 @@
 import Foundation
 
 enum Endpoint {
+     /// Получение рецептов по поисковому запросу
+    case searchRecipes(query: String, number: Int)
     /// Получение популярных рецептов (сортировка по количеству лайков)
     /// - Parameters:
     ///   - number: Максимальное количество возвращаемых рецептов (1-100)
@@ -24,17 +26,29 @@ enum Endpoint {
     /// - Parameters:
     ///   - id: Уникальный идентификатор рецепта
     case getRecipeInformation(id: Int)
+    /// Получение картинки для рецепта
+    /// - Parameters:
+    ///   - imageName: Эндпоинт картинки
+    case getIngredientImage(imageName: String)
     
     var baseURL: String {
         return "https://api.spoonacular.com"
     }
+  
+    var baseImgURL: String {
+      return "https://img.spoonacular.com"
+    }
     
     var path: String {
         switch self {
+        case .searchRecipes:
+            return "/recipes/complexSearch"
         case .popularRecipes, .trendingRecipes:
             return "/recipes/complexSearch"
         case .getRecipeInformation(let id):
             return "/recipes/\(id)/information"
+        case .getIngredientImage(imageName: let imageName):
+            return "/ingredients_100x100/\(imageName)"
         }
     }
     
@@ -42,6 +56,13 @@ enum Endpoint {
         var items = [URLQueryItem(name: "apiKey", value: API.apiKey)]
         
         switch self {
+        case .searchRecipes(let query, let number):
+            items.append(contentsOf: [
+                URLQueryItem(name: "sort", value: "popularity"),
+                URLQueryItem(name: "addRecipeInformation", value: "true"),
+                URLQueryItem(name: "number", value: "\(number)"),
+                URLQueryItem(name: "query", value: "\(query)")
+                ])
         case .popularRecipes(let number, let minLikes, let mealType, let cuisine):
             items.append(contentsOf: [
                 URLQueryItem(name: "sort", value: "popularity"),
@@ -69,8 +90,9 @@ enum Endpoint {
                 URLQueryItem(name: "addRecipeInformation", value: "true")
             ])
             
-        case .getRecipeInformation:
+        case .getRecipeInformation, .getIngredientImage:
            break
+
         }
         
         return items
@@ -78,7 +100,7 @@ enum Endpoint {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .popularRecipes, .trendingRecipes, .getRecipeInformation:
+        case .searchRecipes, .popularRecipes, .trendingRecipes, .getRecipeInformation, .getIngredientImage:
             return .get
         }
     }

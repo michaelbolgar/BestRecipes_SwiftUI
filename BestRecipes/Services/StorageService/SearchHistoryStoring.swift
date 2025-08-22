@@ -11,7 +11,7 @@ import Foundation
 protocol ISearchHistory {
     func loadHistory() -> [String]
     func saveQuery(_ query: String)
-    func clearHistory()
+    func clearRecentSearches(_ query: String)
 }
 
 final class SearchHistoryService: ISearchHistory {
@@ -27,7 +27,7 @@ final class SearchHistoryService: ISearchHistory {
     }
     
     func saveQuery(_ query: String) {
-        guard query.count > 5 else { return }  // сохраняем только длинные
+        guard query.count > 3 else { return }  // сохраняем только длинные
         var history = loadHistory()
         
         // убираем дубликат если он уже есть
@@ -44,7 +44,10 @@ final class SearchHistoryService: ISearchHistory {
         UserDefaults.standard.set(history, forKey: key)
     }
     
-    func clearHistory() {
-        UserDefaults.standard.removeObject(forKey: key)
+    func clearRecentSearches(_ query: String) {
+        var history = loadHistory()
+        history.removeAll {$0 == query }
+        
+        UserDefaults.standard.set(history, forKey: key)
     }
 }
