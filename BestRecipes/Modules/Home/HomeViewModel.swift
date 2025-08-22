@@ -26,6 +26,7 @@ final class HomeViewModel: ObservableObject {
     
     @Published var trendingNowRecipes: [RecipeModel] = []
     @Published var popularCategoryRecipes: [RecipeModel] = []
+    @Published var recentRecipes: [RecentRecipesModel] = []
     @Published var cuisineByCountries: [RecipeModel] = []
     
     @Published var currentCategory: MealType = .mainCourse {

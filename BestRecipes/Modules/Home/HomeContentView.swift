@@ -120,6 +120,8 @@ struct HomeContentView: View {
                     .padding(.top, Offsets.x4)
                 popularViewSection()
                     .padding(.top, Offsets.x4)
+                recentViewSection()
+                    .padding(.top, Offsets.x1)
                 countryPopularViewSection()
                     .padding(.top, Offsets.x4)
                 Spacer()
@@ -185,6 +187,28 @@ struct HomeContentView: View {
             
             PopularCategoriesSection(
                 recipe: viewModel.popularCategoryRecipes,
+                showDetail: { recipeID in
+                    navigationPath.append(Route.recipeDetail(id: recipeID))
+                }
+            )
+            .padding(.top, Offsets.x4)
+        }
+    }
+    
+    private func recentViewSection() -> some View {
+        VStack(alignment: .leading) {
+            SeeAllSectionView(
+                title: SeeAllType.recentRecipe.title,
+                isShowAll: !viewModel.recentRecipes.isEmpty
+            ){
+                navigationPath.append(Route.seeAll(
+                    type: .popularCategories,
+                    items: viewModel.popularCategoryRecipes)
+                )
+            }
+
+            RecentSectionView(
+                recipe: viewModel.recentRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }

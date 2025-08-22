@@ -79,7 +79,7 @@ struct RecentRecipesCell: View {
     RecentRecipesModel(
         id: 4,
         title: "Some Tasty American Food",
-        image: URL(string: "https://spoonacular.com/recipeImages/664823-312x231.jpg")!,
+        imageString: "https://spoonacular.com/recipeImages/664823-312x231.jpg",
         author: "Gordon Ramsay"
     ))
 }

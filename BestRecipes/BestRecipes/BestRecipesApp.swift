@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct BestRecipesApp: App {
     
+    @StateObject private var coreDataManager = CoreDataService()
 
     
     var body: some Scene {
         WindowGroup {
             AppCoordinator()
+                .environmentObject(coreDataManager)
         }
     }
 }
