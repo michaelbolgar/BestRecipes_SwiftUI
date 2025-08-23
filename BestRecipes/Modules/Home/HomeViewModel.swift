@@ -26,6 +26,7 @@ final class HomeViewModel: ObservableObject {
     
     @Published var trendingNowRecipes: [RecipeModel] = []
     @Published var popularCategoryRecipes: [RecipeModel] = []
+    @Published var recentRecipes: [RecentRecipesModel] = []
     @Published var cuisineByCountries: [RecipeModel] = []
     
     @Published var currentCategory: MealType = .mainCourse {
@@ -83,6 +84,11 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    
+    func fetchRecentRecipe(_ recentRecipes: [RecentRecipesModel]) {
+        self.recentRecipes = recentRecipes
+    }
+    
     //    MARK: - Search Methods
     
     // MARK: - Вebounce Search Task
@@ -91,7 +97,7 @@ final class HomeViewModel: ObservableObject {
         currentSearchTask = Task {
             try? await Task.sleep(nanoseconds: 300_000_000)
             guard !Task.isCancelled else { return }
-
+            
             if searchText.count > 2 {
                 await fetchSearchRecipes()
             } else {

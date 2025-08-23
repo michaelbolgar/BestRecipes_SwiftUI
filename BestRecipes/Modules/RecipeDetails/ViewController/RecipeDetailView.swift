@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
   @StateObject var viewModel: RecipeDetailViewModel
+    @EnvironmentObject private var coreDataService: CoreDataService
   @State private var ingredientCheckedStatus: [Int: Bool] = [:]
 
     init(recipeID: Int) {
@@ -39,8 +40,10 @@ struct RecipeDetailView: View {
       }
     }
     .task {
+        viewModel.setCoreDataService(coreDataService)
         await viewModel.fetchRecipeDetails()
     }
+      
     .listStyle(.plain)
     .padding(.horizontal, Offsets.x4)
     .navigationBarBackButtonHidden()

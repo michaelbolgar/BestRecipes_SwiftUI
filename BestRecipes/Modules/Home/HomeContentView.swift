@@ -8,6 +8,8 @@ enum ContentMode: CaseIterable {
 struct HomeContentView: View {
     // MARK: - Properties
     @StateObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var coreDataService: CoreDataService
+    
     @State private var navigationPath = NavigationPath()
     @State private var contentMode: ContentMode = .homeContent
     @State private var isHeaderHidden = false
@@ -41,10 +43,15 @@ struct HomeContentView: View {
                 }
                 .padding(.horizontal, Offsets.x4)
             }
+            
             .task {
                 await viewModel.fetchTrendingNowRecipes()
                 await viewModel.fetchPopularCategoryRecipes()
             }
+            .onReceive(coreDataService.$recentRecipes, perform: { entities in
+                let recentRecepesItems: [RecentRecipesModel] = entities.map { RecentRecipesModel(with: $0)}
+                viewModel.fetchRecentRecipe(recentRecepesItems)
+            })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Route.self) { route in
@@ -120,6 +127,10 @@ struct HomeContentView: View {
                     .padding(.top, Offsets.x4)
                 popularViewSection()
                     .padding(.top, Offsets.x4)
+                if !viewModel.recentRecipes.isEmpty {
+                    recentViewSection()
+                        .padding(.top, Offsets.x1)
+                }
                 countryPopularViewSection()
                     .padding(.top, Offsets.x4)
                 Spacer()
@@ -185,6 +196,29 @@ struct HomeContentView: View {
             
             PopularCategoriesSection(
                 recipe: viewModel.popularCategoryRecipes,
+                showDetail: { recipeID in
+                    navigationPath.append(Route.recipeDetail(id: recipeID))
+                }
+            )
+            .padding(.top, Offsets.x4)
+        }
+    }
+    
+    private func recentViewSection() -> some View {
+        VStack(alignment: .leading) {
+            SeeAllSectionView(
+                title: SeeAllType.recentRecipe.title,
+                isShowAll: !viewModel.recentRecipes.isEmpty
+            ){
+                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
+                navigationPath.append(Route.seeAll(
+                    type: .popularCategories,
+                    items: items)
+                )
+            }
+
+            RecentSectionView(
+                recipe: viewModel.recentRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }

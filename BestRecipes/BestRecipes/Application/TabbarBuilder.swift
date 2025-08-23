@@ -10,6 +10,7 @@ struct TabbarBuilder: View {
                 switch selectedTab {
                 case .home:
                     HomeContentView()
+                    
                 case .savedRecipes:
                     SavedRecipesContentView()
                 case .plus:
