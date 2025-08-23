@@ -44,7 +44,7 @@ struct TrendingNowCell: View {
                 .padding(Offsets.x2)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
-                BookmarkView()
+                BookmarkView(action: { print("bookmark button tapped") })
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 
                 authorView()
