@@ -17,7 +17,7 @@ struct SavedRecipesCell: View {
                 TimerView(timer: "15:10")
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 
-                BookmarkView(action: {print("button tapped")})
+                BookmarkView(action: {_ in print("button tapped")})
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             }
             .frame(height: 180)
