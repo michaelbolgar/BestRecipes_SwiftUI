@@ -10,8 +10,26 @@ protocol RecipesConvertible {
 struct RecentRecipesModel: RecipesConvertible, Identifiable, Equatable, Hashable {
     let id: Int
     let title: String
-    let imageString: String // or image?
+    let imageString: String
     let author: String
+}
+
+extension RecentRecipesModel {
+    init(from detailedRecipe: DetailedRecipe) {
+        self.id = detailedRecipe.id
+        self.title = detailedRecipe.title
+        self.imageString = detailedRecipe.image.absoluteString
+        self.author = detailedRecipe.sourceName
+    }
+}
+
+extension RecentRecipesModel {
+    init(with cordataRecentRecipe: RecentEntity) {
+        self.id = Int(cordataRecentRecipe.id)
+        self.title = cordataRecentRecipe.title ?? ""
+        self.imageString = cordataRecentRecipe.imageString ?? ""
+        self.author = cordataRecentRecipe.author ?? ""
+    }
 }
 
 extension RecentRecipesModel {

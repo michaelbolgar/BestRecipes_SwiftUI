@@ -11,11 +11,11 @@ import SwiftUI
 final class CoreDataService: ObservableObject {
     let viewContext: NSManagedObjectContext
     
-    @Published var resentRecipes: [RecentEntity] = []
+    @Published var recentRecipes: [RecentEntity] = []
     
     init(viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.viewContext = viewContext
-        fetchEvents()
+        fetchResipes()
     }
     
     func saveContext() {
@@ -30,47 +30,41 @@ final class CoreDataService: ObservableObject {
     }
     
     func createRecentRecipe<T: RecipesConvertible>(recipe: T) {
+        
+        let request = RecentEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %d", recipe.id)
+        if let existing = try? viewContext.fetch(request).first {
+            viewContext.delete(existing)
+        }
+        
         let recentEntity = RecentEntity(context: viewContext)
         recentEntity.id = Int64(recipe.id)
         recentEntity.title = recipe.title
-        recentEntity.imageURL = recipe.imageString
+        recentEntity.imageString = recipe.imageString
         recentEntity.author = recipe.author
+        recentEntity.dateAdded = Date()
+        
         saveContext()
-        fetchEvents()
+        fetchResipes()
+        
+        if recentRecipes.count > 10 {
+            let extra = recentRecipes.dropLast(10)
+            extra.forEach { viewContext.delete($0)}
+            saveContext()
+            fetchResipes()
+        }
     }
     
-    func fetchEvents() {
+    func fetchResipes() {
         let request = RecentEntity.fetchRequest()
         let sortDescription = NSSortDescriptor(keyPath: \RecentEntity.id, ascending: true)
         request.sortDescriptors = [sortDescription]
         
         do {
-            resentRecipes = try viewContext.fetch(request)
+            recentRecipes = try viewContext.fetch(request)
         } catch {
             let nserror = error as NSError
-            print("Не удалось получить события: \(nserror), \(nserror.userInfo)")
-        }
-    }
-    
-    func deleteRecipe(_ recipe: RecentEntity) {
-        viewContext.delete(recipe)
-        saveContext()
-        fetchEvents()
-    }
-    
-    func deleteRecipe(id: Int) {
-        let fetchRequest: NSFetchRequest<RecentEntity> = RecentEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
-        do {
-            let recentRecipe = try viewContext.fetch(fetchRequest)
-            for recipe in recentRecipe {
-                viewContext.delete(recipe)
-            }
-            saveContext()
-            fetchEvents()
-        } catch {
-            let nserror = error as NSError
-            print("Ошибка при удалении события: \(nserror), \(nserror.userInfo)")
+            print("Не удалось получить рецепты: \(nserror), \(nserror.userInfo)")
         }
     }
 }

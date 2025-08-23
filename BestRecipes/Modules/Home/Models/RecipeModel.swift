@@ -11,6 +11,17 @@ struct RecipeModel: Identifiable, Equatable, Hashable {
 }
 
 extension RecipeModel {
+    init(from recent: RecentRecipesModel) {
+        self.id = recent.id
+        self.title = recent.title
+        self.image = URL(string: recent.imageString) ?? URL(string: "https://via.placeholder.com/300")!
+        self.author = recent.author
+        self.spoonacularScore = 0
+        self.readyInMinutes = ""
+    }
+}
+
+extension RecipeModel {
     /// Массив моковых рецептов
     static let mockData: [RecipeModel] = [
         RecipeModel(

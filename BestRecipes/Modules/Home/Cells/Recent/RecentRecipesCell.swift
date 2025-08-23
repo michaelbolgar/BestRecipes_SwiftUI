@@ -6,7 +6,7 @@ struct RecentRecipesCell: View {
     let recipe: RecentRecipesModel
 
     enum Constants {
-        static let cellWidth: CGFloat = 125
+        static let cellWidth: CGFloat = 145
         static let cellHeight: CGFloat = 190
         static let cornerRadius: CGFloat = 12
     }
@@ -14,40 +14,53 @@ struct RecentRecipesCell: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            fetchImage()
+            asyncImageView()
             bluring()
             recipeName()
         }
-        .frame(width: Constants.cellWidth, height: 190)
+        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
     }
 
 
     // MARK: Helper methods
-    /// func for fetching Image from UserDefaults
-    private func fetchImage() -> some View {
-        /// uncomment after implementring UserDefault
-        //        if let data = UserDefaults.standard.data(forKey: "recipe"),
-        //               let uiImage = UIImage(data: data.image) {
-        //                Image(uiImage: uiImage)
-        //                    .resizable()
-        //                    .aspectRatio(contentMode: .fill)
-        //                    .frame(width: Constants.cellWidth, height: Constants.cellWidth)
-        //                    .clipped()
-        //                    .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
-        //            } else {
-
-        /// this code must stay here as a default image in case the image can't be fetched
-        shapeImage(image: Image(.testPicture))
-    }
-
-    /// func for shaping given image for RecentRecipe cell
-    private func shapeImage(image: Image) -> some View {
-        image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
-            .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+    private func asyncImageView() -> some View {
+        if let url = URL(string: recipe.imageString) {
+            return AnyView(
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        Color.gray
+                            .opacity(0.3)
+                            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+                            .clipped()
+                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+                    case .failure(_):
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: Constants.cellWidth / 2, height: Constants.cellHeight / 2)
+                            .foregroundColor(.gray)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            )
+        } else {
+            return AnyView(
+                Image(.testPicture)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+            )
+        }
     }
 
     private func bluring() -> some View {
@@ -76,10 +89,12 @@ struct RecentRecipesCell: View {
 
 #Preview {
     RecentRecipesCell(recipe:
-    RecentRecipesModel(
-        id: 4,
-        title: "Some Tasty American Food",
-        imageString: "https://spoonacular.com/recipeImages/664823-312x231.jpg",
-        author: "Gordon Ramsay"
-    ))
+        RecentRecipesModel(
+            id: 4,
+            title: "Some Tasty American Food",
+            imageString: "https://spoonacular.com/recipeImages/664823-312x231.jpg",
+            author: "Gordon Ramsay"
+        )
+    )
 }
+

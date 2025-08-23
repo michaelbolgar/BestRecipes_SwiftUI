@@ -8,6 +8,8 @@ enum ContentMode: CaseIterable {
 struct HomeContentView: View {
     // MARK: - Properties
     @StateObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var coreDataService: CoreDataService
+    
     @State private var navigationPath = NavigationPath()
     @State private var contentMode: ContentMode = .homeContent
     @State private var isHeaderHidden = false
@@ -41,10 +43,15 @@ struct HomeContentView: View {
                 }
                 .padding(.horizontal, Offsets.x4)
             }
+            
             .task {
                 await viewModel.fetchTrendingNowRecipes()
                 await viewModel.fetchPopularCategoryRecipes()
             }
+            .onReceive(coreDataService.$recentRecipes, perform: { entities in
+                let recentRecepesItems: [RecentRecipesModel] = entities.map { RecentRecipesModel(with: $0)}
+                viewModel.fetchRecentRecipe(recentRecepesItems)
+            })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Route.self) { route in
@@ -120,8 +127,10 @@ struct HomeContentView: View {
                     .padding(.top, Offsets.x4)
                 popularViewSection()
                     .padding(.top, Offsets.x4)
-                recentViewSection()
-                    .padding(.top, Offsets.x1)
+                if !viewModel.recentRecipes.isEmpty {
+                    recentViewSection()
+                        .padding(.top, Offsets.x1)
+                }
                 countryPopularViewSection()
                     .padding(.top, Offsets.x4)
                 Spacer()
@@ -201,9 +210,10 @@ struct HomeContentView: View {
                 title: SeeAllType.recentRecipe.title,
                 isShowAll: !viewModel.recentRecipes.isEmpty
             ){
+                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
                 navigationPath.append(Route.seeAll(
                     type: .popularCategories,
-                    items: viewModel.popularCategoryRecipes)
+                    items: items)
                 )
             }
 

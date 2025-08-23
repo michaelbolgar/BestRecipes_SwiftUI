@@ -12,7 +12,6 @@ final class NetworkingService {
         guard let urlRequest = NetworkRouter.buildURLRequest(endpoint) else {
             throw NetworkError.invalidRequest
         }
-        
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
             
             guard let httpResponse = response as? HTTPURLResponse else {
