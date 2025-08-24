@@ -10,17 +10,23 @@ import SwiftUI
 @main
 struct BestRecipesApp: App {
     @StateObject private var coreDataService: CoreDataService = .init()
-//    var body: some Scene {
-//        WindowGroup {
-//            AppCoordinator()
-//        }
-//    }
-
+    
+    init() {
+        registerCoreDataStack() 
+    }
+    
     var body: some Scene {
         WindowGroup {
             StartRouterView()
                 .environmentObject(coreDataService)
                 .preferredColorScheme(.light)
         }
+    }
+    
+    private func registerCoreDataStack() {
+        ValueTransformer.setValueTransformer(
+            DictionaryTransformer(),
+            forName: NSValueTransformerName("DictionaryTransformer")
+        )
     }
 }

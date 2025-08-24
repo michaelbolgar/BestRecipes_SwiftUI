@@ -57,6 +57,7 @@
 		E1F0F6142E5AFC0F00C7CB66 /* ProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */; };
 		E1F0F6152E5AFC2700C7CB66 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F6112E5AF97E00C7CB66 /* ProfileViewModel.swift */; };
 		E1F0F6162E5AFC2C00C7CB66 /* ChangePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F6132E5AFA3B00C7CB66 /* ChangePhotoView.swift */; };
+		E1F0F67E2E5B4FC300C7CB66 /* DictionaryTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F67D2E5B4FC300C7CB66 /* DictionaryTransformer.swift */; };
 		F49E6AAA2E567F0200EA82B4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AA92E567EFE00EA82B4 /* Keys.swift */; };
 		F49E6AAC2E5680E800EA82B4 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AAB2E5680DF00EA82B4 /* UserDefaultsService.swift */; };
 		F49E6AAA2E567F0200EA82B4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AA92E567EFE00EA82B4 /* Keys.swift */; };
@@ -121,6 +122,7 @@
 		E1F0F4C02E57C17300C7CB66 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		E1F0F6112E5AF97E00C7CB66 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		E1F0F6132E5AFA3B00C7CB66 /* ChangePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePhotoView.swift; sourceTree = "<group>"; };
+		E1F0F67D2E5B4FC300C7CB66 /* DictionaryTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTransformer.swift; sourceTree = "<group>"; };
 		F451DFA22E4A7EC400EB0C05 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F451DFB92E4A83D100EB0C05 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SavedRecipesContentView.swift; path = Modules/SavedRecipes/SavedRecipesContentView.swift; sourceTree = SOURCE_ROOT; };
@@ -364,6 +366,7 @@
 		E1F0F4BA2E57BEF000C7CB66 /* CoreDataService */ = {
 			isa = PBXGroup;
 			children = (
+				E1F0F67D2E5B4FC300C7CB66 /* DictionaryTransformer.swift */,
 				E1F0F4C02E57C17300C7CB66 /* PersistenceController.swift */,
 				E1F0F4BB2E57BF7500C7CB66 /* RecipesStorage.xcdatamodeld */,
 				E1F0F4BE2E57BF8F00C7CB66 /* CoreDataService.swift */,
@@ -625,6 +628,7 @@
 				F49E6AAA2E567F0200EA82B4 /* Keys.swift in Sources */,
 				F4B6AEB52E51FB1E0018B316 /* RecentRecipesCell.swift in Sources */,
 				E12D142D2E51CB3F009C587A /* API.swift in Sources */,
+				E1F0F67E2E5B4FC300C7CB66 /* DictionaryTransformer.swift in Sources */,
 				E12D142E2E51CB3F009C587A /* Endpoint.swift in Sources */,
 				F49E6AAC2E5680E800EA82B4 /* UserDefaultsService.swift in Sources */,
 				E12B35C52E4C885300050A82 /* CategoryButtonCell.swift in Sources */,

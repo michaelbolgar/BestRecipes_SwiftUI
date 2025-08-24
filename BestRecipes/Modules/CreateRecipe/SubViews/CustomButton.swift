@@ -12,7 +12,8 @@ struct CustomButton: View {
     var title = ""
     @State private var label = 0
     @State private var showPicker = false
-    @State private var selectedValue = 0
+    @Binding var selectedValue: Int
+    
     let pickerValues = Array(0...1000)
     
     var body: some View {
@@ -54,5 +55,5 @@ struct CustomButton: View {
 }
 
 #Preview {
-    CustomButton(image: "Serves", title: "Serves")
+    CustomButton(image: "Serves", title: "Serves", selectedValue: .constant(4))
 }
