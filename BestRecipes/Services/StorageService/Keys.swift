@@ -5,4 +5,5 @@ enum Keys: String {
     case favoriteRecipes = "favoriteRecipes"
     case recentRecipes = "recentRecipes"
     case searchHistory = "search_history"
+    case favoriteID = "favorite_id"
 }

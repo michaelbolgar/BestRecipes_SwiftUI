@@ -12,9 +12,10 @@ final class HomeViewModel: ObservableObject {
     // MARK: - Properties
     private let networkService: IHomeNetworking
     private let searchHistoryService: ISearchHistory
-    
+    private let userDefaultsService: UserDefaultsService
+
     private var currentSearchTask: Task<Void, Never>?
-    
+
     @Published var searchText: String = "" {
         didSet {
             debounceSearchTask()
@@ -29,7 +30,9 @@ final class HomeViewModel: ObservableObject {
     @Published var popularCategoryRecipes: [RecipeModel] = []
     @Published var recentRecipes: [RecentRecipesModel] = []
     @Published var cuisineByCountries: [RecipeModel] = []
-    
+    private var favorites: Set<Int> = []
+    private var apiRecipes: [RecipeModel] = []
+
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
             Task {
@@ -44,10 +47,14 @@ final class HomeViewModel: ObservableObject {
     // MARK: - Init
     init(
         networkService: IHomeNetworking = HomeNetworking(),
-        searchHistoryService: ISearchHistory = SearchHistoryService()
+        searchHistoryService: ISearchHistory = SearchHistoryService(),
+        userDefaultsService: UserDefaultsService = UserDefaultsServiceImpl()
     ) {
         self.networkService = networkService
         self.searchHistoryService = searchHistoryService
+        self.userDefaultsService = userDefaultsService
+        loadFavorites()
+        print("saved recipes by opening Home: \(favorites)")
     }
     
     // MARK: - Fetch Data
@@ -60,20 +67,23 @@ final class HomeViewModel: ObservableObject {
             self.error = error
         }
     }
-    
+
+    @MainActor
     func fetchTrendingNowRecipes() async {
         do {
-            trendingNowRecipes = try await networkService.fetchTrendingNowRecipes()
+            let recipes = try await networkService.fetchTrendingNowRecipes()
+            self.trendingNowRecipes = recipes
         } catch {
             self.error = error
         }
 
-        /// converting into bookable model
-        DispatchQueue.main.async {
-            self.trendingNowBookable = self.trendingNowRecipes.map { RecipeBookable(recipe: $0) }
+        trendingNowBookable = trendingNowRecipes.map { recipe in
+            var bookable = RecipeBookable(recipe: recipe)
+            bookable.isBookmarked = favorites.contains(recipe.id)
+            return bookable
         }
     }
-    
+
     func fetchPopularCategoryRecipes() async {
         do {
             popularCategoryRecipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
@@ -128,9 +138,20 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: Work with Saved recipes
     func toggleFavorite(for recipeID: Int) {
+        if favorites.contains(recipeID) {
+            favorites.remove(recipeID)
+        } else {
+            favorites.insert(recipeID)
+        }
+        userDefaultsService.saveFavorites(Array(favorites))
+
         if let index = trendingNowBookable.firstIndex(where: { $0.id == recipeID }) {
             trendingNowBookable[index].isBookmarked.toggle()
-            print("Bookmark for \(recipeID) is now \(trendingNowBookable[index].isBookmarked)")
         }
+    }
+
+    private func loadFavorites() {
+        let stored = userDefaultsService.loadFavorites()
+        favorites = Set(stored)
     }
 }
