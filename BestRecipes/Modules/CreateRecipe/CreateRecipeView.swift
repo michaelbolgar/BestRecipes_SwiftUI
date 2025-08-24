@@ -125,16 +125,18 @@ struct CreateRecipeView: View {
     
     // MARK: - Save Recipe Method
     private func saveRecipe() {
-        let dictIngredients = Dictionary(uniqueKeysWithValues: ingredients.map {($0.name, $0.quantity)})
-       coredataService.createCreatedRecipe(
-        title: title,
-        serves: serves,
-        cookTime: cookTime,
-        ingredients: dictIngredients,
-        imageData: selectedImageData
-       )
-        showSavedAlert = true
-        hideKeyboard()
+        if !title.isEmpty {
+            let dictIngredients = Dictionary(uniqueKeysWithValues: ingredients.map {($0.name, $0.quantity)})
+            coredataService.createCreatedRecipe(
+                title: title,
+                serves: serves,
+                cookTime: cookTime,
+                ingredients: dictIngredients,
+                imageData: selectedImageData
+            )
+            showSavedAlert = true
+            hideKeyboard()
+        }
     }
 }
 
