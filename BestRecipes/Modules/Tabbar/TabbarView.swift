@@ -68,7 +68,7 @@ struct TabbarView: View {
     private func plusButton(tab: Tab) -> some View {
         Button {
             withAnimation(.easeInOut) {
-                print("plus tapped")
+                selectedTab = .plus
             }
         } label: {
             ZStack {

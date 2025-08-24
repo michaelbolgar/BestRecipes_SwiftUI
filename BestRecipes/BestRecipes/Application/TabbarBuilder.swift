@@ -10,11 +10,10 @@ struct TabbarBuilder: View {
                 switch selectedTab {
                 case .home:
                     HomeContentView()
-                    
                 case .savedRecipes:
                     SavedRecipesContentView()
                 case .plus:
-                    MockContentView()
+                    CreateRecipeView()
                 case .notification:
                     MockContentView()
                 case .profile:
@@ -32,5 +31,6 @@ struct TabbarBuilder: View {
 
 #Preview {
    TabbarBuilder()
+        .environmentObject(CoreDataService())
 }
 
