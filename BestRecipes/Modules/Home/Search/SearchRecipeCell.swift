@@ -87,6 +87,6 @@ struct SearchRecipeCell: View {
     }
 }
 
-#Preview {
-    SearchRecipeCell(recipe: RecipeModel.popularCategoryMock.first!)
-}
+//#Preview {
+//    SearchRecipeCell(recipe: RecipeFavoritable.popularCategoryMock.first!)
+//}

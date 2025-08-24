@@ -9,8 +9,9 @@ import SwiftUI
 
 struct TrendingNowCell: View {
     // MARK: - Properties
-    let recipe: RecipeModel
-    
+    let recipe: RecipeFavoritable
+    let toggleBookmark: () -> Void
+
     enum Drawing {
         static let imageHeight: CGFloat = 200
         static let imageCornerRadius: CGFloat = 10
@@ -38,13 +39,13 @@ struct TrendingNowCell: View {
                 
                 
                 VStack(alignment: .leading, spacing: Offsets.x1) {
-                    RatingView(rating: recipe.spoonacularScore)
-                    TimerView(timer: recipe.readyInMinutes)
+                    RatingView(rating: recipe.recipeDetails.spoonacularScore)
+                    TimerView(timer: recipe.recipeDetails.readyInMinutes)
                 }
                 .padding(Offsets.x2)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
-                BookmarkView()
+                BookmarkButton(isBookmarked: recipe.isFavorited, action: toggleBookmark)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 
                 authorView()
@@ -52,7 +53,7 @@ struct TrendingNowCell: View {
             .clipShape(RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
             .frame(height: Drawing.imageHeight)
             // Заголовок фиксированной высоты
-            Text(recipe.title)
+            Text(recipe.recipeDetails.title)
                 .font(.custom(AppFont.bold, size: 16))
                 .lineLimit(2)
                 .padding(.top, Offsets.x1)
@@ -64,7 +65,7 @@ struct TrendingNowCell: View {
     func authorView() -> some View {
         ZStack {
             HStack {
-                Text("by: \(recipe.author)")
+                Text("by: \(recipe.recipeDetails.author)")
                     .lineLimit(1)
                     .font(.custom(AppFont.regular, size: 12))
                     .foregroundStyle(.appWhite)
@@ -75,7 +76,7 @@ struct TrendingNowCell: View {
     }
     
     func imageView() -> some View {
-        AsyncImage(url: recipe.image) { phase in
+        AsyncImage(url: recipe.imageURL) { phase in
             switch phase {
             case .success(let image):
                 image
@@ -94,6 +95,6 @@ struct TrendingNowCell: View {
     }
 }
 
-#Preview {
-    TrendingNowCell(recipe: RecipeModel.popularCategoryMock.first!)
-}
+//#Preview {
+//    TrendingNowCell(recipe: Recipe.popularCategoryMock.first!)
+//}
