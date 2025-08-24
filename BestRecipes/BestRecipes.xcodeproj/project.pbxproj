@@ -54,6 +54,11 @@
 		E1F0F4BD2E57BF7500C7CB66 /* RecipesStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F4BB2E57BF7500C7CB66 /* RecipesStorage.xcdatamodeld */; };
 		E1F0F4BF2E57BF8F00C7CB66 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F4BE2E57BF8F00C7CB66 /* CoreDataService.swift */; };
 		E1F0F4C12E57C17300C7CB66 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F4C02E57C17300C7CB66 /* PersistenceController.swift */; };
+		E1F0F6142E5AFC0F00C7CB66 /* ProfileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */; };
+		E1F0F6152E5AFC2700C7CB66 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F6112E5AF97E00C7CB66 /* ProfileViewModel.swift */; };
+		E1F0F6162E5AFC2C00C7CB66 /* ChangePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0F6132E5AFA3B00C7CB66 /* ChangePhotoView.swift */; };
+		F49E6AAA2E567F0200EA82B4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AA92E567EFE00EA82B4 /* Keys.swift */; };
+		F49E6AAC2E5680E800EA82B4 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AAB2E5680DF00EA82B4 /* UserDefaultsService.swift */; };
 		F49E6AAA2E567F0200EA82B4 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AA92E567EFE00EA82B4 /* Keys.swift */; };
 		F49E6AAC2E5680E800EA82B4 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6AAB2E5680DF00EA82B4 /* UserDefaultsService.swift */; };
 		F49E6CCD2E5B3B6E00EA82B4 /* RecipeFavoritable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49E6CCC2E5B3B5500EA82B4 /* RecipeFavoritable.swift */; };
@@ -114,6 +119,8 @@
 		E1F0F4BC2E57BF7500C7CB66 /* RecipesStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RecipesStorage.xcdatamodel; sourceTree = "<group>"; };
 		E1F0F4BE2E57BF8F00C7CB66 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		E1F0F4C02E57C17300C7CB66 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		E1F0F6112E5AF97E00C7CB66 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		E1F0F6132E5AFA3B00C7CB66 /* ChangePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePhotoView.swift; sourceTree = "<group>"; };
 		F451DFA22E4A7EC400EB0C05 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F451DFB92E4A83D100EB0C05 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		F451DFBA2E4A83E900EB0C05 /* SavedRecipesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SavedRecipesContentView.swift; path = Modules/SavedRecipes/SavedRecipesContentView.swift; sourceTree = SOURCE_ROOT; };
@@ -364,6 +371,14 @@
 			path = CoreDataService;
 			sourceTree = "<group>";
 		};
+		E1F0F6122E5AFA2D00C7CB66 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				E1F0F6132E5AFA3B00C7CB66 /* ChangePhotoView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		F451DF992E4A7EC400EB0C05 = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +430,8 @@
 		F451DFB32E4A80CE00EB0C05 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				E1F0F6122E5AFA2D00C7CB66 /* SubViews */,
+				E1F0F6112E5AF97E00C7CB66 /* ProfileViewModel.swift */,
 				F451DFBB2E4A847900EB0C05 /* ProfileContentView.swift */,
 			);
 			path = Profile;
@@ -612,8 +629,10 @@
 				F49E6AAC2E5680E800EA82B4 /* UserDefaultsService.swift in Sources */,
 				E12B35C52E4C885300050A82 /* CategoryButtonCell.swift in Sources */,
 				E17D0C7B2E5518FB00CE0936 /* SearchRecipeCell.swift in Sources */,
+				E1F0F6162E5AFC2C00C7CB66 /* ChangePhotoView.swift in Sources */,
 				F4B6AEB72E51FBB60018B316 /* RecentRecipesModel.swift in Sources */,
 				F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */,
+				E1F0F6152E5AFC2700C7CB66 /* ProfileViewModel.swift in Sources */,
 				E12D141F2E51CB11009C587A /* CurvedTabbarShape.swift in Sources */,
 				E12D14202E51CB11009C587A /* TabbarView.swift in Sources */,
 				E12B35CC2E4C89CE00050A82 /* SeeAllSectionView.swift in Sources */,
@@ -652,6 +671,7 @@
 				DCBE43FF2E4D7510005A37F5 /* RecipeListRow.swift in Sources */,
 				6D2FA36D2E4D64BD000BB6AE /* MealType.swift in Sources */,
 				5E6FA6B02E4E04EC0050C809 /* RecipeDetailViewModell.swift in Sources */,
+				E1F0F6142E5AFC0F00C7CB66 /* ProfileContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

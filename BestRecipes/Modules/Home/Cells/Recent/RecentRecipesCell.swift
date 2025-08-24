@@ -14,7 +14,11 @@ struct RecentRecipesCell: View {
     // MARK: - Body
     var body: some View {
         ZStack {
+            Color(.appBackground)
+                .ignoresSafeArea()
             asyncImageView()
+                .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
             bluring()
             recipeName()
         }
@@ -31,20 +35,15 @@ struct RecentRecipesCell: View {
                     case .empty:
                         Color.gray
                             .opacity(0.3)
-                            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
-                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
                     case .success(let image):
                         image
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
-                            .clipped()
-                            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+                            .scaledToFill()
+
                     case .failure(_):
-                        Image(systemName: "photo")
+                        AppImages.mockImage
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: Constants.cellWidth / 2, height: Constants.cellHeight / 2)
+                            .scaledToFill()
                             .foregroundColor(.gray)
                     @unknown default:
                         EmptyView()
@@ -68,7 +67,7 @@ struct RecentRecipesCell: View {
             Spacer()
             Rectangle()
                 .fill(Color.white.opacity(0.75))
-                .frame(height: Constants.cellHeight / 4)
+                .frame(height: Constants.cellHeight / 3)
                 .blur(radius: 4)
         }
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
@@ -80,9 +79,12 @@ struct RecentRecipesCell: View {
                 .recipesTitleStyle()
                 .lineLimit(2)
                 .minimumScaleFactor(0.9)
+            Text("by \(recipe.author)")
+                .commentStyle()
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
-        .padding(.leading, -Offsets.x4)
         .padding(.bottom, 6)
     }
 }

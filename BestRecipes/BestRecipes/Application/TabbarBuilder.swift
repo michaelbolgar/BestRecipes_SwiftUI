@@ -10,15 +10,14 @@ struct TabbarBuilder: View {
                 switch selectedTab {
                 case .home:
                     HomeContentView()
-                    
                 case .savedRecipes:
                     SavedRecipesContentView()
                 case .plus:
-                    MockContentView()
+                    CreateRecipeView()
                 case .notification:
                     MockContentView()
                 case .profile:
-                    MockContentView()
+                    ProfileContentView()
                 }
             }
             .frame(maxHeight: .infinity, alignment: .center)
@@ -32,5 +31,6 @@ struct TabbarBuilder: View {
 
 #Preview {
    TabbarBuilder()
+        .environmentObject(CoreDataService())
 }
 

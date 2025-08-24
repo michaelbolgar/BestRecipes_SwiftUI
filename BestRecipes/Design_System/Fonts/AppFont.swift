@@ -14,6 +14,7 @@ extension Font {
     static let recipesTitle = Font.custom(AppFont.semibold, size: 12)
     static let recipesMiniTitle = Font.custom(AppFont.semibold, size: 14)
     static let placeholderText = Font.custom(AppFont.regular, size: 14)
+    static let commentText = Font.custom(AppFont.regular, size: 12)
     static let categoryButtonText = Font.custom(AppFont.semibold, size: 16)
 }
 
@@ -29,6 +30,12 @@ extension Text {
     func recipesPlaceholderStyle() -> some View {
         self
             .font(.placeholderText)
+            .foregroundStyle(.neutral30)
+    }
+    
+    func commentStyle() -> some View {
+        self
+            .font(.commentText)
             .foregroundStyle(.neutral30)
     }
     
