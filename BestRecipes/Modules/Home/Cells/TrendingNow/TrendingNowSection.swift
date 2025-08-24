@@ -3,8 +3,9 @@ import SwiftUI
 
 struct TrendingNowSection: View {
     // MARK: - Properties
-    let recipe: [RecipeModel]
+    let recipe: [RecipeFavoritable]
     var showDetail: (Int) -> Void
+    let toggleBookmark: (Int) -> Void
 
     @State private var appearedIndexes: Set<Int> = []
 
@@ -21,7 +22,8 @@ struct TrendingNowSection: View {
                     }
                 } else {
                     ForEach(Array(recipe.enumerated()), id: \.element.id) { index, recipe in
-                        TrendingNowCell(recipe: recipe)
+                        TrendingNowCell(recipe: recipe,
+                                        toggleBookmark: { toggleBookmark(recipe.id)} )
                             .padding(.vertical, Offsets.x2)
                             .opacity(appearedIndexes.contains(index) ? 1 : 0)
                             .scaleEffect(appearedIndexes.contains(index) ? 1 : 0.95)
@@ -41,5 +43,5 @@ struct TrendingNowSection: View {
 }
 
 #Preview {
-    TrendingNowSection(recipe: [], showDetail: {_ in })
+    TrendingNowSection(recipe: [], showDetail: {_ in }, toggleBookmark: {_ in })
 }

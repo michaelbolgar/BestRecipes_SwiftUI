@@ -22,7 +22,7 @@ enum NetworkRouter {
             }
             .map {
                 var request = URLRequest(url: $0)
-                request.addValue(API.apiKey, forHTTPHeaderField: API.header)
+                request.addValue(API.apiKey.rawValue, forHTTPHeaderField: API.header)
                 request.httpMethod = endpoint.httpMethod.rawValue
                 return request
             }

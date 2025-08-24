@@ -12,9 +12,10 @@ final class HomeViewModel: ObservableObject {
     // MARK: - Properties
     private let networkService: IHomeNetworking
     private let searchHistoryService: ISearchHistory
-    
+    private let userDefaultsService: UserDefaultsService
+
     private var currentSearchTask: Task<Void, Never>?
-    
+
     @Published var searchText: String = "" {
         didSet {
             debounceSearchTask()
@@ -23,12 +24,22 @@ final class HomeViewModel: ObservableObject {
     
     @Published var searchResults: [RecipeModel] = []
     @Published var recentSearches: [String] = []
-    
-    @Published var trendingNowRecipes: [RecipeModel] = []
-    @Published var popularCategoryRecipes: [RecipeModel] = []
+
+    /// models for fetching data from API
+    @Published var trendingNowAPIRecipes: [RecipeModel] = []
+    @Published var popularCategoryAPIRecipes: [RecipeModel] = []
+    @Published var cuisineByCountriesAPI: [RecipeModel] = []
+
+    /// models with added 'isFavorited' flag
+    @Published var trendingNowRecipesFavoritable: [RecipeFavoritable] = []
+    @Published var popularCategoryRecipesFavoritable: [RecipeFavoritable] = []
+    @Published var cuisineByCountriesFavoritable: [RecipeFavoritable] = []
+
     @Published var recentRecipes: [RecentRecipesModel] = []
-    @Published var cuisineByCountries: [RecipeModel] = []
-    
+
+    private var apiRecipes: [RecipeModel] = []
+    private var favorites: Set<Int> = []
+
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
             Task {
@@ -36,17 +47,21 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-    
-    @Published var error: Error? = nil
-    
+
     let countries: [Cuisine] = Cuisine.allCases
+    @Published var error: Error? = nil
+
     // MARK: - Init
     init(
         networkService: IHomeNetworking = HomeNetworking(),
-        searchHistoryService: ISearchHistory = SearchHistoryService()
+        searchHistoryService: ISearchHistory = SearchHistoryService(),
+        userDefaultsService: UserDefaultsService = UserDefaultsServiceImpl()
     ) {
         self.networkService = networkService
         self.searchHistoryService = searchHistoryService
+        self.userDefaultsService = userDefaultsService
+        loadFavorites()
+        print("saved recipes by opening Home: \(favorites)")
     }
     
     // MARK: - Fetch Data
@@ -59,28 +74,49 @@ final class HomeViewModel: ObservableObject {
             self.error = error
         }
     }
-    
+
+    @MainActor
     func fetchTrendingNowRecipes() async {
         do {
-            trendingNowRecipes = try await networkService.fetchTrendingNowRecipes()
+            let recipes = try await networkService.fetchTrendingNowRecipes()
+            self.trendingNowAPIRecipes = recipes
         } catch {
             self.error = error
         }
+
+        trendingNowRecipesFavoritable = trendingNowAPIRecipes.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
+            return bookable
+        }
     }
-    
+
     func fetchPopularCategoryRecipes() async {
         do {
-            popularCategoryRecipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
+            let recipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
+            self.popularCategoryAPIRecipes = recipes
         } catch {
             self.error = error
+        }
+
+        popularCategoryRecipesFavoritable = popularCategoryAPIRecipes.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
+            return bookable
         }
     }
     
     func fetchCuisineByCountries(_ currentCountry: Cuisine) async {
         do {
-            cuisineByCountries = try await networkService.fetchCuisineByCountries(currentCountry)
+            cuisineByCountriesAPI = try await networkService.fetchCuisineByCountries(currentCountry)
         } catch {
             self.error = error
+        }
+
+        cuisineByCountriesFavoritable = cuisineByCountriesAPI.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
+            return bookable
         }
     }
     
@@ -88,7 +124,14 @@ final class HomeViewModel: ObservableObject {
     func fetchRecentRecipe(_ recentRecipes: [RecentRecipesModel]) {
         self.recentRecipes = recentRecipes.reversed()
     }
-    
+
+    // пока не используется, нужно приведение моделей
+    func addRecentRecipe(_ recipe: RecentRecipesModel) {
+        recentRecipes.removeAll(where: { $0.id == recipe.id })
+        recentRecipes.insert(recipe, at: 0)
+        // save into coredata
+    }
+
     //    MARK: - Search Methods
     
     // MARK: - Вebounce Search Task
@@ -118,5 +161,40 @@ final class HomeViewModel: ObservableObject {
     func clearRecentSearches(_ query: String) {
         searchHistoryService.clearRecentSearches(query)
         recentSearches.removeAll(where: { $0 == query })
+    }
+
+    // MARK: Work with Favorite recipes
+    /// toggling favorite recipes
+    func toggleFavorite(for recipeID: Int, type: SeeAllType) {
+        if favorites.contains(recipeID) {
+            favorites.remove(recipeID)
+        } else {
+            favorites.insert(recipeID)
+        }
+        userDefaultsService.saveFavorites(Array(favorites))
+
+        switch type {
+        case .trendingNow:
+            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID)
+        case .popularCategories:
+            syncFavorites(in: &popularCategoryRecipesFavoritable, recipeID: recipeID)
+        case .cuisineByCountry:
+            syncFavorites(in: &cuisineByCountriesFavoritable, recipeID: recipeID)
+        case .recentRecipe:
+            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID) // mock
+        }
+    }
+
+    /// func for updating UI (coloring bookmark) in collecions in runtime
+    private func syncFavorites(in collection: inout [RecipeFavoritable], recipeID: Int) {
+        if let index = collection.firstIndex(where: { $0.id == recipeID }) {
+            collection[index].isFavorited = favorites.contains(recipeID)
+        }
+    }
+
+    /// load favorites from UserDefaults
+    private func loadFavorites() {
+        let stored = userDefaultsService.loadFavorites()
+        favorites = Set(stored)
     }
 }

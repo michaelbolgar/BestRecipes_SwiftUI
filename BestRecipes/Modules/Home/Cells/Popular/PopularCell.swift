@@ -10,8 +10,9 @@ import SwiftUI
 struct PopularCell: View {
     
     // MARK: - Properties
-    let recipe: RecipeModel
-    
+    let recipe: RecipeFavoritable
+    let toggleBookmark: () -> Void
+
     enum Drawing {
         static let roundSize: CGFloat = 110
     }
@@ -30,7 +31,7 @@ struct PopularCell: View {
                         .foregroundStyle(.neutral10)
                     
                     VStack {
-                        Text(recipe.title)
+                        Text(recipe.recipeDetails.title)
                             .recipesTitleStyle()
                             .lineLimit(3)
                             .truncationMode(.tail)
@@ -42,11 +43,14 @@ struct PopularCell: View {
                                 Text("Time")
                                     .recipesPlaceholderStyle()
                                 
-                                Text(recipe.readyInMinutes)
+                                Text(recipe.recipeDetails.readyInMinutes)
                                     .recipesTitleStyle()
                             }
                             Spacer()
-                            BookmarkView()
+                            BookmarkButton(isBookmarked: recipe.isFavorited, action: {
+                                print("bookmark button on Popular tapped")
+                                toggleBookmark()
+                            })
                         }
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12)
@@ -60,7 +64,7 @@ struct PopularCell: View {
     
     // MARK: - Helper Methods
     private func roundImageView() -> some View {
-        AsyncImage(url: recipe.image) { phase in
+        AsyncImage(url: recipe.imageURL) { phase in
             switch phase {
             case .empty:
                 ShimmerCircle(size: Drawing.roundSize)
@@ -87,5 +91,5 @@ struct PopularCell: View {
 }
 
 #Preview {
-    PopularCell(recipe: RecipeModel.popularCategoryMock.first!)
+    PopularCell(recipe: RecipeFavoritable.trendingMockBookable.first!, toggleBookmark: {})
 }

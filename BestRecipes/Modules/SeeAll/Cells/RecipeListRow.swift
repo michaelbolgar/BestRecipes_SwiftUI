@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct RecipeListRow: View {
-    let recipe: RecipeModel
+    let recipe: RecipeFavoritable
+    let toggleBookmark: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack {
-                AsyncImage(url: recipe.image) { phase in
+                AsyncImage(url: recipe.imageURL) { phase in
                     switch phase {
                     case .empty:
                         ShimmerView()
@@ -29,18 +30,20 @@ struct RecipeListRow: View {
                 .frame(height: 200)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
 
-                RatingView(rating: recipe.ratingOutOfFive)
+                RatingView(rating: recipe.recipeDetails.ratingOutOfFive)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                BookmarkView()
+                BookmarkButton( isBookmarked: recipe.isFavorited, action: {
+                    toggleBookmark()
+                })
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
-                TimerView(timer: recipe.readyInMinutes)
+                TimerView(timer: recipe.recipeDetails.readyInMinutes)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
             .frame(height: 200)
 
-            Text(recipe.title)
+            Text(recipe.recipeDetails.title)
                 .font(.custom(AppFont.bold, size: 20))
                 .foregroundStyle(.neutral100)
                 .padding(.top, 12)
@@ -51,7 +54,7 @@ struct RecipeListRow: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .clipShape(Circle())
-                Text(recipe.author)
+                Text(recipe.recipeDetails.author)
                     .font(.custom(AppFont.regular, size: 14))
                     .foregroundStyle(.neutral100)
             }
@@ -68,9 +71,9 @@ private extension RecipeModel {
     }
 }
 
-
-#Preview {
-    RecipeListRow(recipe: RecipeModel.mockData[0])
-        .padding()
-        .background(Color.appBackground)
-}
+//
+//#Preview {
+//    RecipeListRow(recipe: RecipeModel.mockData[0])
+//        .padding()
+//        .background(Color.appBackground)
+//}

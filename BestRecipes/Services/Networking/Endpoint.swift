@@ -53,8 +53,8 @@ enum Endpoint {
     }
     
     var queryItems: [URLQueryItem] {
-        var items = [URLQueryItem(name: "apiKey", value: API.apiKey)]
-        
+        var items = [URLQueryItem(name: "apiKey", value: API.apiKey.rawValue)]
+
         switch self {
         case .searchRecipes(let query, let number):
             items.append(contentsOf: [
