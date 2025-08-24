@@ -10,14 +10,8 @@ import Foundation
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
-    @Published var createdRecipes: [RecipeModel] = []
     @Published var userName: String = "Best Recipes"
     @Published var profileImageName: String = ""
     
     init() {}
-    
-    func fetchcreatedRecipes(_ createdRecipes: [RecipeModel]) {
-        self.createdRecipes = createdRecipes
-    }
-    
 }
