@@ -212,7 +212,7 @@ struct HomeContentView: View {
             ){
                 let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
                 navigationPath.append(Route.seeAll(
-                    type: .popularCategories,
+                    type: .recentRecipe,
                     items: items)
                 )
             }
@@ -223,7 +223,6 @@ struct HomeContentView: View {
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
             )
-            .padding(.top, Offsets.x4)
         }
     }
     
@@ -261,4 +260,5 @@ extension HomeContentView {
 
 #Preview {
     HomeContentView()
+        .environmentObject(CoreDataService())
 }
