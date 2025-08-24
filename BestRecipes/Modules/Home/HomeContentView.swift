@@ -210,27 +210,27 @@ struct HomeContentView: View {
         }
     }
     
-    private func recentViewSection() -> some View {
-        VStack(alignment: .leading) {
-            SeeAllSectionView(
-                title: SeeAllType.recentRecipe.title,
-                isShowAll: !viewModel.recentRecipes.isEmpty
-            ){
-                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
-                navigationPath.append(Route.seeAll(
-                    type: .recentRecipe,
-                    items: items)
-                )
-            }
-
-            RecentSectionView(
-                recipe: viewModel.recentRecipes,
-                showDetail: { recipeID in
-                    navigationPath.append(Route.recipeDetail(id: recipeID))
-                }
-            )
-        }
-    }
+//    private func recentViewSection() -> some View {
+//        VStack(alignment: .leading) {
+//            SeeAllSectionView(
+//                title: SeeAllType.recentRecipe.title,
+//                isShowAll: !viewModel.recentRecipes.isEmpty
+//            ){
+//                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
+//                navigationPath.append(Route.seeAll(
+//                    type: .recentRecipe,
+//                    items: items)
+//                )
+//            }
+//
+//            RecentSectionView(
+//                recipe: viewModel.recentRecipes,
+//                showDetail: { recipeID in
+//                    navigationPath.append(Route.recipeDetail(id: recipeID))
+//                }
+//            )
+//        }
+//    }
     
     private func countryPopularViewSection() -> some View {
         VStack(alignment: .leading) {
