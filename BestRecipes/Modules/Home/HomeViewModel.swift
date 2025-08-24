@@ -25,6 +25,7 @@ final class HomeViewModel: ObservableObject {
     @Published var recentSearches: [String] = []
     
     @Published var trendingNowRecipes: [RecipeModel] = []
+    @Published var trendingNowBookable: [RecipeBookable] = []
     @Published var popularCategoryRecipes: [RecipeModel] = []
     @Published var cuisineByCountries: [RecipeModel] = []
     
@@ -64,6 +65,11 @@ final class HomeViewModel: ObservableObject {
             trendingNowRecipes = try await networkService.fetchTrendingNowRecipes()
         } catch {
             self.error = error
+        }
+
+        /// converting into bookable model
+        DispatchQueue.main.async {
+            self.trendingNowBookable = self.trendingNowRecipes.map { RecipeBookable(recipe: $0) }
         }
     }
     
@@ -112,5 +118,13 @@ final class HomeViewModel: ObservableObject {
     func clearRecentSearches(_ query: String) {
         searchHistoryService.clearRecentSearches(query)
         recentSearches.removeAll(where: { $0 == query })
+    }
+
+    // MARK: Work with Saved recipes
+    func toggleFavorite(for recipeID: Int) {
+        if let index = trendingNowBookable.firstIndex(where: { $0.id == recipeID }) {
+            trendingNowBookable[index].isBookmarked.toggle()
+            print("Bookmark for \(recipeID) is now \(trendingNowBookable[index].isBookmarked)")
+        }
     }
 }

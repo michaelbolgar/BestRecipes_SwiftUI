@@ -46,7 +46,7 @@ struct PopularCell: View {
                                     .recipesTitleStyle()
                             }
                             Spacer()
-                            BookmarkView(action: { _ in print("bookmark button tapped") })
+                            BookmarkButton(isBookmarked: false, action: {  print("bookmark button tapped") })
                         }
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12)

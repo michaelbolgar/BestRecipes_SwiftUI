@@ -9,8 +9,9 @@ import SwiftUI
 
 struct TrendingNowCell: View {
     // MARK: - Properties
-    let recipe: RecipeModel
-    
+    let recipe: RecipeBookable
+    let toggleBookmark: () -> Void
+
     enum Drawing {
         static let imageHeight: CGFloat = 200
         static let imageCornerRadius: CGFloat = 10
@@ -38,13 +39,13 @@ struct TrendingNowCell: View {
                 
                 
                 VStack(alignment: .leading, spacing: Offsets.x1) {
-                    RatingView(rating: recipe.spoonacularScore)
-                    TimerView(timer: recipe.readyInMinutes)
+                    RatingView(rating: recipe.recipe.spoonacularScore)
+                    TimerView(timer: recipe.recipe.readyInMinutes)
                 }
                 .padding(Offsets.x2)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
-                BookmarkView(action: { _ in print("bookmark button tapped") })
+                BookmarkButton(isBookmarked: recipe.isBookmarked, action: toggleBookmark)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 
                 authorView()
@@ -64,7 +65,7 @@ struct TrendingNowCell: View {
     func authorView() -> some View {
         ZStack {
             HStack {
-                Text("by: \(recipe.author)")
+                Text("by: \(recipe.recipe.author)")
                     .lineLimit(1)
                     .font(.custom(AppFont.regular, size: 12))
                     .foregroundStyle(.appWhite)
@@ -75,7 +76,7 @@ struct TrendingNowCell: View {
     }
     
     func imageView() -> some View {
-        AsyncImage(url: recipe.image) { phase in
+        AsyncImage(url: recipe.imageURL) { phase in
             switch phase {
             case .success(let image):
                 image
@@ -94,6 +95,6 @@ struct TrendingNowCell: View {
     }
 }
 
-#Preview {
-    TrendingNowCell(recipe: RecipeModel.popularCategoryMock.first!)
-}
+//#Preview {
+//    TrendingNowCell(recipe: Recipe.popularCategoryMock.first!)
+//}

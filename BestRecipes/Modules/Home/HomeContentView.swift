@@ -148,23 +148,26 @@ struct HomeContentView: View {
     
     private func trendingViewSection() -> some View {
         Group {
-            SeeAllSectionView(
-                title: SeeAllType.trendingNow.title,
-                isShowAll: !viewModel.trendingNowRecipes.isEmpty
-            ){
-                navigationPath.append(Route.seeAll(
-                    type: .trendingNow,
-                    items: viewModel.trendingNowRecipes)
-                )
-            }
+//            SeeAllSectionView(
+//                title: SeeAllType.trendingNow.title,
+//                isShowAll: !viewModel.trendingNowRecipes.isEmpty
+//            ){
+//                navigationPath.append(Route.seeAll(
+//                    type: .trendingNow,
+//                    items: viewModel.trendingNowRecipes)
+//                )
+//            }
             
             TrendingNowSection(
-                recipe: viewModel.trendingNowRecipes,
+                recipe: viewModel.trendingNowBookable,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
-                })
+                },
+                toggleBookmark: { recipeID in
+                    viewModel.toggleFavorite(for: recipeID)
+                }
+            )
             .padding(.top, Offsets.x2)
-     
         }
     }
     

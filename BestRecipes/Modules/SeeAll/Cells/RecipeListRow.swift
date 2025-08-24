@@ -32,7 +32,7 @@ struct RecipeListRow: View {
                 RatingView(rating: recipe.ratingOutOfFive)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                BookmarkView( action: { _ in print("bookmark button tapped") })
+                BookmarkButton( isBookmarked: false, action: {  print("bookmark button tapped") })
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
                 TimerView(timer: recipe.readyInMinutes)
