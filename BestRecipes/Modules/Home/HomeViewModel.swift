@@ -86,7 +86,7 @@ final class HomeViewModel: ObservableObject {
     
     
     func fetchRecentRecipe(_ recentRecipes: [RecentRecipesModel]) {
-        self.recentRecipes = recentRecipes
+        self.recentRecipes = recentRecipes.reversed()
     }
     
     //    MARK: - Search Methods
