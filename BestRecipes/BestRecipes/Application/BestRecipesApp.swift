@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct BestRecipesApp: App {
-    
+    @StateObject private var coreDataService: CoreDataService = .init()
 //    var body: some Scene {
 //        WindowGroup {
 //            AppCoordinator()
@@ -19,6 +19,7 @@ struct BestRecipesApp: App {
     var body: some Scene {
         WindowGroup {
             StartRouterView()
+                .environmentObject(coreDataService)
                 .preferredColorScheme(.light)
         }
     }

@@ -12,6 +12,7 @@ struct DetailedRecipe: Decodable {
     let title: String
     let image: URL
     let readyInMinutes: Int
+    var sourceName: String
     let aggregateLikes: Double
     let spoonacularScore: Double
     let analyzedInstructions: [AnalyzedInstruction]
