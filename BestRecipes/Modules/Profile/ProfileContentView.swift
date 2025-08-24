@@ -38,15 +38,13 @@ struct ProfileContentView: View {
                     .recipesTitleStyle()
                     .padding(.top, Offsets.x4)
                 }
-                
                 Text("My recipes:")
                     .recipesMaxTitleStyle()
-                    .padding()
-                
+                    .padding(.horizontal)
                 ScrollView(.vertical, showsIndicators: true) {
                     searchResultView()
                 }
-                .padding()
+                .padding(.horizontal)
             }
             .blur(radius: isChangeUserPhoto ? Drawing.blurRadius : 0)
             // MARK: - Change Photo View

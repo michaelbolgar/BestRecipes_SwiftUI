@@ -42,7 +42,11 @@ struct SearchRecipeCell: View {
                         .font(.categoryButtonText)
                         .foregroundStyle(.appWhite)
                     HStack {
-                        Text("\(recipe.readyInMinutes) Ingredients")
+                        if let ingredients = recipe.ingredients, !ingredients.isEmpty {
+                            Text("\(ingredients.count) Ingredients")
+                        } else {
+                            Text("Not available")
+                        }
                         Text("|")
                         Text(recipe.readyInMinutes)
                     }

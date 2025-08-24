@@ -17,7 +17,7 @@ final class NetworkingService {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.invalidResponse(statusCode: 0)
             }
-            
+            print(httpResponse)
             guard (200...299).contains(httpResponse.statusCode) else {
                 throw NetworkError.invalidResponse(statusCode: httpResponse.statusCode)
             }

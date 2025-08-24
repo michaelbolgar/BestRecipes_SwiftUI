@@ -8,6 +8,7 @@ struct RecipeModel: Identifiable, Equatable, Hashable {
     let author: String
     let spoonacularScore: Double
     let readyInMinutes: String
+    var ingredients: [String : String]? = nil
 }
 
 extension RecipeModel {
@@ -38,6 +39,7 @@ extension RecipeModel {
         } else {
             self.image = URL(string: "https://via.placeholder.com/300")!
         }
+        self.ingredients = created.ingredients
     }
 }
 
