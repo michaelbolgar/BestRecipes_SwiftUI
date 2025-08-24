@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileContentView: View {
     // MARK: - Properties
+    @EnvironmentObject private var coreDataService: CoreDataService
     @StateObject private var viewModel: ProfileViewModel
     @State private var isChangeUserPhoto = false
     @State private var profileImageName = "avatar9"
@@ -35,9 +36,17 @@ struct ProfileContentView: View {
                     .padding()
                 Text(viewModel.userName)
                     .recipesTitleStyle()
-                Spacer()
+                    .padding(.top, Offsets.x4)
                 }
-                Spacer()
+                
+                Text("My recipes:")
+                    .recipesMaxTitleStyle()
+                    .padding()
+                
+                ScrollView(.vertical, showsIndicators: true) {
+                    searchResultView()
+                }
+                .padding()
             }
             .blur(radius: isChangeUserPhoto ? Drawing.blurRadius : 0)
             // MARK: - Change Photo View
@@ -67,7 +76,15 @@ extension ProfileContentView {
             }
     }
     
+    func searchResultView() -> some View {
+        LazyVStack(alignment: .leading, spacing: Offsets.x4) {
+            ForEach(coreDataService.createdRecipes) { recipe in
+                SearchRecipeCell(recipe: recipe)
+            }
+        }
+    }
 }
 #Preview {
     ProfileContentView()
+        .environmentObject(CoreDataService())
 }

@@ -1,5 +1,5 @@
 
-import Foundation
+import SwiftUI
 
 struct RecipeModel: Identifiable, Equatable, Hashable {
     let id: Int
@@ -18,6 +18,26 @@ extension RecipeModel {
         self.author = recent.author
         self.spoonacularScore = 0
         self.readyInMinutes = ""
+    }
+}
+
+extension RecipeModel {
+    init(from created: CreatedRecipeModel) {
+        self.id = created.id.hashValue  
+        self.title = created.title
+        self.author = "You"
+        self.spoonacularScore = 0
+        self.readyInMinutes = "\(created.cookTime) min"
+        
+        if let data = created.imageData,
+           let uiImage = UIImage(data: data) {
+            // если картинка локальная → кладём во временный файл и получаем URL
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).png")
+            try? data.write(to: tempURL)
+            self.image = tempURL
+        } else {
+            self.image = URL(string: "https://via.placeholder.com/300")!
+        }
     }
 }
 

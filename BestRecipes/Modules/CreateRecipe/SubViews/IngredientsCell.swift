@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct IngredientsCell: View {
-    @State private var itemName = ""
-    @State private var quantity = ""
+    @Binding var itemName: String
+    @Binding var quantity: String
     var onDelete: () -> Void
     
     var body: some View {

@@ -9,16 +9,22 @@ import CoreData
 import SwiftUI
 
 final class CoreDataService: ObservableObject {
+    // MARK: - Properties
     let viewContext: NSManagedObjectContext
     
     @Published var recentRecipes: [RecentEntity] = []
+    @Published var createdRecipes: [RecipeModel] = []
     
+    //    MARK: - INIT
     init(viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.viewContext = viewContext
+        
         fetchResipes()
+        fetchCreatedRecipes()
     }
     
-    func saveContext() {
+    //    MARK: - Save Context
+    private func saveContext() {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
@@ -29,8 +35,8 @@ final class CoreDataService: ObservableObject {
         }
     }
     
+    //    MARK: - Recent Recipe
     func createRecentRecipe<T: RecipesConvertible>(recipe: T) {
-        
         let request = RecentEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", recipe.id)
         if let existing = try? viewContext.fetch(request).first {
@@ -67,5 +73,32 @@ final class CoreDataService: ObservableObject {
             print("Не удалось получить рецепты: \(nserror), \(nserror.userInfo)")
         }
     }
-}
+    
+    //    MARK: - Created Recipes
+    func createCreatedRecipe(title: String, serves: Int, cookTime: Int, ingredients: [String:String], imageData: Data? = nil) {
+        let recipe = CreatedRecipeEntity(context: viewContext)
+        recipe.title = title
+        recipe.serves = Int16(serves)
+        recipe.cookTime = Int16(cookTime)
+        recipe.ingredients = ingredients as NSObject
+        recipe.imageData = imageData
+        recipe.dateAdded = Date()
 
+        saveContext()
+        fetchCreatedRecipes()
+    }
+    
+    func fetchCreatedRecipes() {
+        let request = CreatedRecipeEntity.fetchRequest()
+        do {
+            let entities = try viewContext.fetch(request)
+            
+            let createdModels = entities.map { CreatedRecipeModel(entity: $0) }
+            
+            self.createdRecipes = createdModels.map {  RecipeModel(from: $0 )
+            }
+        } catch {
+            print("Fetch created recipes error: \(error)")
+        }
+    }
+}
