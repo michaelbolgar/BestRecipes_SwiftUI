@@ -17,7 +17,7 @@ struct TabbarBuilder: View {
                 case .notification:
                     MockContentView()
                 case .profile:
-                    MockContentView()
+                    ProfileContentView()
                 }
             }
             .frame(maxHeight: .infinity, alignment: .center)
