@@ -10,7 +10,7 @@ import SwiftUI
 struct PopularCell: View {
     
     // MARK: - Properties
-    let recipe: RecipeBookable
+    let recipe: RecipeFavoritable
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -31,7 +31,7 @@ struct PopularCell: View {
                         .foregroundStyle(.neutral10)
                     
                     VStack {
-                        Text(recipe.title)
+                        Text(recipe.recipeDetails.title)
                             .recipesTitleStyle()
                             .lineLimit(3)
                             .truncationMode(.tail)
@@ -43,11 +43,11 @@ struct PopularCell: View {
                                 Text("Time")
                                     .recipesPlaceholderStyle()
                                 
-                                Text(recipe.recipe.readyInMinutes)
+                                Text(recipe.recipeDetails.readyInMinutes)
                                     .recipesTitleStyle()
                             }
                             Spacer()
-                            BookmarkButton(isBookmarked: recipe.isBookmarked, action: {
+                            BookmarkButton(isBookmarked: recipe.isFavorited, action: {
                                 print("bookmark button on Popular tapped")
                                 toggleBookmark()
                             })
@@ -91,5 +91,5 @@ struct PopularCell: View {
 }
 
 #Preview {
-    PopularCell(recipe: RecipeBookable.trendingMockBookable.first!, toggleBookmark: {})
+    PopularCell(recipe: RecipeFavoritable.trendingMockBookable.first!, toggleBookmark: {})
 }

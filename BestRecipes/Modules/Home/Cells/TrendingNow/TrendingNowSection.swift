@@ -3,7 +3,7 @@ import SwiftUI
 
 struct TrendingNowSection: View {
     // MARK: - Properties
-    let recipe: [RecipeBookable]
+    let recipe: [RecipeFavoritable]
     var showDetail: (Int) -> Void
     let toggleBookmark: (Int) -> Void
 

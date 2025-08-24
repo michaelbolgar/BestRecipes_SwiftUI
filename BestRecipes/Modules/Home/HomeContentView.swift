@@ -15,8 +15,8 @@ struct HomeContentView: View {
     @State private var isHeaderHidden = false
     
     enum Route: Hashable {
+        case seeAllNew(type: SeeAllType)
         case recipeDetail(id: Int)
-        case seeAll(type: SeeAllType, items: [RecipeModel])
         case seeAllCuisine(_ items: [Cuisine])
     }
     
@@ -56,19 +56,22 @@ struct HomeContentView: View {
             .navigationBarBackButtonHidden()
             .navigationDestination(for: Route.self) { route in
                 switch route {
+                case .seeAllNew(let type):
+                    SeeAllView(type: type, items: bindingForType(type)) { id in
+                        viewModel.toggleFavorite(for: id, type: type)
+                    }
+
                 case .recipeDetail(let id):
                     RecipeDetailView(recipeID: id)
-                case .seeAll(let type, let items):
-                    SeeAllView(type: type, items: items)
+
                     
                 case .seeAllCuisine(let items):
                     CuisineSeeAll(cuisine: items) { country in
                         Task {
                             await viewModel.fetchCuisineByCountries(country)
                             navigationPath.append(
-                                Route.seeAll(
-                                    type: .cuisineByCountry,
-                                    items: viewModel.cuisineByCountries
+                                Route.seeAllNew(
+                                    type: .cuisineByCountry
                                 )
                             )
                         }
@@ -127,10 +130,10 @@ struct HomeContentView: View {
                     .padding(.top, Offsets.x4)
                 popularViewSection()
                     .padding(.top, Offsets.x4)
-                if !viewModel.recentRecipes.isEmpty {
-                    recentViewSection()
-                        .padding(.top, Offsets.x1)
-                }
+//                if !viewModel.recentRecipes.isEmpty {
+//                    recentViewSection()
+//                        .padding(.top, Offsets.x1)
+//                }
                 countryPopularViewSection()
                     .padding(.top, Offsets.x4)
                 Spacer()
@@ -158,24 +161,23 @@ struct HomeContentView: View {
     }
     
     private func trendingViewSection() -> some View {
-        Group {
-//            SeeAllSectionView(
-//                title: SeeAllType.trendingNow.title,
-//                isShowAll: !viewModel.trendingNowRecipes.isEmpty
-//            ){
-//                navigationPath.append(Route.seeAll(
-//                    type: .trendingNow,
-//                    items: viewModel.trendingNowRecipes)
-//                )
-//            }
+        VStack(alignment: .leading, spacing: .zero) {
+            SeeAllSectionView(
+                title: SeeAllType.trendingNow.title,
+                isShowAll: !viewModel.trendingNowRecipesFavoritable.isEmpty
+            ){
+                navigationPath.append(Route.seeAllNew(
+                    type: .trendingNow)
+                )
+            }
             
             TrendingNowSection(
-                recipe: viewModel.trendingNowBookable,
+                recipe: viewModel.trendingNowRecipesFavoritable,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 },
                 toggleBookmark: { recipeID in
-                    viewModel.toggleFavorite(for: recipeID)
+                    viewModel.toggleFavorite(for: recipeID, type: .trendingNow)
                 }
             )
             .padding(.top, Offsets.x2)
@@ -186,11 +188,10 @@ struct HomeContentView: View {
         VStack(alignment: .leading) {
             SeeAllSectionView(
                 title: SeeAllType.popularCategories.title,
-                isShowAll: !viewModel.trendingNowRecipes.isEmpty
+                isShowAll: !viewModel.popularCategoryRecipesFavoritable.isEmpty
             ){
-                navigationPath.append(Route.seeAll(
-                    type: .popularCategories,
-                    items: viewModel.popularCategoryRecipes)
+                navigationPath.append(Route.seeAllNew(
+                    type: .popularCategories)
                 )
             }
             CategoryButtonCell(onCategorySelected: { category in
@@ -198,37 +199,39 @@ struct HomeContentView: View {
             .padding(.top, Offsets.x1)
             
             PopularCategoriesSection(
-                recipe: viewModel.popularCategoryRecipes,
+                recipe: viewModel.popularCategoryRecipesFavoritable,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
+                }, toggleBookmark: { recipeID in
+                    viewModel.toggleFavorite(for: recipeID, type: .popularCategories)
                 }
             )
             .padding(.top, Offsets.x4)
         }
     }
     
-    private func recentViewSection() -> some View {
-        VStack(alignment: .leading) {
-            SeeAllSectionView(
-                title: SeeAllType.recentRecipe.title,
-                isShowAll: !viewModel.recentRecipes.isEmpty
-            ){
-                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
-                navigationPath.append(Route.seeAll(
-                    type: .popularCategories,
-                    items: items)
-                )
-            }
-
-            RecentSectionView(
-                recipe: viewModel.recentRecipes,
-                showDetail: { recipeID in
-                    navigationPath.append(Route.recipeDetail(id: recipeID))
-                }
-            )
-            .padding(.top, Offsets.x4)
-        }
-    }
+//    private func recentViewSection() -> some View {
+//        VStack(alignment: .leading) {
+//            SeeAllSectionView(
+//                title: SeeAllType.recentRecipe.title,
+//                isShowAll: !viewModel.recentRecipes.isEmpty
+//            ){
+//                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
+//                navigationPath.append(Route.seeAll(
+//                    type: .popularCategories,
+//                    items: items)
+//                )
+//            }
+//
+//            RecentSectionView(
+//                recipe: viewModel.recentRecipes,
+//                showDetail: { recipeID in
+//                    navigationPath.append(Route.recipeDetail(id: recipeID))
+//                }
+//            )
+//            .padding(.top, Offsets.x4)
+//        }
+//    }
     
     private func countryPopularViewSection() -> some View {
         VStack(alignment: .leading) {
@@ -245,9 +248,8 @@ struct HomeContentView: View {
                 showSeeAll: { country in
                     Task {
                         await viewModel.fetchCuisineByCountries(country)
-                        navigationPath.append(Route.seeAll(
-                            type: .cuisineByCountry,
-                            items: viewModel.cuisineByCountries
+                        navigationPath.append(Route.seeAllNew(
+                            type: .cuisineByCountry
                         ))
                     }
                 }
@@ -259,6 +261,21 @@ struct HomeContentView: View {
 extension HomeContentView {
     enum constText {
         static let hederText: String = "Get amazing recipes for cooking"
+    }
+}
+
+extension HomeContentView {
+    private func bindingForType(_ type: SeeAllType) -> Binding<[RecipeFavoritable]> {
+        switch type {
+        case .trendingNow:
+            return $viewModel.trendingNowRecipesFavoritable
+        case .popularCategories:
+            return $viewModel.popularCategoryRecipesFavoritable
+        case .cuisineByCountry:
+            return $viewModel.cuisineByCountriesFavoritable
+        case .recentRecipe:
+            return $viewModel.popularCategoryRecipesFavoritable //mock
+        }
     }
 }
 

@@ -24,14 +24,20 @@ final class HomeViewModel: ObservableObject {
     
     @Published var searchResults: [RecipeModel] = []
     @Published var recentSearches: [String] = []
-    
-    @Published var trendingNowRecipes: [RecipeModel] = []
-    @Published var trendingNowBookable: [RecipeBookable] = []
-    @Published var popularCategoryRecipes: [RecipeModel] = []
+
+    /// models for fetching data from API
+    @Published var trendingNowAPIRecipes: [RecipeModel] = []
+    @Published var popularCategoryAPIRecipes: [RecipeModel] = []
+    @Published var cuisineByCountriesAPI: [RecipeModel] = []
     @Published var recentRecipes: [RecentRecipesModel] = []
-    @Published var cuisineByCountries: [RecipeModel] = []
-    private var favorites: Set<Int> = []
+
+    /// models with added 'isFavorited' flag
+    @Published var trendingNowRecipesFavoritable: [RecipeFavoritable] = []
+    @Published var popularCategoryRecipesFavoritable: [RecipeFavoritable] = []
+    @Published var cuisineByCountriesFavoritable: [RecipeFavoritable] = []
+
     private var apiRecipes: [RecipeModel] = []
+    private var favorites: Set<Int> = []
 
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
@@ -72,31 +78,44 @@ final class HomeViewModel: ObservableObject {
     func fetchTrendingNowRecipes() async {
         do {
             let recipes = try await networkService.fetchTrendingNowRecipes()
-            self.trendingNowRecipes = recipes
+            self.trendingNowAPIRecipes = recipes
         } catch {
             self.error = error
         }
 
-        trendingNowBookable = trendingNowRecipes.map { recipe in
-            var bookable = RecipeBookable(recipe: recipe)
-            bookable.isBookmarked = favorites.contains(recipe.id)
+        trendingNowRecipesFavoritable = trendingNowAPIRecipes.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
             return bookable
         }
     }
 
     func fetchPopularCategoryRecipes() async {
         do {
-            popularCategoryRecipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
+            let recipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
+            self.popularCategoryAPIRecipes = recipes
         } catch {
             self.error = error
+        }
+
+        popularCategoryRecipesFavoritable = popularCategoryAPIRecipes.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
+            return bookable
         }
     }
     
     func fetchCuisineByCountries(_ currentCountry: Cuisine) async {
         do {
-            cuisineByCountries = try await networkService.fetchCuisineByCountries(currentCountry)
+            cuisineByCountriesAPI = try await networkService.fetchCuisineByCountries(currentCountry)
         } catch {
             self.error = error
+        }
+
+        cuisineByCountriesFavoritable = cuisineByCountriesAPI.map { recipe in
+            var bookable = RecipeFavoritable(recipeDetails: recipe)
+            bookable.isFavorited = favorites.contains(recipe.id)
+            return bookable
         }
     }
     
@@ -136,8 +155,8 @@ final class HomeViewModel: ObservableObject {
         recentSearches.removeAll(where: { $0 == query })
     }
 
-    // MARK: Work with Saved recipes
-    func toggleFavorite(for recipeID: Int) {
+    // MARK: Work with Favorite recipes
+    func toggleFavorite(for recipeID: Int, type: SeeAllType) {
         if favorites.contains(recipeID) {
             favorites.remove(recipeID)
         } else {
@@ -145,10 +164,25 @@ final class HomeViewModel: ObservableObject {
         }
         userDefaultsService.saveFavorites(Array(favorites))
 
-        if let index = trendingNowBookable.firstIndex(where: { $0.id == recipeID }) {
-            trendingNowBookable[index].isBookmarked.toggle()
+        switch type {
+        case .trendingNow:
+            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID)
+        case .popularCategories:
+            syncFavorites(in: &popularCategoryRecipesFavoritable, recipeID: recipeID)
+        case .cuisineByCountry:
+            syncFavorites(in: &cuisineByCountriesFavoritable, recipeID: recipeID)
+        case .recentRecipe:
+            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID) // mock
         }
     }
+
+    /// func for updating UI (coloring bookmark) in collecions in runtime
+    private func syncFavorites(in collection: inout [RecipeFavoritable], recipeID: Int) {
+        if let index = collection.firstIndex(where: { $0.id == recipeID }) {
+            collection[index].isFavorited = favorites.contains(recipeID)
+        }
+    }
+
 
     private func loadFavorites() {
         let stored = userDefaultsService.loadFavorites()

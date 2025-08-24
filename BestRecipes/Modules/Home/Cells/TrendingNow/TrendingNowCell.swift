@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TrendingNowCell: View {
     // MARK: - Properties
-    let recipe: RecipeBookable
+    let recipe: RecipeFavoritable
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -39,13 +39,13 @@ struct TrendingNowCell: View {
                 
                 
                 VStack(alignment: .leading, spacing: Offsets.x1) {
-                    RatingView(rating: recipe.recipe.spoonacularScore)
-                    TimerView(timer: recipe.recipe.readyInMinutes)
+                    RatingView(rating: recipe.recipeDetails.spoonacularScore)
+                    TimerView(timer: recipe.recipeDetails.readyInMinutes)
                 }
                 .padding(Offsets.x2)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
-                BookmarkButton(isBookmarked: recipe.isBookmarked, action: toggleBookmark)
+                BookmarkButton(isBookmarked: recipe.isFavorited, action: toggleBookmark)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 
                 authorView()
@@ -53,7 +53,7 @@ struct TrendingNowCell: View {
             .clipShape(RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
             .frame(height: Drawing.imageHeight)
             // Заголовок фиксированной высоты
-            Text(recipe.title)
+            Text(recipe.recipeDetails.title)
                 .font(.custom(AppFont.bold, size: 16))
                 .lineLimit(2)
                 .padding(.top, Offsets.x1)
@@ -65,7 +65,7 @@ struct TrendingNowCell: View {
     func authorView() -> some View {
         ZStack {
             HStack {
-                Text("by: \(recipe.recipe.author)")
+                Text("by: \(recipe.recipeDetails.author)")
                     .lineLimit(1)
                     .font(.custom(AppFont.regular, size: 12))
                     .foregroundStyle(.appWhite)

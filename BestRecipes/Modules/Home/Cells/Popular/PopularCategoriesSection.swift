@@ -4,7 +4,7 @@ import SwiftUI
 
 struct PopularCategoriesSection: View {
     // MARK: - Properties
-    let recipe: [RecipeBookable]
+    let recipe: [RecipeFavoritable]
     var showDetail: (Int) -> Void
     let toggleBookmark: (Int) -> Void
 
@@ -31,5 +31,5 @@ struct PopularCategoriesSection: View {
 }
 
 #Preview {
-    PopularCategoriesSection(recipe: RecipeBookable.trendingMockBookable, showDetail: {_ in }, toggleBookmark: {_ in })
+    PopularCategoriesSection(recipe: RecipeFavoritable.trendingMockBookable, showDetail: {_ in }, toggleBookmark: {_ in })
 }
