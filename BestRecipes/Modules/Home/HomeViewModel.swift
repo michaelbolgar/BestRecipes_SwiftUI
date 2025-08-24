@@ -29,12 +29,13 @@ final class HomeViewModel: ObservableObject {
     @Published var trendingNowAPIRecipes: [RecipeModel] = []
     @Published var popularCategoryAPIRecipes: [RecipeModel] = []
     @Published var cuisineByCountriesAPI: [RecipeModel] = []
-    @Published var recentRecipes: [RecentRecipesModel] = []
 
     /// models with added 'isFavorited' flag
     @Published var trendingNowRecipesFavoritable: [RecipeFavoritable] = []
     @Published var popularCategoryRecipesFavoritable: [RecipeFavoritable] = []
     @Published var cuisineByCountriesFavoritable: [RecipeFavoritable] = []
+
+    @Published var recentRecipes: [RecentRecipesModel] = []
 
     private var apiRecipes: [RecipeModel] = []
     private var favorites: Set<Int> = []
@@ -46,10 +47,10 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-    
-    @Published var error: Error? = nil
-    
+
     let countries: [Cuisine] = Cuisine.allCases
+    @Published var error: Error? = nil
+
     // MARK: - Init
     init(
         networkService: IHomeNetworking = HomeNetworking(),
@@ -123,7 +124,14 @@ final class HomeViewModel: ObservableObject {
     func fetchRecentRecipe(_ recentRecipes: [RecentRecipesModel]) {
         self.recentRecipes = recentRecipes.reversed()
     }
-    
+
+    // пока не используется, нужно приведение моделей
+    func addRecentRecipe(_ recipe: RecentRecipesModel) {
+        recentRecipes.removeAll(where: { $0.id == recipe.id })
+        recentRecipes.insert(recipe, at: 0)
+        // save into coredata
+    }
+
     //    MARK: - Search Methods
     
     // MARK: - Вebounce Search Task
@@ -156,6 +164,7 @@ final class HomeViewModel: ObservableObject {
     }
 
     // MARK: Work with Favorite recipes
+    /// toggling favorite recipes
     func toggleFavorite(for recipeID: Int, type: SeeAllType) {
         if favorites.contains(recipeID) {
             favorites.remove(recipeID)
@@ -183,7 +192,7 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-
+    /// load favorites from UserDefaults
     private func loadFavorites() {
         let stored = userDefaultsService.loadFavorites()
         favorites = Set(stored)
