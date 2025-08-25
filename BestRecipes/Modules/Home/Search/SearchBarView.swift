@@ -19,6 +19,7 @@ struct SearchBarView: View {
     
     enum Drawing {
         static let placeholderText = "Search recipes"
+        static let cancelText = "Cancel"
     }
     
     // MARK: - Body
@@ -62,7 +63,7 @@ struct SearchBarView: View {
             }
             if isFocused {
                 MiniRedButton(
-                    title: "Cancel") {
+                    title: Drawing.cancelText) {
                         withAnimation {
                             isFocused = false
                             searchText = ""
