@@ -5,26 +5,37 @@ struct SavedRecipesContentView: View {
     @State private var navigationPath = NavigationPath()
 
     var body: some View {
-        NavigationStack {
-            List(viewModel.savedRecipes) { recipe in
-                NavigationLink(destination: RecipeDetailView(recipeID: recipe.id)) {
-                    SavedRecipesCell(
-                        recipe: recipe,
-                        toggleBookmark: {
-                            viewModel.toggleFavorite(for: recipe.id)
+        NavigationStack(path: $navigationPath) {
+            ScrollView {
+                VStack(spacing: Offsets.x3) {
+                    ForEach(viewModel.savedRecipes) { recipe in
+                        SavedRecipesCell(
+                            recipe: recipe,
+                            toggleBookmark: {
+                                viewModel.toggleFavorite(for: recipe.id)
+                            }
+                        )
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            navigationPath.append(recipe.id)
                         }
-                    )
-                    .contentShape(Rectangle())
+                        .frame(maxWidth: .infinity)
+                    }
                 }
-                .buttonStyle(.plain)
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
             }
-            .listStyle(.plain)
             .navigationTitle("Saved recipes")
+            .navigationDestination(for: Int.self) { recipeID in
+                RecipeDetailView(recipeID: recipeID)
+            }
         }
     }
 }
+//                .buttonStyle(.plain)
+//                .listRowInsets(EdgeInsets())
+//                .listRowSeparator(.hidden)
+//            }
+//            .listStyle(.plain)
+//            .navigationTitle("Saved recipes")
 
 
 
