@@ -9,7 +9,7 @@ struct SavedRecipesContentView: View {
                 ForEach(viewModel.savedRecipes) { recipe in
                     SavedRecipesCell(
                         recipe: recipe,
-                        toggleFavorite: {
+                        toggleBookmark: {
                             viewModel.toggleFavorite(for: recipe.id)
                         }
                     )

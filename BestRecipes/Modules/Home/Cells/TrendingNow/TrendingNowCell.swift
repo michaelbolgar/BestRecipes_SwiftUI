@@ -95,6 +95,6 @@ struct TrendingNowCell: View {
     }
 }
 
-//#Preview {
-//    TrendingNowCell(recipe: Recipe.popularCategoryMock.first!)
-//}
+#Preview {
+    TrendingNowCell(recipe: RecipeFavoritable.popularCategoryMock.first!, toggleBookmark: {} )
+}
