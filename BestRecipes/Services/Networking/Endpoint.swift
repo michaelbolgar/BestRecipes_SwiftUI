@@ -92,7 +92,6 @@ enum Endpoint {
             
         case .getRecipeInformation, .getIngredientImage:
            break
-
         }
         
         return items
