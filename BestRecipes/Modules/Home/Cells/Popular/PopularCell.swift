@@ -33,7 +33,7 @@ struct PopularCell: View {
                     VStack {
                         Text(recipe.recipeDetails.title)
                             .recipesTitleStyle()
-                            .lineLimit(3)
+                            .lineLimit(2)
                             .truncationMode(.tail)
                             .multilineTextAlignment(.center)
                             .minimumScaleFactor(0.9)
@@ -54,7 +54,7 @@ struct PopularCell: View {
                         }
                         .padding(.leading, Offsets.x3)
                         .padding(.trailing, Offsets.x1)
-                        .padding(.bottom, Offsets.x3)
+                        .padding(.bottom, Offsets.x2)
                     }
                 }
             }

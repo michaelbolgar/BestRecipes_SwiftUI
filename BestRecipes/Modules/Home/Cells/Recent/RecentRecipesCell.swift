@@ -81,8 +81,8 @@ struct RecentRecipesCell: View {
                 .minimumScaleFactor(0.9)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-        .padding(.horizontal, 4)
-        .padding(.bottom, 4)
+        .padding(.horizontal, Offsets.x1)
+        .padding(.bottom, Offsets.x1)
     }
 }
 
