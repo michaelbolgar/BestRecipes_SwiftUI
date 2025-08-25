@@ -31,7 +31,7 @@ struct HomeContentView: View {
             ZStack(alignment: .top) {
                 Color(.appBackground)
                     .ignoresSafeArea(.all)
-                VStack(spacing: Offsets.x0) {
+                VStack(spacing: Offsets.x2) {
                     hederView(searchText: $viewModel.searchText)
                     
                     switch contentMode {
@@ -127,15 +127,15 @@ struct HomeContentView: View {
             .frame(height: 0)
             VStack(spacing: Offsets.x0) {
                 trendingViewSection()
-                    .padding(.top, Offsets.x4)
+                    .padding(.top, -Offsets.x2)
                 popularViewSection()
                     .padding(.top, Offsets.x4)
                 if !viewModel.recentRecipes.isEmpty {
                     recentViewSection()
-                        .padding(.top, Offsets.x1)
+                        .padding(.top, Offsets.x4)
                 }
                 countryPopularViewSection()
-                    .padding(.top, Offsets.x4)
+                    .padding(.top, Offsets.x2)
                 Spacer()
             }
             .padding(.top, Offsets.x4)
@@ -183,7 +183,7 @@ struct HomeContentView: View {
                     viewModel.toggleFavorite(for: recipeID, type: .trendingNow)
                 }
             )
-            .padding(.top, Offsets.x2)
+            .padding(.top, Offsets.x0)
         }
     }
     
@@ -199,8 +199,8 @@ struct HomeContentView: View {
             }
             CategoryButtonCell(onCategorySelected: { category in
                 viewModel.currentCategory = category})
-            .padding(.top, Offsets.x1)
-            
+            .padding(.top, -Offsets.x2)
+
             PopularCategoriesSection(
                 recipe: viewModel.popularCategoryRecipesFavoritable,
                 showDetail: { recipeID in
@@ -231,6 +231,7 @@ struct HomeContentView: View {
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }
             )
+            .padding(.top, -Offsets.x2)
         }
     }
     
@@ -255,6 +256,7 @@ struct HomeContentView: View {
                     }
                 }
             )
+            .padding(.top, -Offsets.x2)
         }
     }
 }

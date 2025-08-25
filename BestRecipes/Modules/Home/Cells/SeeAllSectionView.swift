@@ -25,7 +25,7 @@ struct SeeAllSectionView: View {
                 HStack(spacing: Offsets.x0 ) {
                     Text("See All")
                         .recipesSeeAllTextStyle()
-                        .padding(.trailing, Offsets.x3)
+                        .padding(.trailing, Offsets.x1)
                     AppImages.arrowRight
                         .foregroundStyle(.neutral100)
                 }
