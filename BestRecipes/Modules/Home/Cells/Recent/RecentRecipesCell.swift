@@ -67,7 +67,7 @@ struct RecentRecipesCell: View {
             Spacer()
             Rectangle()
                 .fill(Color.white.opacity(0.75))
-                .frame(height: Constants.cellHeight / 3)
+                .frame(height: Constants.cellHeight / 4)
                 .blur(radius: 4)
         }
         .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
@@ -79,13 +79,10 @@ struct RecentRecipesCell: View {
                 .recipesTitleStyle()
                 .lineLimit(2)
                 .minimumScaleFactor(0.9)
-            Text("by \(recipe.author)")
-                .commentStyle()
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
         }
-        .frame(maxHeight: .infinity, alignment: .bottom)
-        .padding(.bottom, 6)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+        .padding(.horizontal, 4)
+        .padding(.bottom, 4)
     }
 }
 
