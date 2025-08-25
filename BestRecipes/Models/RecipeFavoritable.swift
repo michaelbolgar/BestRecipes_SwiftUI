@@ -6,5 +6,8 @@ struct RecipeFavoritable: Identifiable, Equatable, Hashable {
 
     var isFavorited: Bool = false
     var id: Int { recipeDetails.id }
+    var title: String { recipeDetails.title }
     var imageURL: URL { recipeDetails.image }
+    var readyInMinutes: String { recipeDetails.readyInMinutes }
+    var author: String { recipeDetails.author }
 }

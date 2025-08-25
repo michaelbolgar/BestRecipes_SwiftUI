@@ -12,24 +12,24 @@ final class NetworkingService {
         guard let urlRequest = NetworkRouter.buildURLRequest(endpoint) else {
             throw NetworkError.invalidRequest
         }
-            let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw NetworkError.invalidResponse(statusCode: 0)
-            }
-        
-            guard (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkError.invalidResponse(statusCode: httpResponse.statusCode)
-            }
-      
-            if let resultData = data as? T {
-                return resultData
-            }
-      
-            do {
-                return try JSONDecoder().decode(T.self, from: data)
-            } catch {
-                throw NetworkError.decodingFailed(error)
-            }
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse(statusCode: 0)
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.invalidResponse(statusCode: httpResponse.statusCode)
+        }
+
+        if let resultData = data as? T {
+            return resultData
+        }
+
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            throw NetworkError.decodingFailed(error)
+        }
     }
 }
