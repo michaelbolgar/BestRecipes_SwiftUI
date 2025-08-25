@@ -39,11 +39,18 @@ final class HomeViewModel: ObservableObject {
 
     private var apiRecipes: [RecipeModel] = []
     private var favorites: Set<Int> = []
+    
+    private var isLoading = false
 
+    // MARK: Pagination
+     private var trendingPage = 0
+     private var popularPage = 0
+     private let perPage = 10
+    
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
             Task {
-                await  fetchPopularCategoryRecipes()
+                await resetPopularRecipes()
             }
         }
     }
@@ -75,11 +82,21 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    @MainActor
-    func fetchTrendingNowRecipes() async {
+    // MARK: - Trending (with pagination)
+    func fetchTrendingNowRecipes(loadMore: Bool = false) async {
+        guard !isLoading else { return }
+        isLoading = true
+        
+        
+        if !loadMore {
+            trendingPage = 0
+            trendingNowAPIRecipes.removeAll()
+        }
+        
         do {
-            let recipes = try await networkService.fetchTrendingNowRecipes()
-            self.trendingNowAPIRecipes = recipes
+            let recipes = try await networkService.fetchTrendingNowRecipes(page: trendingPage, perPage: perPage)
+            trendingNowAPIRecipes.append(contentsOf: recipes.recipes)
+            trendingPage += 1
         } catch {
             self.error = error
         }
@@ -89,12 +106,27 @@ final class HomeViewModel: ObservableObject {
             bookable.isFavorited = favorites.contains(recipe.id)
             return bookable
         }
+        isLoading = false
     }
 
-    func fetchPopularCategoryRecipes() async {
+    // MARK: - Popular (with pagination)
+    func fetchPopularCategoryRecipes(loadMore: Bool = false) async {
+        guard !isLoading else { return }
+        isLoading = true
+
+        if !loadMore {
+            popularPage = 0
+            popularCategoryAPIRecipes.removeAll()
+        }
+
         do {
-            let recipes = try await networkService.fetchPopularCategoryRecipes(currentCategory)
-            self.popularCategoryAPIRecipes = recipes
+            let result = try await networkService.fetchPopularCategoryRecipes(
+                currentCategory,
+                page: popularPage,
+                perPage: perPage
+            )
+            popularCategoryAPIRecipes.append(contentsOf: result.recipes)
+            popularPage += 1
         } catch {
             self.error = error
         }
@@ -104,6 +136,12 @@ final class HomeViewModel: ObservableObject {
             bookable.isFavorited = favorites.contains(recipe.id)
             return bookable
         }
+        isLoading = false
+    }
+    
+    // MARK: - Reset on category change
+    private func resetPopularRecipes() async {
+        await fetchPopularCategoryRecipes(loadMore: false)
     }
     
     func fetchCuisineByCountries(_ currentCountry: Cuisine) async {

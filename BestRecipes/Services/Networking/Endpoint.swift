@@ -16,12 +16,12 @@ enum Endpoint {
     ///   - minLikes: Минимальное количество лайков (по умолчанию 100)
     ///   - mealType: Тип блюда (например, "breakfast", "salad"), опционально
     ///   - cuisine: Кухня (например, "Italian", "Mexican"), опционально
-    case popularRecipes(number: Int, minLikes: Int = 100, mealType: MealType? = nil, cuisine: Cuisine? = nil)
+    case popularRecipes(number: Int, offset: Int = 0, minLikes: Int = 100, mealType: MealType? = nil, cuisine: Cuisine? = nil)
     /// Получение трендовых рецептов (сортировка по дате добавления)
     /// - Parameters:
     ///   - number: Максимальное количество возвращаемых рецептов (1-100)
     ///   - days: За последнее количество дней (по умолчанию 7)
-    case trendingRecipes(number: Int, days: Int = 7)
+    case trendingRecipes(number: Int, offset: Int = 0, days: Int = 7)
     /// Получение детальной информации о конкретном рецепте
     /// - Parameters:
     ///   - id: Уникальный идентификатор рецепта
@@ -63,12 +63,14 @@ enum Endpoint {
                 URLQueryItem(name: "number", value: "\(number)"),
                 URLQueryItem(name: "query", value: "\(query)")
                 ])
-        case .popularRecipes(let number, let minLikes, let mealType, let cuisine):
+            
+        case .popularRecipes(let number, let offset, let minLikes, let mealType, let cuisine):
             items.append(contentsOf: [
-                URLQueryItem(name: "sort", value: "popularity"),
-                URLQueryItem(name: "number", value: "\(number)"),
-                URLQueryItem(name: "minLikes", value: "\(minLikes)"),
-                URLQueryItem(name: "addRecipeInformation", value: "true")
+                .init(name: "sort", value: "popularity"),
+                .init(name: "number", value: "\(number)"),
+                .init(name: "offset", value: "\(offset)"),
+                .init(name: "minLikes", value: "\(minLikes)"),
+                .init(name: "addRecipeInformation", value: "true")
             ])
             
             if let mealType = mealType {
@@ -78,16 +80,19 @@ enum Endpoint {
                 items.append(URLQueryItem(name: "cuisine", value: cuisine.rawValue))
             }
             
-        case .trendingRecipes(let number, let days):
+        case .trendingRecipes(let number, let offset, let days):
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            let dateString = dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -days, to: Date())!)
+            let dateString = dateFormatter.string(
+                from: Calendar.current.date(byAdding: .day, value: -days, to: Date())!
+            )
             
             items.append(contentsOf: [
-                URLQueryItem(name: "sort", value: "date"),
-                URLQueryItem(name: "number", value: "\(number)"),
-                URLQueryItem(name: "minDate", value: dateString),
-                URLQueryItem(name: "addRecipeInformation", value: "true")
+                .init(name: "sort", value: "date"),
+                .init(name: "number", value: "\(number)"),
+                .init(name: "offset", value: "\(offset)"),
+                .init(name: "minDate", value: dateString),
+                .init(name: "addRecipeInformation", value: "true")
             ])
             
         case .getRecipeInformation, .getIngredientImage:

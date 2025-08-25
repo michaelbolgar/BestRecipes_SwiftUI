@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SeeAllView: View {
+    @ObservedObject var homeViewModel: HomeViewModel
+    
     let type: SeeAllType
     @Binding var items: [RecipeFavoritable]
     let toggleBookmark: (Int) -> Void
-//    @StateObject var viewModel: SeeAllViewModel
+
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -37,6 +39,24 @@ struct SeeAllView: View {
             ToolbarItem(placement: .topBarLeading) {
                 BackBarButtonView()
             }
+        }
+    }
+    
+    private func loadNextPage() async {
+        switch type {
+        case .trendingNow:
+            await homeViewModel.loadTrendingNextPage()
+        case .popularCategories:
+            await homeViewModel.loadPopularNextPage()
+        }
+    }
+
+    private func refresh() async {
+        switch type {
+        case .trendingNow:
+            await homeViewModel.refreshTrending()
+        case .popularCategories:
+            await homeViewModel.refreshPopular()
         }
     }
 }
