@@ -42,10 +42,12 @@ final class HomeViewModel: ObservableObject {
     
     private var isLoading = false
 
-    // MARK: Pagination
-     private var trendingPage = 0
-     private var popularPage = 0
-     private let perPage = 10
+    // MARK: - Pagination State
+    private var pages: [SeeAllType: Int] = [
+        .trendingNow: 0,
+        .popularCategories: 0
+    ]
+    private let perPage = 10
     
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
@@ -82,61 +84,78 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Trending (with pagination)
-    func fetchTrendingNowRecipes(loadMore: Bool = false) async {
+    // MARK: - Fetch (универсальный)
+    func fetchRecipes(for type: SeeAllType, loadMore: Bool = false) async {
         guard !isLoading else { return }
         isLoading = true
-        
-        
+        defer { isLoading = false }
+
         if !loadMore {
-            trendingPage = 0
-            trendingNowAPIRecipes.removeAll()
+            pages[type] = 0
+            clearRecipes(for: type)
         }
-        
+
         do {
-            let recipes = try await networkService.fetchTrendingNowRecipes(page: trendingPage, perPage: perPage)
-            trendingNowAPIRecipes.append(contentsOf: recipes.recipes)
-            trendingPage += 1
+            switch type {
+            case .trendingNow:
+                let result = try await networkService.fetchTrendingNowRecipes(
+                    page: pages[.trendingNow] ?? 0,
+                    perPage: perPage
+                )
+                trendingNowAPIRecipes.append(contentsOf: result.recipes)
+                trendingNowRecipesFavoritable = mapFavoritables(from: trendingNowAPIRecipes)
+
+            case .popularCategories:
+                let result = try await networkService.fetchPopularCategoryRecipes(
+                    currentCategory,
+                    page: pages[.popularCategories] ?? 0,
+                    perPage: perPage
+                )
+                popularCategoryAPIRecipes.append(contentsOf: result.recipes)
+                popularCategoryRecipesFavoritable = mapFavoritables(from: popularCategoryAPIRecipes)
+
+            case .cuisineByCountry:
+                // у этого пока нет пагинации
+                break
+            case .recentRecipe:
+                // заглушка
+                break
+            }
+            pages[type, default: 0] += 1
         } catch {
             self.error = error
         }
-
-        trendingNowRecipesFavoritable = trendingNowAPIRecipes.map { recipe in
-            var bookable = RecipeFavoritable(recipeDetails: recipe)
-            bookable.isFavorited = favorites.contains(recipe.id)
-            return bookable
-        }
-        isLoading = false
     }
 
-    // MARK: - Popular (with pagination)
-    func fetchPopularCategoryRecipes(loadMore: Bool = false) async {
-        guard !isLoading else { return }
-        isLoading = true
+    // MARK: - Refresh (сброс и загрузка заново)
+    func refresh(type: SeeAllType) async {
+        await fetchRecipes(for: type, loadMore: false)
+    }
 
-        if !loadMore {
-            popularPage = 0
+    // MARK: - Reset / Clear
+    private func clearRecipes(for type: SeeAllType) {
+        switch type {
+        case .trendingNow:
+            trendingNowAPIRecipes.removeAll()
+            trendingNowRecipesFavoritable.removeAll()
+        case .popularCategories:
             popularCategoryAPIRecipes.removeAll()
+            popularCategoryRecipesFavoritable.removeAll()
+        case .cuisineByCountry:
+            cuisineByCountriesAPI.removeAll()
+            cuisineByCountriesFavoritable.removeAll()
+        case .recentRecipe:
+            recentRecipes.removeAll()
         }
+    }
 
-        do {
-            let result = try await networkService.fetchPopularCategoryRecipes(
-                currentCategory,
-                page: popularPage,
-                perPage: perPage
-            )
-            popularCategoryAPIRecipes.append(contentsOf: result.recipes)
-            popularPage += 1
-        } catch {
-            self.error = error
-        }
-
-        popularCategoryRecipesFavoritable = popularCategoryAPIRecipes.map { recipe in
+    // MARK: - Map Favoritable
+    private func mapFavoritables(from recipes: [RecipeModel]) -> [RecipeFavoritable] {
+        recipes.map { recipe in
             var bookable = RecipeFavoritable(recipeDetails: recipe)
             bookable.isFavorited = favorites.contains(recipe.id)
             return bookable
         }
-        isLoading = false
     }
     
     // MARK: - Reset on category change
