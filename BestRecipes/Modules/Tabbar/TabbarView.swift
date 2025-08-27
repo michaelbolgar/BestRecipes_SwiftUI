@@ -25,7 +25,7 @@ struct TabbarView: View {
                     tabbarButton(tab: .home)
                     tabbarButton(tab: .savedRecipes)
                     plusButton(tab: .plus)
-                    tabbarButton(tab: .notification)
+                    tabbarButton(tab: .suggestions)
                     tabbarButton(tab: .profile)
                 }
                 .padding(.top, -Offsets.x3)

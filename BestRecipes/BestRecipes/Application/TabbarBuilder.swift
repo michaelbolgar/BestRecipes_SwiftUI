@@ -14,8 +14,8 @@ struct TabbarBuilder: View {
                     SavedRecipesContentView()
                 case .plus:
                     CreateRecipeView()
-                case .notification:
-                    MockContentView()
+                case .suggestions:
+                    SuggestionsContentView()
                 case .profile:
                     ProfileContentView()
                 }

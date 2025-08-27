@@ -1,7 +1,7 @@
 enum Tab: String {
     case home
     case savedRecipes
-    case notification
+    case suggestions
     case profile
     case plus
 
