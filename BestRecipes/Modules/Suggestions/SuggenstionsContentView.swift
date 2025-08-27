@@ -20,7 +20,7 @@ struct SuggestionsContentView: View {
                             .frame(width: centralSize, height: centralSize)
                             .overlay(
                                 Circle()
-                                    .stroke(Color.redPrimary80, lineWidth: 6)
+                                    .stroke(Color.redPrimary80, lineWidth: 5)
                                 )
                             .overlay(
                                 Text("Choose your flavor\nI’ll choose best wine")
@@ -63,19 +63,22 @@ struct DishCircleView: View {
     let size: CGFloat
 
     var body: some View {
-        Circle()
-            .fill(Color.white)
-            .frame(width: size, height: size)
-            .overlay(
-                Circle()
-                    .stroke(Color.redPrimary80, lineWidth: 4))
-        if let imageName = imageName {
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
+        ZStack {
+            Circle()
+                .fill(Color.white)
                 .frame(width: size, height: size)
-                .clipShape(Circle())
+                .overlay(
+                    Circle()
+                        .stroke(Color.redPrimary80, lineWidth: 3))
+            if let imageName = imageName {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: size * 0.99, height: size * 0.99)
+                    .clipShape(Circle())
+            }
         }
+        .frame(width: size, height: size)
     }
 }
 
