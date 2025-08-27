@@ -127,25 +127,26 @@ struct RecipeDetailView: View {
         .foregroundColor(.neutral10)
         .cornerRadius(12)
       HStack(spacing: 12) {
-        Group {
-          if let image = viewModel.ingredientImage[ingredient.id] {
-            Image(uiImage: image)
-              .resizable()
-              .scaledToFill()
-              .background(Color.white)
-              .clipShape(RoundedRectangle(cornerRadius: 8))
-          } else {
-            ShimmerView()
+          Group {
+              if let image = viewModel.ingredientImage[ingredient.id] {
+                  Image(uiImage: image)
+                      .resizable()
+                      .scaledToFit()
+                      .frame(width: 52, height: 52)
+                      .background(Color.white)
+                      .clipShape(RoundedRectangle(cornerRadius: 8))
+              } else {
+                  ShimmerView()
+              }
           }
-        }
-        .frame(maxWidth: 52)
-        .frame(height: 52)
+        .frame(width: 52, height: 52)
         .onAppear {
-          Task {
-            await viewModel.fetchIngredientImage(imageName: ingredient.image, id: ingredient.id)
-          }
+            Task {
+                print("Загружаем изображение ингредиента: \(ingredient.image)")
+                await viewModel.fetchIngredientImage(imageName: ingredient.image, id: ingredient.id)
+            }
         }
-        
+
         Text(ingredient.name.capitalized)
           .font(.recipesMiniTitle)
         Spacer()
@@ -161,8 +162,8 @@ struct RecipeDetailView: View {
   }
 }
 
-#Preview("RecipeDetailView") {
-    NavigationStack {
-      RecipeDetailView(recipeID: 323)
-    }
-}
+//#Preview("RecipeDetailView") {
+//    NavigationStack {
+//      RecipeDetailView(recipeID: 323)
+//    }
+//}
