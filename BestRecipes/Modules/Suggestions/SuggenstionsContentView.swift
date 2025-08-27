@@ -5,14 +5,34 @@ struct SuggestionsContentView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
+
+                let centralSize = geo.size.width * 0.5
+                let smallSize = geo.size.width * 0.26
+                let mediumSize = geo.size.width * 0.35
+
+                let positions: [(String, CGFloat, CGPoint)] = [
+                    (Constants.pasta,  smallSize, CGPoint(x:  centralSize * 0.4, y: -centralSize * 1.3)),
+                    (Constants.steak,  mediumSize, CGPoint(x: -centralSize * 0.55, y: -centralSize * 0.95)),
+                    (Constants.cheese, mediumSize,  CGPoint(x: -centralSize * 0.5, y:  centralSize * 0.9)),
+                    (Constants.shrimp, smallSize,  CGPoint(x:  centralSize * 0.67, y: -centralSize * 0.7)),
+                    (Constants.salmon, mediumSize, CGPoint(x:  centralSize * 0.5, y:  centralSize * 1.1))
+                ]
+
                 ZStack {
                     Color.white.ignoresSafeArea()
-                    Spacer()
 
                     ZStack {
-                        let centralSize = geo.size.width * 0.5
-                        let smallSize = geo.size.width * 0.25
-                        let mediumSize = geo.size.width * 0.33
+                        ForEach(positions.indices, id: \.self) { i in
+                            Path { path in
+                                let start = CGPoint(x: geo.size.width / 2,
+                                                    y: geo.size.height * 0.3)
+                                let end = CGPoint(x: start.x + positions[i].2.x,
+                                                  y: start.y + positions[i].2.y)
+                                path.move(to: start)
+                                path.addLine(to: end)
+                            }
+                            .stroke(Color.redPrimary80, lineWidth: 2)
+                        }
 
                         /// central button
                         Circle()
@@ -21,34 +41,22 @@ struct SuggestionsContentView: View {
                             .overlay(
                                 Circle()
                                     .stroke(Color.redPrimary80, lineWidth: 5)
-                                )
+                            )
                             .overlay(
-                                Text("Choose your flavor\nI’ll choose best wine")
+                                Text(Constants.centralButton)
                                     .foregroundColor(.black)
                                     .font(.headline)
                                     .multilineTextAlignment(.center)
                             )
-
-                        /// buttons above
-                        /// left
-                        DishCircleView(imageName: Constants.pasta, size: mediumSize, action: {} )
-                            .offset(x: -centralSize * 0.6, y: -centralSize * 0.8)
-                        /// right
-                        DishCircleView(imageName: Constants.steak, size: mediumSize, action: {} )
-                            .offset(x: centralSize * 0.5, y: -centralSize * 1.2)
-
-                        /// buttons below
-                        /// left
-                        DishCircleView(imageName: Constants.cheese, size: smallSize, action: {} )
-                            .offset(x: -centralSize * 0.6, y: centralSize * 0.85)
-
-                        /// central
-                        DishCircleView(imageName: Constants.shrimp, size: smallSize, action: {} )
-                            .offset(x: -centralSize * 0.3, y: centralSize * 1.4)
-
-                        /// right
-                        DishCircleView(imageName: Constants.salmon, size: mediumSize, action: {} )
-                            .offset(x: centralSize * 0.5, y: centralSize * 1.0)
+                        ForEach(positions, id: \.0) { item in
+                            DishCircleView(
+                                imageName: item.0,
+                                size: item.1
+                            ) {
+                                print("\(item.0) tapped")
+                            }
+                            .offset(x: item.2.x, y: item.2.y)
+                        }
                     }
                     .frame(height: geo.size.height * 0.6)
                 }
@@ -58,6 +66,7 @@ struct SuggestionsContentView: View {
     }
 }
 
+// MARK: Helpers
 struct DishCircleView: View {
     let imageName: String?
     let size: CGFloat
@@ -76,7 +85,7 @@ struct DishCircleView: View {
                     Image(imageName)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: size * 0.99, height: size * 0.99)
+                        .frame(width: size, height: size)
                         .clipShape(Circle())
                 }
             }
@@ -86,11 +95,34 @@ struct DishCircleView: View {
     }
 }
 
+struct MoleculeConnectionsView: View {
+    let centralSize: CGFloat
+    let buttonPositions: [CGPoint]
+
+    var body: some View {
+        ZStack {
+            ForEach(buttonPositions.indices, id: \.self) { i in
+                Path { path in
+                    path.move(to: CGPoint(x: centralSize / 2, y: centralSize / 2))
+                    path.addLine(to: CGPoint(
+                        x: centralSize / 2 + buttonPositions[i].x,
+                        y: centralSize / 2 + buttonPositions[i].y
+                    ))
+                }
+                .stroke(Color.redPrimary80, lineWidth: 2)
+            }
+        }
+        .frame(width: centralSize, height: centralSize)
+    }
+}
+
 // MARK: - Extension
 extension SuggestionsContentView {
     enum Constants {
         static let title: String = "Wine suggestions"
 
+        /// buttons
+        static let centralButton: String = "Choose your flavor\nI’ll choose best wine"
         static let salmon = "salmon"
         static let steak = "steak"
         static let pasta = "pasta"
@@ -99,8 +131,7 @@ extension SuggestionsContentView {
     }
 }
 
-struct CircleMenuView_Previews: PreviewProvider {
-    static var previews: some View {
-        SuggestionsContentView()
-    }
+#Preview {
+   TabbarBuilder()
+        .environmentObject(CoreDataService())
 }
