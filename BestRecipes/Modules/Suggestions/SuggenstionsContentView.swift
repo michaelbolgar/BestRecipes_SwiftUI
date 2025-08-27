@@ -31,23 +31,23 @@ struct SuggestionsContentView: View {
 
                         /// buttons above
                         /// left
-                        DishCircleView(imageName: Constants.pasta, size: mediumSize)
+                        DishCircleView(imageName: Constants.pasta, size: mediumSize, action: {} )
                             .offset(x: -centralSize * 0.6, y: -centralSize * 0.8)
                         /// right
-                        DishCircleView(imageName: Constants.steak, size: mediumSize)
+                        DishCircleView(imageName: Constants.steak, size: mediumSize, action: {} )
                             .offset(x: centralSize * 0.5, y: -centralSize * 1.2)
 
                         /// buttons below
                         /// left
-                        DishCircleView(imageName: Constants.cheese, size: smallSize)
+                        DishCircleView(imageName: Constants.cheese, size: smallSize, action: {} )
                             .offset(x: -centralSize * 0.6, y: centralSize * 0.85)
 
                         /// central
-                        DishCircleView(imageName: Constants.shrimp, size: smallSize)
+                        DishCircleView(imageName: Constants.shrimp, size: smallSize, action: {} )
                             .offset(x: -centralSize * 0.3, y: centralSize * 1.4)
 
                         /// right
-                        DishCircleView(imageName: Constants.salmon, size: mediumSize)
+                        DishCircleView(imageName: Constants.salmon, size: mediumSize, action: {} )
                             .offset(x: centralSize * 0.5, y: centralSize * 1.0)
                     }
                     .frame(height: geo.size.height * 0.6)
@@ -61,24 +61,28 @@ struct SuggestionsContentView: View {
 struct DishCircleView: View {
     let imageName: String?
     let size: CGFloat
+    let action: () -> Void
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(Color.white)
-                .frame(width: size, height: size)
-                .overlay(
-                    Circle()
-                        .stroke(Color.redPrimary80, lineWidth: 3))
-            if let imageName = imageName {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: size * 0.99, height: size * 0.99)
-                    .clipShape(Circle())
+        Button(action: action) {
+            ZStack {
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: size, height: size)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.redPrimary80, lineWidth: 3))
+                if let imageName = imageName {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: size * 0.99, height: size * 0.99)
+                        .clipShape(Circle())
+                }
             }
+            .frame(width: size, height: size)
         }
-        .frame(width: size, height: size)
+        .buttonStyle(.plain)
     }
 }
 
