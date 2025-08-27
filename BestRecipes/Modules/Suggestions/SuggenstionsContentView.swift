@@ -31,29 +31,29 @@ struct SuggestionsContentView: View {
 
                         /// buttons above
                         /// left
-                        DishCircleView(imageName: "pasta", size: mediumSize)
+                        DishCircleView(imageName: Constants.pasta, size: mediumSize)
                             .offset(x: -centralSize * 0.6, y: -centralSize * 0.8)
                         /// right
-                        DishCircleView(imageName: "steak", size: mediumSize)
+                        DishCircleView(imageName: Constants.steak, size: mediumSize)
                             .offset(x: centralSize * 0.5, y: -centralSize * 1.2)
 
                         /// buttons below
                         /// left
-                        DishCircleView(imageName: "cheese2", size: smallSize)
+                        DishCircleView(imageName: Constants.cheese, size: smallSize)
                             .offset(x: -centralSize * 0.6, y: centralSize * 0.85)
 
                         /// central
-                        DishCircleView(imageName: "shrimp", size: smallSize)
+                        DishCircleView(imageName: Constants.shrimp, size: smallSize)
                             .offset(x: -centralSize * 0.3, y: centralSize * 1.4)
 
                         /// right
-                        DishCircleView(imageName: "salmon", size: mediumSize)
+                        DishCircleView(imageName: Constants.salmon, size: mediumSize)
                             .offset(x: centralSize * 0.5, y: centralSize * 1.0)
                     }
                     .frame(height: geo.size.height * 0.6)
                 }
             }
-            .navigationTitle("Wine suggestions")
+            .navigationTitle(Constants.title)
         }
     }
 }
@@ -76,6 +76,19 @@ struct DishCircleView: View {
                 .frame(width: size, height: size)
                 .clipShape(Circle())
         }
+    }
+}
+
+// MARK: - Extension
+extension SuggestionsContentView {
+    enum Constants {
+        static let title: String = "Wine suggestions"
+
+        static let salmon = "salmon"
+        static let steak = "steak"
+        static let pasta = "pasta"
+        static let cheese = "cheese2"
+        static let shrimp = "shrimp"
     }
 }
 
