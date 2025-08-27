@@ -34,13 +34,13 @@ struct SuggestionsContentView: View {
                         Circle()
                             .fill(Color.orange)
                             .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("1").foregroundColor(.white))
+                            .overlay(Text("pasta").foregroundColor(.white))
                             .offset(x: -centralSize * 0.6, y: -centralSize * 0.8)
                         /// right
                         Circle()
                             .fill(Color.orange)
                             .frame(width: mediumSize, height: mediumSize)
-                            .overlay(Text("2").foregroundColor(.white))
+                            .overlay(Text("steak").foregroundColor(.white))
                             .offset(x: centralSize * 0.5, y: -centralSize * 1.2)
 
                         /// buttons below
@@ -48,21 +48,21 @@ struct SuggestionsContentView: View {
                         Circle()
                             .fill(Color.orange)
                             .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("3").foregroundColor(.white))
+                            .overlay(Text("cheese").foregroundColor(.white))
                             .offset(x: -centralSize * 0.6, y: centralSize * 0.85)
 
                         /// central
                         Circle()
                             .fill(Color.orange)
                             .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("4").foregroundColor(.white))
+                            .overlay(Text("морепродукты").foregroundColor(.white))
                             .offset(x: -centralSize * 0.3, y: centralSize * 1.4)
 
                         /// right
                         Circle()
                             .fill(Color.orange)
                             .frame(width: mediumSize, height: mediumSize)
-                            .overlay(Text("5").foregroundColor(.white))
+                            .overlay(Text("salmon").foregroundColor(.white))
                             .offset(x: centralSize * 0.5, y: centralSize * 1.0)
                     }
                     .frame(height: geo.size.height * 0.6)

@@ -420,7 +420,7 @@
 		F451DFB22E4A80C500EB0C05 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				F4EB3D752E5F5F5B00DEA8F1 /* Recommendations */,
+				F4EB3D752E5F5F5B00DEA8F1 /* Suggestions */,
 				52A464322E51C60300309D3F /* CreateRecipe */,
 				F4F723812E4E49A3007AB583 /* Tabbar */,
 				5E6FA6A92E4DFF180050C809 /* RecipeDetails */,
@@ -530,12 +530,12 @@
 			path = ViewModal;
 			sourceTree = "<group>";
 		};
-		F4EB3D752E5F5F5B00DEA8F1 /* Recommendations */ = {
+		F4EB3D752E5F5F5B00DEA8F1 /* Suggestions */ = {
 			isa = PBXGroup;
 			children = (
 				F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */,
 			);
-			path = Recommendations;
+			path = Suggestions;
 			sourceTree = "<group>";
 		};
 		F4F723812E4E49A3007AB583 /* Tabbar */ = {
