@@ -70,6 +70,7 @@
 		F4B6B0702E54D3EB0018B316 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B06B2E54D3EB0018B316 /* OnboardingViewModel.swift */; };
 		F4B6B0712E54D3EB0018B316 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B0692E54D3EB0018B316 /* OnboardingView.swift */; };
 		F4B6B0722E54D3EB0018B316 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6B0682E54D3EB0018B316 /* OnboardingPageView.swift */; };
+		F4EB3D772E5F5F7400DEA8F1 /* SuggenstionsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */; };
 		F4F723B02E4E4AEB007AB583 /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F723AF2E4E4AE3007AB583 /* TabModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +139,7 @@
 		F4B6B0682E54D3EB0018B316 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		F4B6B0692E54D3EB0018B316 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F4B6B06B2E54D3EB0018B316 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggenstionsContentView.swift; sourceTree = "<group>"; };
 		F4F723AF2E4E4AE3007AB583 /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -418,6 +420,7 @@
 		F451DFB22E4A80C500EB0C05 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				F4EB3D752E5F5F5B00DEA8F1 /* Recommendations */,
 				52A464322E51C60300309D3F /* CreateRecipe */,
 				F4F723812E4E49A3007AB583 /* Tabbar */,
 				5E6FA6A92E4DFF180050C809 /* RecipeDetails */,
@@ -525,6 +528,14 @@
 				F4B6B06B2E54D3EB0018B316 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModal;
+			sourceTree = "<group>";
+		};
+		F4EB3D752E5F5F5B00DEA8F1 /* Recommendations */ = {
+			isa = PBXGroup;
+			children = (
+				F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */,
+			);
+			path = Recommendations;
 			sourceTree = "<group>";
 		};
 		F4F723812E4E49A3007AB583 /* Tabbar */ = {
@@ -666,6 +677,7 @@
 				5E6FA6B52E4E23490050C809 /* CustomCheckbox.swift in Sources */,
 				E12B35CE2E4C8D3600050A82 /* SeeAllType.swift in Sources */,
 				E12B36A92E4CB63100050A82 /* СuisineByCountriesSection.swift in Sources */,
+				F4EB3D772E5F5F7400DEA8F1 /* SuggenstionsContentView.swift in Sources */,
 				E12B36A72E4CB46800050A82 /* PopularCategoriesSection.swift in Sources */,
 				E12B36D12E4CEC6A00050A82 /* PopularCell.swift in Sources */,
 				527314822E4B5F1E0063C17E /* SavedRecipesContentView.swift in Sources */,

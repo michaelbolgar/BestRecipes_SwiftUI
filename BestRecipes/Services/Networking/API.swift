@@ -11,7 +11,7 @@ enum API {
     static let apiKey = ApiKeys.sixteen
     static let header = "x-api-key"
 }
-
+  
 enum HTTPMethod: String {
     case get = "GET"
 }
