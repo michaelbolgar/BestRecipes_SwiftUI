@@ -31,46 +31,50 @@ struct SuggestionsContentView: View {
 
                         /// buttons above
                         /// left
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("pasta").foregroundColor(.white))
+                        DishCircleView(imageName: "pasta", size: mediumSize)
                             .offset(x: -centralSize * 0.6, y: -centralSize * 0.8)
                         /// right
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: mediumSize, height: mediumSize)
-                            .overlay(Text("steak").foregroundColor(.white))
+                        DishCircleView(imageName: "steak", size: mediumSize)
                             .offset(x: centralSize * 0.5, y: -centralSize * 1.2)
 
                         /// buttons below
                         /// left
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("cheese").foregroundColor(.white))
+                        DishCircleView(imageName: "cheese2", size: smallSize)
                             .offset(x: -centralSize * 0.6, y: centralSize * 0.85)
 
                         /// central
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: smallSize, height: smallSize)
-                            .overlay(Text("морепродукты").foregroundColor(.white))
+                        DishCircleView(imageName: "shrimp", size: smallSize)
                             .offset(x: -centralSize * 0.3, y: centralSize * 1.4)
 
                         /// right
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: mediumSize, height: mediumSize)
-                            .overlay(Text("salmon").foregroundColor(.white))
+                        DishCircleView(imageName: "salmon", size: mediumSize)
                             .offset(x: centralSize * 0.5, y: centralSize * 1.0)
                     }
                     .frame(height: geo.size.height * 0.6)
-
-                    Spacer()
                 }
             }
             .navigationTitle("Wine suggestions")
+        }
+    }
+}
+
+struct DishCircleView: View {
+    let imageName: String?
+    let size: CGFloat
+
+    var body: some View {
+        Circle()
+            .fill(Color.white)
+            .frame(width: size, height: size)
+            .overlay(
+                Circle()
+                    .stroke(Color.redPrimary80, lineWidth: 4))
+        if let imageName = imageName {
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(Circle())
         }
     }
 }
