@@ -8,7 +8,7 @@
 import Foundation
 
 enum API {
-    static let apiKey = ApiKeys.firstKey
+    static let apiKey = ApiKeys.third
     static let header = "x-api-key"
 }
   

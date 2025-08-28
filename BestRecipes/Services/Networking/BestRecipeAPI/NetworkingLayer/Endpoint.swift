@@ -55,7 +55,7 @@ enum Endpoint {
         case .getIngredientImage(imageName: let imageName):
             return "/ingredients_500x500/\(imageName)"
         case .getWineSuggestion(food: let food):
-            return "food/wine/pairing"
+            return "/food/wine/pairing/"
         }
     }
     

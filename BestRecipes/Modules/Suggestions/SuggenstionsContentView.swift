@@ -1,6 +1,12 @@
 import SwiftUI
 
 struct SuggestionsContentView: View {
+    @StateObject private var vm: SuggestionsViewModel
+
+    //    MARK: - INIT
+    init() {
+        self._vm = StateObject(wrappedValue: SuggestionsViewModel())
+    }
 
     var body: some View {
         NavigationStack {
@@ -10,12 +16,12 @@ struct SuggestionsContentView: View {
                 let smallSize = geo.size.width * 0.26
                 let mediumSize = geo.size.width * 0.35
 
-                let positions: [(Dish, CGFloat, CGPoint)] = [
-                    (.pasta,  smallSize, CGPoint(x:  centralSize * 0.4, y: -centralSize * 1.3)),
-                    (.steak,  mediumSize, CGPoint(x: -centralSize * 0.55, y: -centralSize * 0.95)),
-                    (.cheese, mediumSize,  CGPoint(x: -centralSize * 0.5, y:  centralSize * 0.9)),
-                    (.shrimp, smallSize,  CGPoint(x:  centralSize * 0.67, y: -centralSize * 0.7)),
-                    (.salmon, mediumSize, CGPoint(x:  centralSize * 0.5, y:  centralSize * 1.1))
+                let positions: [DishPosition] = [
+                    .init(dish: .pasta,  size: smallSize, offset: CGPoint(x:  centralSize * 0.4, y: -centralSize * 1.3)),
+                    .init(dish: .steak,  size: mediumSize, offset: CGPoint(x: -centralSize * 0.55, y: -centralSize * 0.95)),
+                    .init(dish: .cheese, size: mediumSize,  offset: CGPoint(x: -centralSize * 0.5, y:  centralSize * 0.9)),
+                    .init(dish: .shrimp, size: smallSize,  offset: CGPoint(x:  centralSize * 0.67, y: -centralSize * 0.7)),
+                    .init(dish: .salmon, size: mediumSize, offset: CGPoint(x:  centralSize * 0.5, y:  centralSize * 1.1))
                 ]
 
                 ZStack {
@@ -26,8 +32,8 @@ struct SuggestionsContentView: View {
                             Path { path in
                                 let start = CGPoint(x: geo.size.width / 2,
                                                     y: geo.size.height * 0.3)
-                                let end = CGPoint(x: start.x + positions[i].2.x,
-                                                  y: start.y + positions[i].2.y)
+                                let end = CGPoint(x: start.x + positions[i].offset.x,
+                                                  y: start.y + positions[i].offset.y)
                                 path.move(to: start)
                                 path.addLine(to: end)
                             }
@@ -48,14 +54,16 @@ struct SuggestionsContentView: View {
                                     .font(.headline)
                                     .multilineTextAlignment(.center)
                             )
-                        ForEach(positions, id: \.0) { item in
+                        ForEach(positions) { item in
                             DishCircleView(
-                                imageName: item.0.title,
-                                size: item.1
+                                imageName: item.dish.title,
+                                size: item.size
                             ) {
-                                print("\(item.0) tapped")
+                                Task {
+                                    await vm.getSuggestion(dish: item.dish)
+                                }
                             }
-                            .offset(x: item.2.x, y: item.2.y)
+                            .offset(x: item.offset.x, y: item.offset.y)
                         }
                     }
                     .frame(height: geo.size.height * 0.6)
@@ -78,9 +86,9 @@ struct DishCircleView: View {
                 Circle()
                     .fill(Color.white)
                     .frame(width: size, height: size)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.redPrimary80, lineWidth: 3))
+//                    .overlay(
+//                        Circle()
+//                            .stroke(Color.redPrimary80, lineWidth: 3))
                 if let imageName = imageName {
                     Image(imageName)
                         .resizable()
@@ -116,24 +124,20 @@ struct MoleculeConnectionsView: View {
     }
 }
 
+struct DishPosition: Identifiable {
+    let id = UUID()
+    let dish: Dish
+    let size: CGFloat
+    let offset: CGPoint
+}
+
+
 // MARK: - Extension
 extension SuggestionsContentView {
     enum Titles {
         static let title: String = "Wine suggestions"
         static let centralButton: String = "Choose your flavor\nI’ll choose best wine"
 
-    }
-
-    enum Dish: String {
-        case salmon
-        case steak
-        case pasta
-        case cheese
-        case shrimp
-
-        var title: String {
-            return rawValue
-        }
     }
 }
 
