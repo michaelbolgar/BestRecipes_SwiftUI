@@ -10,12 +10,12 @@ struct SuggestionsContentView: View {
                 let smallSize = geo.size.width * 0.26
                 let mediumSize = geo.size.width * 0.35
 
-                let positions: [(String, CGFloat, CGPoint)] = [
-                    (Constants.pasta,  smallSize, CGPoint(x:  centralSize * 0.4, y: -centralSize * 1.3)),
-                    (Constants.steak,  mediumSize, CGPoint(x: -centralSize * 0.55, y: -centralSize * 0.95)),
-                    (Constants.cheese, mediumSize,  CGPoint(x: -centralSize * 0.5, y:  centralSize * 0.9)),
-                    (Constants.shrimp, smallSize,  CGPoint(x:  centralSize * 0.67, y: -centralSize * 0.7)),
-                    (Constants.salmon, mediumSize, CGPoint(x:  centralSize * 0.5, y:  centralSize * 1.1))
+                let positions: [(Dish, CGFloat, CGPoint)] = [
+                    (.pasta,  smallSize, CGPoint(x:  centralSize * 0.4, y: -centralSize * 1.3)),
+                    (.steak,  mediumSize, CGPoint(x: -centralSize * 0.55, y: -centralSize * 0.95)),
+                    (.cheese, mediumSize,  CGPoint(x: -centralSize * 0.5, y:  centralSize * 0.9)),
+                    (.shrimp, smallSize,  CGPoint(x:  centralSize * 0.67, y: -centralSize * 0.7)),
+                    (.salmon, mediumSize, CGPoint(x:  centralSize * 0.5, y:  centralSize * 1.1))
                 ]
 
                 ZStack {
@@ -43,14 +43,14 @@ struct SuggestionsContentView: View {
                                     .stroke(Color.redPrimary80, lineWidth: 5)
                             )
                             .overlay(
-                                Text(Constants.centralButton)
+                                Text(Titles.centralButton)
                                     .foregroundColor(.black)
                                     .font(.headline)
                                     .multilineTextAlignment(.center)
                             )
                         ForEach(positions, id: \.0) { item in
                             DishCircleView(
-                                imageName: item.0,
+                                imageName: item.0.title,
                                 size: item.1
                             ) {
                                 print("\(item.0) tapped")
@@ -61,7 +61,7 @@ struct SuggestionsContentView: View {
                     .frame(height: geo.size.height * 0.6)
                 }
             }
-            .navigationTitle(Constants.title)
+            .navigationTitle(Titles.title)
         }
     }
 }
@@ -118,16 +118,22 @@ struct MoleculeConnectionsView: View {
 
 // MARK: - Extension
 extension SuggestionsContentView {
-    enum Constants {
+    enum Titles {
         static let title: String = "Wine suggestions"
-
-        /// buttons
         static let centralButton: String = "Choose your flavor\nI’ll choose best wine"
-        static let salmon = "salmon"
-        static let steak = "steak"
-        static let pasta = "pasta"
-        static let cheese = "cheese2"
-        static let shrimp = "shrimp"
+
+    }
+
+    enum Dish: String {
+        case salmon
+        case steak
+        case pasta
+        case cheese
+        case shrimp
+
+        var title: String {
+            return rawValue
+        }
     }
 }
 
