@@ -15,6 +15,8 @@ final class CoreDataService: ObservableObject {
     @Published var recentRecipes: [RecentEntity] = []
     @Published var createdRecipes: [RecipeModel] = []
     
+    @Published var favoriteRecipes: [RecipeModel] = []
+    
     //    MARK: - INIT
     init(viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.viewContext = viewContext
@@ -75,11 +77,11 @@ final class CoreDataService: ObservableObject {
     }
     
     //    MARK: - Created Recipes
-    func createCreatedRecipe(title: String, serves: Int, cookTime: Int, ingredients: [String:String], imageData: Data? = nil) {
+    func createCreatedRecipe(title: String, serves: Int, cookTime: String, ingredients: [String:String], imageData: Data? = nil) {
         let recipe = CreatedRecipeEntity(context: viewContext)
         recipe.title = title
         recipe.serves = Int16(serves)
-        recipe.cookTime = Int16(cookTime)
+        recipe.cookTime = cookTime
         recipe.ingredients = ingredients as NSObject
         recipe.imageData = imageData
         recipe.dateAdded = Date()
@@ -100,5 +102,25 @@ final class CoreDataService: ObservableObject {
         } catch {
             print("Fetch created recipes error: \(error)")
         }
+    }
+}
+
+//    MARK: - extension Favorite Recipes
+extension CoreDataService {
+    func fetchFavoriteRecipes() {
+        let request = RecentEntity.fetchRequest()
+        let sortDescription = NSSortDescriptor(keyPath: \FavoriteEntity.id, ascending: true)
+        request.sortDescriptors = [sortDescription]
+        
+        do {
+            favoriteRecipes = try viewContext.fetch(request)
+        } catch {
+            let nserror = error as NSError
+            print("Не удалось получить рецепты: \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func saveFavoriteRecipes(_ favoriteResipe: RecipeModel) {
+        let favorite = FavoriteEntity
     }
 }

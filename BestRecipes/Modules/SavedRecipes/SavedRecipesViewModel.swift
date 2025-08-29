@@ -3,7 +3,7 @@ import SwiftUI
 final class SavedRecipesViewModel: ObservableObject {
 
     // MARK: Properties
-    @Published var savedRecipes: [RecipeFavoritable] = []
+    @Published var savedRecipes: [RecipeModel] = []
     @Published var favorites: Set<Int> = []
 
     private let networkingService: NetworkingService
@@ -55,7 +55,7 @@ final class SavedRecipesViewModel: ObservableObject {
         }
 
         do {
-            var fetched: [RecipeFavoritable] = []
+            var fetched: [RecipeModel] = []
 
             let favoriteIDs = Array(favorites)
             for id in favoriteIDs {

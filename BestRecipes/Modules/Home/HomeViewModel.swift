@@ -26,19 +26,13 @@ final class HomeViewModel: ObservableObject {
     @Published var recentSearches: [String] = []
 
     /// models for fetching data from API
-    @Published var trendingNowAPIRecipes: [RecipeModel] = []
-    @Published var popularCategoryAPIRecipes: [RecipeModel] = []
-    @Published var cuisineByCountriesAPI: [RecipeModel] = []
-
-    /// models with added 'isFavorited' flag
-    @Published var trendingNowRecipesFavoritable: [RecipeFavoritable] = []
-    @Published var popularCategoryRecipesFavoritable: [RecipeFavoritable] = []
-    @Published var cuisineByCountriesFavoritable: [RecipeFavoritable] = []
+    @Published var trendingNowRecipes: [RecipeModel] = []
+    @Published var popularCategoryRecipes: [RecipeModel] = []
+    @Published var cuisineByCountries: [RecipeModel] = []
 
     @Published var recentRecipes: [RecentRecipesModel] = []
 
     private var apiRecipes: [RecipeModel] = []
-    private var favorites: Set<Int> = []
     
     private var isLoading = false
 
@@ -52,7 +46,7 @@ final class HomeViewModel: ObservableObject {
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
             Task {
-                await resetPopularRecipes()
+                await fetchPopularCategoryRecipes() 
             }
         }
     }
@@ -69,7 +63,7 @@ final class HomeViewModel: ObservableObject {
         self.networkService = networkService
         self.searchHistoryService = searchHistoryService
         self.userDefaultsService = userDefaultsService
-        loadFavorites()
+    
     }
     
     // MARK: - Fetch Data
@@ -83,96 +77,39 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Fetch (универсальный)
-    func fetchRecipes(for type: SeeAllType, loadMore: Bool = false) async {
-        guard !isLoading else { return }
-        isLoading = true
-        defer { isLoading = false }
-
-        if !loadMore {
-            pages[type] = 0
-            clearRecipes(for: type)
-        }
-
-        do {
-            switch type {
-            case .trendingNow:
-                let result = try await networkService.fetchTrendingNowRecipes(
-                    page: pages[.trendingNow] ?? 0,
-                    perPage: perPage
-                )
-                trendingNowAPIRecipes.append(contentsOf: result.recipes)
-                trendingNowRecipesFavoritable = mapFavoritables(from: trendingNowAPIRecipes)
-
-            case .popularCategories:
-                let result = try await networkService.fetchPopularCategoryRecipes(
-                    currentCategory,
-                    page: pages[.popularCategories] ?? 0,
-                    perPage: perPage
-                )
-                popularCategoryAPIRecipes.append(contentsOf: result.recipes)
-                popularCategoryRecipesFavoritable = mapFavoritables(from: popularCategoryAPIRecipes)
-
-            case .cuisineByCountry:
-                // у этого пока нет пагинации
-                break
-            case .recentRecipe:
-                // заглушка
-                break
-            }
-            pages[type, default: 0] += 1
-        } catch {
-            self.error = error
-        }
-    }
-
-    // MARK: - Refresh (сброс и загрузка заново)
-    func refresh(type: SeeAllType) async {
-        await fetchRecipes(for: type, loadMore: false)
-    }
-
-    // MARK: - Reset / Clear
-    private func clearRecipes(for type: SeeAllType) {
-        switch type {
-        case .trendingNow:
-            trendingNowAPIRecipes.removeAll()
-            trendingNowRecipesFavoritable.removeAll()
-        case .popularCategories:
-            popularCategoryAPIRecipes.removeAll()
-            popularCategoryRecipesFavoritable.removeAll()
-        case .cuisineByCountry:
-            cuisineByCountriesAPI.removeAll()
-            cuisineByCountriesFavoritable.removeAll()
-        case .recentRecipe:
-            recentRecipes.removeAll()
-        }
-    }
-
-    // MARK: - Map Favoritable
-    private func mapFavoritables(from recipes: [RecipeModel]) -> [RecipeFavoritable] {
-        recipes.map { recipe in
-            var bookable = RecipeFavoritable(recipeDetails: recipe)
-            bookable.isFavorited = favorites.contains(recipe.id)
-            return bookable
-        }
-    }
     
-    // MARK: - Reset on category change
-    private func resetPopularRecipes() async {
-        await fetchPopularCategoryRecipes(loadMore: false)
-    }
+    @MainActor
+       func fetchTrendingNowRecipes() async {
+           do {
+               let result = try await networkService.fetchTrendingNowRecipes(
+                page: pages[.trendingNow] ?? 0,
+                perPage: perPage
+               )
+               self.trendingNowRecipes = result.recipes
+           } catch {
+               self.error = error
+           }
+       }
+
+       func fetchPopularCategoryRecipes() async {
+           do {
+               let result = try await networkService.fetchPopularCategoryRecipes(
+                currentCategory,
+                page: pages[.popularCategories] ?? 0,
+                perPage: perPage
+               )
+               self.popularCategoryRecipes = result.recipes
+           } catch {
+               self.error = error
+           }
+       }
+
     
     func fetchCuisineByCountries(_ currentCountry: Cuisine) async {
         do {
-            cuisineByCountriesAPI = try await networkService.fetchCuisineByCountries(currentCountry)
+            cuisineByCountries = try await networkService.fetchCuisineByCountries(currentCountry)
         } catch {
             self.error = error
-        }
-
-        cuisineByCountriesFavoritable = cuisineByCountriesAPI.map { recipe in
-            var bookable = RecipeFavoritable(recipeDetails: recipe)
-            bookable.isFavorited = favorites.contains(recipe.id)
-            return bookable
         }
     }
     
@@ -217,40 +154,5 @@ final class HomeViewModel: ObservableObject {
     func clearRecentSearches(_ query: String) {
         searchHistoryService.clearRecentSearches(query)
         recentSearches.removeAll(where: { $0 == query })
-    }
-
-    // MARK: Work with Favorite recipes
-    /// toggling favorite recipes
-    func toggleFavorite(for recipeID: Int, type: SeeAllType) {
-        if favorites.contains(recipeID) {
-            favorites.remove(recipeID)
-        } else {
-            favorites.insert(recipeID)
-        }
-        userDefaultsService.saveFavorites(Array(favorites))
-
-        switch type {
-        case .trendingNow:
-            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID)
-        case .popularCategories:
-            syncFavorites(in: &popularCategoryRecipesFavoritable, recipeID: recipeID)
-        case .cuisineByCountry:
-            syncFavorites(in: &cuisineByCountriesFavoritable, recipeID: recipeID)
-        case .recentRecipe:
-            syncFavorites(in: &trendingNowRecipesFavoritable, recipeID: recipeID) // mock
-        }
-    }
-
-    /// func for updating UI (coloring bookmark) in collecions in runtime
-    private func syncFavorites(in collection: inout [RecipeFavoritable], recipeID: Int) {
-        if let index = collection.firstIndex(where: { $0.id == recipeID }) {
-            collection[index].isFavorited = favorites.contains(recipeID)
-        }
-    }
-
-    /// load favorites from UserDefaults
-    private func loadFavorites() {
-        let stored = userDefaultsService.loadFavorites()
-        favorites = Set(stored)
     }
 }

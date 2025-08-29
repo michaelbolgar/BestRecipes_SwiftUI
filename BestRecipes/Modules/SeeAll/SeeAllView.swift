@@ -8,21 +8,27 @@
 import SwiftUI
 
 struct SeeAllView: View {
+    // MARK: - Properties
     @ObservedObject var homeViewModel: HomeViewModel
     
     let type: SeeAllType
-    @Binding var items: [RecipeFavoritable]
+    @Binding var recipes: [RecipeModel]
+    @Binding var isFavorited: Bool
     let toggleBookmark: (Int) -> Void
 
-    
+    // MARK: - Body
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack {
-                ForEach(items) { item in
+                ForEach(recipes) { recipe in
                     NavigationLink {
-                        RecipeDetailView(recipeID: item.id)
+                        RecipeDetailView(recipeID: recipe.id)
                     } label: {
-                        RecipeListRow(recipe: item, toggleBookmark: { toggleBookmark(item.id) })
+                        TrendingNowCell(
+                            recipe: recipe,
+                            isFavorited: $isFavorited,
+                            toggleBookmark: { toggleBookmark(recipe.id)}
+                        )
                             .padding(.vertical, Offsets.x2)
                     }
                 }
@@ -42,23 +48,24 @@ struct SeeAllView: View {
         }
     }
     
-    private func loadNextPage() async {
-        switch type {
-        case .trendingNow:
-            await homeViewModel.loadTrendingNextPage()
-        case .popularCategories:
-            await homeViewModel.loadPopularNextPage()
-        }
-    }
-
-    private func refresh() async {
-        switch type {
-        case .trendingNow:
-            await homeViewModel.refreshTrending()
-        case .popularCategories:
-            await homeViewModel.refreshPopular()
-        }
-    }
+    // MARK: - Helper Methods
+//    private func loadNextPage() async {
+//        switch type {
+//        case .trendingNow:
+//            await homeViewModel.loadTrendingNextPage()
+//        case .popularCategories:
+//            await homeViewModel.loadPopularNextPage()
+//        }
+//    }
+//
+//    private func refresh() async {
+//        switch type {
+//        case .trendingNow:
+//            await homeViewModel.refreshTrending()
+//        case .popularCategories:
+//            await homeViewModel.refreshPopular()
+//        }
+//    }
 }
 
 //#Preview("Trending now") {

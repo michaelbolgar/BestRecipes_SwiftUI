@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct SavedRecipesCell: View {
-    let recipe: RecipeFavoritable
+    // MARK: - Properties
+    let recipe: RecipeModel
+    @Binding var isFavorited: Bool
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -9,7 +11,8 @@ struct SavedRecipesCell: View {
         static let imageCornerRadius: CGFloat = 10
         static let cardHeight: CGFloat = 240
     }
-
+    
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack(alignment: .bottom) {
@@ -28,13 +31,13 @@ struct SavedRecipesCell: View {
                 .frame(height: Drawing.imageHeight)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    RatingView(rating: recipe.recipeDetails.spoonacularScore)
-                    TimerView(timer: "\(recipe.recipeDetails.readyInMinutes) min")
+                    RatingView(rating: recipe.spoonacularScore)
+                    TimerView(timer: "\(recipe.readyInMinutes) min")
                 }
                 .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                BookmarkButton(isBookmarked: recipe.isFavorited, action: toggleBookmark)
+                FavoriteButton(isFavorited: $isFavorited, action: toggleBookmark)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
                 authorView()
@@ -42,7 +45,7 @@ struct SavedRecipesCell: View {
             .clipShape(RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
             .frame(height: Drawing.imageHeight)
 
-            Text(recipe.recipeDetails.title)
+            Text(recipe.title)
                 .font(.custom(AppFont.bold, size: 16))
                 .lineLimit(2)
                 .padding(.top, 4)
@@ -55,7 +58,7 @@ struct SavedRecipesCell: View {
     func authorView() -> some View {
         ZStack {
             HStack {
-                Text("by: \(recipe.recipeDetails.author)")
+                Text("by: \(recipe.author)")
                     .lineLimit(1)
                     .font(.custom(AppFont.regular, size: 12))
                     .foregroundStyle(.appWhite)
@@ -66,7 +69,7 @@ struct SavedRecipesCell: View {
     }
 
     func imageView() -> some View {
-        AsyncImage(url: recipe.imageURL) { phase in
+        AsyncImage(url: recipe.image) { phase in
             switch phase {
             case .success(let image):
                 image.resizable().scaledToFill()
@@ -81,6 +84,6 @@ struct SavedRecipesCell: View {
     }
 }
 
-#Preview {
-    SavedRecipesCell(recipe: RecipeFavoritable(recipeDetails: RecipeModel(id: 1, title: "Delicious Beef", image: URL(string: "https://spoonacular.com/recipeImages/716429-312x231.jpg")!, author: "Michael", spoonacularScore: 4.8, readyInMinutes: "50"), isFavorited: true), toggleBookmark: {} )
-}
+//#Preview {
+//    SavedRecipesCell(recipe: RecipeFavoritable(recipeDetails: RecipeModel(id: 1, title: "Delicious Beef", image: URL(string: "https://spoonacular.com/recipeImages/716429-312x231.jpg")!, author: "Michael", spoonacularScore: 4.8, readyInMinutes: "50"), isFavorited: true), toggleBookmark: {} )
+//}

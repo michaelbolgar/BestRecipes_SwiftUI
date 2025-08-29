@@ -4,8 +4,9 @@ import SwiftUI
 
 struct PopularCategoriesSection: View {
     // MARK: - Properties
-    let recipe: [RecipeFavoritable]
+    let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
+    @Binding var isFavorited: Bool
     let toggleBookmark: (Int) -> Void
 
     // MARK: - Body
@@ -18,7 +19,11 @@ struct PopularCategoriesSection: View {
                     }
                 } else {
                     ForEach(recipe) { recipe in
-                        PopularCell(recipe: recipe, toggleBookmark: { toggleBookmark(recipe.id) })
+                        PopularCell(
+                            recipe: recipe,
+                            isFavorited: $isFavorited,
+                            toggleBookmark: { toggleBookmark(recipe.id) }
+                        )
                             .padding(.vertical, Offsets.x0)
                             .onTapGesture {
                                 showDetail(recipe.id)
@@ -31,5 +36,5 @@ struct PopularCategoriesSection: View {
 }
 
 #Preview {
-    PopularCategoriesSection(recipe: RecipeFavoritable.trendingMockBookable, showDetail: {_ in }, toggleBookmark: {_ in })
+    PopularCategoriesSection(recipe: RecipeModel.trendingMockBookable, showDetail: {_ in }, isFavorited: .constant(false), toggleBookmark: {_ in })
 }

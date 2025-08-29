@@ -164,7 +164,7 @@ struct HomeContentView: View {
         VStack(alignment: .leading, spacing: .zero) {
             SeeAllSectionView(
                 title: SeeAllType.trendingNow.title,
-                isShowAll: !viewModel.trendingNowRecipesFavoritable.isEmpty
+                isShowAll: !viewModel.trendingNowRecipes.isEmpty
             ){
                 navigationPath.append(Route.seeAll(
                     type: .trendingNow)
@@ -172,7 +172,7 @@ struct HomeContentView: View {
             }
             
             TrendingNowSection(
-                recipe: viewModel.trendingNowRecipesFavoritable,
+                recipe: viewModel.trendingNowRecipes,
                 showDetail: { recipeID in
                     if let recipe = viewModel.trendingNowRecipesFavoritable.first(where: { $0.id == recipeID }) {
 //                        viewModel.addRecentRecipe(<#T##RecentRecipesModel#>)
@@ -191,7 +191,7 @@ struct HomeContentView: View {
         VStack(alignment: .leading) {
             SeeAllSectionView(
                 title: SeeAllType.popularCategories.title,
-                isShowAll: !viewModel.popularCategoryRecipesFavoritable.isEmpty
+                isShowAll: !viewModel.popularCategoryRecipes.isEmpty
             ){
                 navigationPath.append(Route.seeAll(
                     type: .popularCategories)
@@ -202,7 +202,7 @@ struct HomeContentView: View {
             .padding(.top, -Offsets.x2)
 
             PopularCategoriesSection(
-                recipe: viewModel.popularCategoryRecipesFavoritable,
+                recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
                 }, toggleBookmark: { recipeID in
@@ -268,16 +268,16 @@ extension HomeContentView {
 }
 
 extension HomeContentView {
-    private func bindingForType(_ type: SeeAllType) -> Binding<[RecipeFavoritable]> {
+    private func bindingForType(_ type: SeeAllType) -> Binding<[RecipeModel]> {
         switch type {
         case .trendingNow:
-            return $viewModel.trendingNowRecipesFavoritable
+            return $viewModel.trendingNowRecipes
         case .popularCategories:
-            return $viewModel.popularCategoryRecipesFavoritable
+            return $viewModel.popularCategoryRecipes
         case .cuisineByCountry:
-            return $viewModel.cuisineByCountriesFavoritable
+            return $viewModel.cuisineByCountries
         case .recentRecipe:
-            return $viewModel.popularCategoryRecipesFavoritable //mock
+            return $viewModel.popularCategoryRecipes //mock
         }
     }
 }
