@@ -22,7 +22,7 @@ struct PersistenceController {
             recipe.id = UUID()
             recipe.title = "Mock Recipe \(i + 1)"
             recipe.serves = Int16(2 + i)
-            recipe.cookTime = Int16(10 * (i + 1))
+            recipe.cookTime =  "Time \(i + 1) min"
             recipe.ingredients = ["Ingredient \(i+1)": "\(i*100) g"] as NSObject
         }
         

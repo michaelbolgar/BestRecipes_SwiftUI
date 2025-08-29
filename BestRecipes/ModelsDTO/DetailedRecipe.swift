@@ -55,15 +55,3 @@ extension DetailedRecipe {
     }
 }
 
-extension DetailedRecipe {
-    func toFavoritable(isFavorited: Bool = false) -> RecipeFavoritable {
-        let recipeModel = RecipeModel(id: id,
-                                      title: title,
-                                      image: image,
-                                      author: sourceName,
-                                      spoonacularScore: spoonacularScore,
-                                      readyInMinutes: "\(readyInMinutes)"
-        )
-        return RecipeFavoritable(recipeDetails: recipeModel, isFavorited: isFavorited)
-    }
-}

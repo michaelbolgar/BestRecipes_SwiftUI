@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct SeeAllView: View {
-    let type: SeeAllType
-    @Binding var items: [RecipeFavoritable]
-    let toggleBookmark: (Int) -> Void
-//    @StateObject var viewModel: SeeAllViewModel
+    // MARK: - Properties
+    @ObservedObject var homeViewModel: HomeViewModel
+    @EnvironmentObject private var coreDataService: CoreDataService
     
+    let type: SeeAllType
+    @Binding var recipes: [RecipeModel]
+    
+    // MARK: - Body
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack {
-                ForEach(items) { item in
+                ForEach(recipes) { recipe in
                     NavigationLink {
-                        RecipeDetailView(recipeID: item.id)
+                        RecipeDetailView(recipeID: recipe.id)
                     } label: {
-                        RecipeListRow(recipe: item, toggleBookmark: { toggleBookmark(item.id) })
+                        TrendingNowCell(
+                            recipe: recipe,
+                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.toggleFavorite(recipe)}
+                        )
                             .padding(.vertical, Offsets.x2)
                     }
                 }
@@ -39,6 +46,25 @@ struct SeeAllView: View {
             }
         }
     }
+    // MARK: - Helper Methods
+
+//    private func loadNextPage() async {
+//        switch type {
+//        case .trendingNow:
+//            await homeViewModel.loadTrendingNextPage()
+//        case .popularCategories:
+//            await homeViewModel.loadPopularNextPage()
+//        }
+//    }
+//
+//    private func refresh() async {
+//        switch type {
+//        case .trendingNow:
+//            await homeViewModel.refreshTrending()
+//        case .popularCategories:
+//            await homeViewModel.refreshPopular()
+//        }
+//    }
 }
 
 //#Preview("Trending now") {
