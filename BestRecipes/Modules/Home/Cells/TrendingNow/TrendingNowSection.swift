@@ -3,10 +3,10 @@ import SwiftUI
 
 struct TrendingNowSection: View {
     // MARK: - Properties
+    @EnvironmentObject private var coreDataService: CoreDataService
+    
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
-    @Binding var isFavorited: Bool
-    let toggleBookmark: (Int) -> Void
 
     @State private var appearedIndexes: Set<Int> = []
 
@@ -25,8 +25,8 @@ struct TrendingNowSection: View {
                     ForEach(Array(recipe.enumerated()), id: \.element.id) { index, recipe in
                         TrendingNowCell(
                             recipe: recipe,
-                            isFavorited: $isFavorited,
-                            toggleBookmark: { toggleBookmark(recipe.id)}
+                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.toggleFavorite(recipe) }
                         )
                             .padding(.vertical, Offsets.x2)
                             .opacity(appearedIndexes.contains(index) ? 1 : 0)
@@ -47,5 +47,5 @@ struct TrendingNowSection: View {
 }
 
 #Preview {
-    TrendingNowSection(recipe: [], showDetail: {_ in }, isFavorited: .constant(false), toggleBookmark: {_ in })
+    TrendingNowSection(recipe: [], showDetail: {_ in })
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct FavoriteButton: View {
-    @Binding var isFavorited: Bool
+    var isFavorited: Bool
     let action: () -> Void
 
     var body: some View {
@@ -24,7 +24,7 @@ struct FavoriteButtonStyle: ButtonStyle {
 }
 
 #Preview {
-    FavoriteButton(isFavorited: .constant(false)) {
+    FavoriteButton(isFavorited: false) {
         print("Tapped")
     }
 }

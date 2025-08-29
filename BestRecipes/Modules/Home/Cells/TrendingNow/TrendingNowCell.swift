@@ -10,7 +10,7 @@ import SwiftUI
 struct TrendingNowCell: View {
     // MARK: - Properties
     let recipe: RecipeModel
-    @Binding var isFavorited: Bool
+    var isFavorited: Bool
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -47,7 +47,7 @@ struct TrendingNowCell: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 
                 FavoriteButton(
-                    isFavorited: $isFavorited,
+                    isFavorited: isFavorited,
                     action: toggleBookmark
                 )
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
@@ -100,5 +100,5 @@ struct TrendingNowCell: View {
 }
 
 #Preview {
-    TrendingNowCell(recipe: RecipeModel.trendingMockBookable.first!, isFavorited: .constant(false), toggleBookmark: {} )
+    TrendingNowCell(recipe: RecipeModel.trendingMockBookable.first!, isFavorited: false, toggleBookmark: {} )
 }

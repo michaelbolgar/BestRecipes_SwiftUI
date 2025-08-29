@@ -4,10 +4,10 @@ import SwiftUI
 
 struct PopularCategoriesSection: View {
     // MARK: - Properties
+    @EnvironmentObject private var coreDataService: CoreDataService
+    
     let recipe: [RecipeModel]
     var showDetail: (Int) -> Void
-    @Binding var isFavorited: Bool
-    let toggleBookmark: (Int) -> Void
 
     // MARK: - Body
     var body: some View {
@@ -21,8 +21,8 @@ struct PopularCategoriesSection: View {
                     ForEach(recipe) { recipe in
                         PopularCell(
                             recipe: recipe,
-                            isFavorited: $isFavorited,
-                            toggleBookmark: { toggleBookmark(recipe.id) }
+                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.toggleFavorite(recipe)}
                         )
                             .padding(.vertical, Offsets.x0)
                             .onTapGesture {
@@ -36,5 +36,5 @@ struct PopularCategoriesSection: View {
 }
 
 #Preview {
-    PopularCategoriesSection(recipe: RecipeModel.trendingMockBookable, showDetail: {_ in }, isFavorited: .constant(false), toggleBookmark: {_ in })
+    PopularCategoriesSection(recipe: RecipeModel.trendingMockBookable, showDetail: {_ in })
 }

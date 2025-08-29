@@ -1,7 +1,14 @@
 
 import SwiftUI
 
-struct RecipeModel: Identifiable, Equatable, Hashable {
+protocol IRecipeFavoritable {
+   var id: Int { get }
+   var title: String { get }
+   var image: URL { get }
+   var author: String { get }
+}
+
+struct RecipeModel: Identifiable, Equatable, Hashable, IRecipeFavoritable {
     let id: Int
     let title: String
     let image: URL
@@ -17,6 +24,17 @@ extension RecipeModel {
         self.title = recent.title
         self.image = URL(string: recent.imageString) ?? URL(string: "https://via.placeholder.com/300")!
         self.author = recent.author
+        self.spoonacularScore = 0
+        self.readyInMinutes = ""
+    }
+}
+
+extension RecipeModel {
+    init(from favorite: FavoriteEntity) {
+        self.id = Int(favorite.id)
+        self.title = favorite.title ?? ""
+        self.image = URL(string: favorite.imageString ?? "https://via.placeholder.com/300") ?? URL(string: "https://via.placeholder.com/300")!
+        self.author = favorite.author ?? ""
         self.spoonacularScore = 0
         self.readyInMinutes = ""
     }

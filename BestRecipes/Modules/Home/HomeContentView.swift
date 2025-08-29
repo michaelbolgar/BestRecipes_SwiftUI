@@ -57,9 +57,11 @@ struct HomeContentView: View {
             .navigationDestination(for: Route.self) { route in
                 switch route {
                 case .seeAll(let type):
-                    SeeAllView(type: type, items: bindingForType(type)) { id in
-                        viewModel.toggleFavorite(for: id, type: type)
-                    }
+                    SeeAllView(
+                        homeViewModel: viewModel,
+                        type: type,
+                        recipes: bindingForType(type)
+                    )
 
                 case .recipeDetail(let id):
                     RecipeDetailView(recipeID: id)
@@ -174,13 +176,11 @@ struct HomeContentView: View {
             TrendingNowSection(
                 recipe: viewModel.trendingNowRecipes,
                 showDetail: { recipeID in
-                    if let recipe = viewModel.trendingNowRecipesFavoritable.first(where: { $0.id == recipeID }) {
+                    if let recipe = viewModel.trendingNowRecipes.first(where: { $0.id == recipeID }) {
 //                        viewModel.addRecentRecipe(<#T##RecentRecipesModel#>)
                     }
                     navigationPath.append(Route.recipeDetail(id: recipeID))
-                },
-                toggleBookmark: { recipeID in
-                    viewModel.toggleFavorite(for: recipeID, type: .trendingNow)
+               
                 }
             )
             .padding(.top, Offsets.x0)
@@ -205,8 +205,6 @@ struct HomeContentView: View {
                 recipe: viewModel.popularCategoryRecipes,
                 showDetail: { recipeID in
                     navigationPath.append(Route.recipeDetail(id: recipeID))
-                }, toggleBookmark: { recipeID in
-                    viewModel.toggleFavorite(for: recipeID, type: .popularCategories)
                 }
             )
             .padding(.top, Offsets.x4)

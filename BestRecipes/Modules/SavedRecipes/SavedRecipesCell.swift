@@ -3,7 +3,7 @@ import SwiftUI
 struct SavedRecipesCell: View {
     // MARK: - Properties
     let recipe: RecipeModel
-    @Binding var isFavorited: Bool
+    var isFavorited: Bool
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -37,7 +37,10 @@ struct SavedRecipesCell: View {
                 .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                FavoriteButton(isFavorited: $isFavorited, action: toggleBookmark)
+                FavoriteButton(
+                    isFavorited: isFavorited,
+                    action: toggleBookmark
+                )
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
                 authorView()

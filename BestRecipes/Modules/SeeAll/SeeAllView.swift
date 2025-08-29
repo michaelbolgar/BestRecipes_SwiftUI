@@ -10,12 +10,11 @@ import SwiftUI
 struct SeeAllView: View {
     // MARK: - Properties
     @ObservedObject var homeViewModel: HomeViewModel
+    @EnvironmentObject private var coreDataService: CoreDataService
     
     let type: SeeAllType
     @Binding var recipes: [RecipeModel]
-    @Binding var isFavorited: Bool
-    let toggleBookmark: (Int) -> Void
-
+    
     // MARK: - Body
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -26,8 +25,8 @@ struct SeeAllView: View {
                     } label: {
                         TrendingNowCell(
                             recipe: recipe,
-                            isFavorited: $isFavorited,
-                            toggleBookmark: { toggleBookmark(recipe.id)}
+                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.toggleFavorite(recipe)}
                         )
                             .padding(.vertical, Offsets.x2)
                     }
@@ -47,8 +46,8 @@ struct SeeAllView: View {
             }
         }
     }
-    
     // MARK: - Helper Methods
+
 //    private func loadNextPage() async {
 //        switch type {
 //        case .trendingNow:
