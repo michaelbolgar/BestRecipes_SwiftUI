@@ -38,5 +38,6 @@ struct RecentSectionView: View {
 }
 
 #Preview {
-    RecentSectionView(recipe: [], showDetail: {_ in })
+    HomeContentView()
+        .environmentObject(CoreDataService())
 }

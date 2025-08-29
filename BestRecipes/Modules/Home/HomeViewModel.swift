@@ -70,7 +70,6 @@ final class HomeViewModel: ObservableObject {
         self.searchHistoryService = searchHistoryService
         self.userDefaultsService = userDefaultsService
         loadFavorites()
-        print("saved recipes by opening Home: \(favorites)")
     }
     
     // MARK: - Fetch Data

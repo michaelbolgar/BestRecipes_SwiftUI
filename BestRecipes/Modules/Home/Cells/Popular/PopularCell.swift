@@ -23,8 +23,8 @@ struct PopularCell: View {
             Color(.appBackground)
                 .ignoresSafeArea()
             VStack(spacing: 0) {
-                Spacer().frame(height: Drawing.roundSize / 2)
-                
+                Spacer().frame(height: Drawing.roundSize / 3)
+
                 ZStack(alignment: .bottom) {
                     RoundedRectangle(cornerRadius: Offsets.x3)
                         .frame(width: 150, height: 176)
@@ -33,7 +33,7 @@ struct PopularCell: View {
                     VStack {
                         Text(recipe.recipeDetails.title)
                             .recipesTitleStyle()
-                            .lineLimit(3)
+                            .lineLimit(2)
                             .truncationMode(.tail)
                             .multilineTextAlignment(.center)
                             .minimumScaleFactor(0.9)
@@ -52,8 +52,9 @@ struct PopularCell: View {
                                 toggleBookmark()
                             })
                         }
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 12)
+                        .padding(.leading, Offsets.x3)
+                        .padding(.trailing, Offsets.x1)
+                        .padding(.bottom, Offsets.x2)
                     }
                 }
             }
