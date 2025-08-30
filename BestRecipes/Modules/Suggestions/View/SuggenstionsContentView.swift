@@ -3,6 +3,7 @@ import SwiftUI
 struct SuggestionsContentView: View {
     @StateObject private var vm: SuggestionsViewModel
 
+    // MARK: Constants
     private enum Constants {
         static let animationDuration: Double = 0.8
 
@@ -14,6 +15,7 @@ struct SuggestionsContentView: View {
         _vm = StateObject(wrappedValue: SuggestionsViewModel())
     }
 
+    // MARK: Body
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: .zero) {
@@ -33,7 +35,7 @@ struct SuggestionsContentView: View {
         case .main:
             mainModeView
         case .suggestion:
-            wineInfoView
+            SuggestionView(suggestion: vm.suggestion ?? Suggestion.mockSuggestion)
                 .transition(.move(edge: .bottom))
         }
     }
@@ -91,22 +93,6 @@ struct SuggestionsContentView: View {
         }
     }
 
-    private var wineInfoView: some View {
-        VStack(spacing: 20) {
-            Text("Здесь будет информация о вине")
-                .font(.title2)
-                .foregroundColor(.black)
-
-            Button("Назад") {
-                vm.mode = .main
-            }
-            .padding()
-            .background(Color.redPrimary80)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-        }
-    }
-
     // MARK: Subviews
     private var centralLabelView: some View {
         Circle()
@@ -123,6 +109,70 @@ struct SuggestionsContentView: View {
             )
     }
 }
+
+struct SuggestionView: View {
+    let suggestion: Suggestion
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+
+                if !suggestion.pairedWines.isEmpty {
+                    HStack(spacing: 12) {
+                        ForEach(suggestion.pairedWines.prefix(3), id: \.self) { wine in
+                            Text(wine)
+                                .font(.headline)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color.red.opacity(0.1))
+                                .cornerRadius(8)
+                        }
+                    }
+                }
+
+                Text(suggestion.pairingText)
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Рекомендуемые вина")
+                        .font(.headline)
+
+                    List(suggestion.productMatches) { wine in
+                        HStack(alignment: .top, spacing: 12) {
+                            Image("mockImage")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 80)
+                                .clipped()
+                                .cornerRadius(8)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(wine.title)
+                                    .font(.headline)
+
+                                Text(wine.price)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+
+                                Text(wine.description)
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                    .lineLimit(2)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .frame(height: CGFloat(suggestion.productMatches.count) * 100)
+                    .listStyle(.plain)
+                }
+            }
+            .padding()
+        }
+    }
+}
+
 
 // MARK: Dish button struct
 struct DishCircleView: View {

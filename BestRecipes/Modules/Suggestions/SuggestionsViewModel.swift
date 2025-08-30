@@ -9,6 +9,7 @@ final class SuggestionsViewModel: ObservableObject {
 
     // MARK: Properties
     @Published var mode: Mode = .suggestion
+    @Published var suggestion: Suggestion?
     @Published var error: Error? = nil
     private let networkingService: SuggestionsNetworkingProtocol
 
@@ -21,15 +22,12 @@ final class SuggestionsViewModel: ObservableObject {
 
     // MARK: Methods
     @MainActor
-    func getSuggestion(dish: Dish) async -> Suggestion? {
+    func getSuggestion(dish: Dish) async {
         do {
-            let suggestion = try await networkingService.getSuggestionsForDish(dish: dish)
-            print(suggestion)
-            return suggestion
+            suggestion = try await networkingService.getSuggestionsForDish(dish: dish)
         } catch {
             self.error = error // судя по всему, плохая практика изменения свойств vm в async фукнции. Не может делать это из background потока, надо ставить @MainActor
             print(error)
-            return nil
             // вернуть какой-нибудь моковый объект с дефолтной рекомендацией?
         }
     }
