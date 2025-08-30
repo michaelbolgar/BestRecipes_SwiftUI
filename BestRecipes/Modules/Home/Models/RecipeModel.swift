@@ -34,6 +34,17 @@ extension RecipeModel {
 }
 
 extension RecipeModel {
+    init(from detailedRecipe: DetailedRecipe) {
+        self.id = detailedRecipe.id
+        self.title = detailedRecipe.title
+        self.image = detailedRecipe.image
+        self.author = detailedRecipe.sourceName
+        self.spoonacularScore = detailedRecipe.aggregateLikes
+        self.readyInMinutes = String(detailedRecipe.readyInMinutes) + "min"
+    }
+}
+
+extension RecipeModel {
     init(from created: CreatedRecipeModel) {
         self.id = created.id.hashValue
         self.title = created.title

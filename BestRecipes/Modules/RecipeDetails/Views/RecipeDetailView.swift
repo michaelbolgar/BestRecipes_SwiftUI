@@ -53,6 +53,17 @@ struct RecipeDetailView: View {
         ToolbarItem(placement: .topBarLeading) {
             BackBarButtonView()
         }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+           FavoriteButton(
+            isFavorited: coreDataService.isFavorite(recipeID: viewModel.recipeID),
+            action:{
+                let recipe = viewModel.items.map { RecipeModel(from: $0) }
+                guard let recipe else { return }
+                coreDataService.toggleFavorite(recipe)
+            }
+           )
+        }
     }
   }
   
@@ -167,6 +178,6 @@ struct RecipeDetailView: View {
 #Preview("RecipeDetailView") {
     NavigationStack {
       RecipeDetailView(recipeID: 323)
-            .environmentObject(CoreDataService() )
+            .environmentObject(CoreDataService.preview)
     }
 }

@@ -174,3 +174,10 @@ extension CoreDataService {
         }
     }
 }
+
+extension CoreDataService {
+    static var preview: CoreDataService = {
+        let controller = PersistenceController.preview
+        return CoreDataService(viewContext: controller.container.viewContext)
+    }()
+}
