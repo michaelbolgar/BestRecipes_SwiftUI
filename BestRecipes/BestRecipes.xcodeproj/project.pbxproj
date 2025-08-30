@@ -237,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				F48C81142E60EE2F00B5C065 /* Suggestion.swift */,
-				F49E6CCC2E5B3B5500EA82B4 /* RecipeFavoritable.swift */,
 				6D494C162E4B1EC200ED37D1 /* Recipe.swift */,
 				6D494C152E4B1EC200ED37D1 /* DetailedRecipe.swift */,
 				6D2FA36C2E4D64BD000BB6AE /* MealType.swift */,
@@ -385,7 +384,6 @@
 				F451DFA42E4A7EC400EB0C05 /* BestRecipes */,
 				F451DFA32E4A7EC400EB0C05 /* Products */,
 				6D494C172E4B1EC200ED37D1 /* ModelsDTO */,
-				F451DFB02E4A808700EB0C05 /* Services */,
 				F451DFB22E4A80C500EB0C05 /* Modules */,
 				F451DFBC2E4A84A600EB0C05 /* Entities */,
 				F451E0102E4A871700EB0C05 /* Design_System */,
@@ -557,11 +555,19 @@
 		F4EB3D752E5F5F5B00DEA8F1 /* Suggestions */ = {
 			isa = PBXGroup;
 			children = (
+				F4EB8DFE2E6390DB005B6900 /* View */,
 				F48C811C2E60F21300B5C065 /* Dish.swift */,
 				F48C81122E60EDC700B5C065 /* SuggestionsViewModel.swift */,
-				F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */,
 			);
 			path = Suggestions;
+			sourceTree = "<group>";
+		};
+		F4EB8DFE2E6390DB005B6900 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4EB3D762E5F5F6C00DEA8F1 /* SuggenstionsContentView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		F4F723812E4E49A3007AB583 /* Tabbar */ = {

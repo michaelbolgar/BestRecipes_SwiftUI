@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TabbarBuilder: View {
-    @State private var selectedTab: Tab = .home
+    @State private var selectedTab: Tab = .suggestions
 
     var body: some View {
 

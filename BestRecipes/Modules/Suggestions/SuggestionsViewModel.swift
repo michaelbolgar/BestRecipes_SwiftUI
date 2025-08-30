@@ -2,9 +2,15 @@ import SwiftUI
 
 final class SuggestionsViewModel: ObservableObject {
 
+    enum Mode {
+        case main
+        case suggestion
+    }
+
     // MARK: Properties
-    private let networkingService: SuggestionsNetworkingProtocol
+    @Published var mode: Mode = .suggestion
     @Published var error: Error? = nil
+    private let networkingService: SuggestionsNetworkingProtocol
 
     // MARK: Init
     init(
