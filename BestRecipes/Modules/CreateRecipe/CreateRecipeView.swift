@@ -7,8 +7,8 @@ struct CreateRecipeView: View {
     @StateObject private var keyboard = KeyboardObserver()
     
     @State private var title = ""
-    @State private var serves: Int = 0
-    @State private var cookTime: Int = 0
+    @State private var serves: String = "0"
+    @State private var cookTime: String = "0 min"
     @State private var ingredients: [IngredientCreatedRecipe] = []
     
     @State private var selectedPhoto: PhotosPickerItem? = nil
@@ -61,6 +61,7 @@ struct CreateRecipeView: View {
                     CustomButton(
                         image: "CookTime",
                         title: "CookTime",
+                        unitsOfMeasurement: "min",
                         selectedValue: $cookTime
                     )
                     

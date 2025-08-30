@@ -15,12 +15,15 @@ final class CoreDataService: ObservableObject {
     @Published var recentRecipes: [RecentEntity] = []
     @Published var createdRecipes: [RecipeModel] = []
     
+    @Published var favoriteRecipes: [RecipeModel] = []
+    
     //    MARK: - INIT
     init(viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.viewContext = viewContext
         
         fetchResipes()
         fetchCreatedRecipes()
+        fetchFavoriteRecipes()
     }
     
     //    MARK: - Save Context
@@ -75,15 +78,15 @@ final class CoreDataService: ObservableObject {
     }
     
     //    MARK: - Created Recipes
-    func createCreatedRecipe(title: String, serves: Int, cookTime: Int, ingredients: [String:String], imageData: Data? = nil) {
+    func createCreatedRecipe(title: String, serves: String, cookTime: String, ingredients: [String:String], imageData: Data? = nil) {
         let recipe = CreatedRecipeEntity(context: viewContext)
         recipe.title = title
-        recipe.serves = Int16(serves)
-        recipe.cookTime = Int16(cookTime)
+        recipe.serves = Int16(serves.hashValue)
+        recipe.cookTime = cookTime
         recipe.ingredients = ingredients as NSObject
         recipe.imageData = imageData
         recipe.dateAdded = Date()
-
+        
         saveContext()
         fetchCreatedRecipes()
     }
@@ -99,6 +102,73 @@ final class CoreDataService: ObservableObject {
             }
         } catch {
             print("Fetch created recipes error: \(error)")
+        }
+    }
+}
+
+//    MARK: - extension Favorite Recipes
+extension CoreDataService {
+    func fetchFavoriteRecipes() {
+        let request = FavoriteEntity.fetchRequest()
+        let sortDescription = NSSortDescriptor(keyPath: \FavoriteEntity.id, ascending: true)
+        request.sortDescriptors = [sortDescription]
+        
+        do {
+            let entities = try viewContext.fetch(request)
+            
+            favoriteRecipes = entities.map { RecipeModel(from: $0)}
+        } catch {
+            let nserror = error as NSError
+            print("Не удалось получить рецепты: \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func saveFavoriteRecipes(_ favoriteRecipe: RecipeModel) {
+        let fetchRequest: NSFetchRequest<FavoriteEntity> = FavoriteEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", favoriteRecipe.id)
+
+        if let existing = try? viewContext.fetch(fetchRequest), !existing.isEmpty {
+            return // уже есть в избранном, не добавляем ещё раз
+        }
+        
+        let favorite = FavoriteEntity(context: viewContext)
+        favorite.id = Int64(favoriteRecipe.id)
+        favorite.title = favoriteRecipe.title
+        favorite.author = favoriteRecipe.author
+        favorite.imageString = favoriteRecipe.image.absoluteString
+        favorite.dateAdded = Date()
+        
+        saveContext()
+        fetchFavoriteRecipes()
+    }
+    
+    func deleteFavorite(recipeID: Int) {
+        let fetchRequest: NSFetchRequest<FavoriteEntity> = FavoriteEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", recipeID)
+        do {
+            let favoriteToDelete = try viewContext.fetch(fetchRequest)
+            for favoriteRecipe in favoriteToDelete {
+                viewContext.delete(favoriteRecipe)
+            }
+            saveContext()
+            fetchFavoriteRecipes()
+        } catch {
+            let nserror = error as NSError
+            print("Ошибка при удалении события: \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func isFavorite(recipeID: Int) -> Bool {
+        favoriteRecipes.contains { $0.id == recipeID }
+    }
+    
+    func toggleFavorite(_ recipe: RecipeModel) {
+        if isFavorite(recipeID: recipe.id) {
+            deleteFavorite(recipeID: recipe.id)
+            print(" удалили \(recipe.id)")
+        } else {
+            saveFavoriteRecipes(recipe)
+            print(" добавили \(recipe.id)")
         }
     }
 }

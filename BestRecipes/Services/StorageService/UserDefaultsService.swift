@@ -8,15 +8,10 @@ import Foundation
 
 protocol UserDefaultsService {
     func hasCompletedOnboarding() -> Bool
-    func getFavoriteRecipes() -> [Recipe]?
 
     func recordOnboardingIsCompleted()
     func save(recipe: Recipe, for key: Keys)
 
-    func removeFromFavorites(recipeNumber: Int)
-
-    func loadFavorites() -> [Int]
-    func saveFavorites(_ ids: [Int])
 }
 
 final class UserDefaultsServiceImpl: UserDefaultsService {
@@ -57,35 +52,5 @@ final class UserDefaultsServiceImpl: UserDefaultsService {
 
     func hasCompletedOnboarding() -> Bool {
         defaults.bool(forKey: Keys.hasCompletedOnboarding.rawValue)
-    }
-
-    func getFavoriteRecipes() -> [Recipe]? {
-        guard let data = defaults.data(forKey: Keys.favoriteRecipes.rawValue),
-              let savedRecipes = try? JSONDecoder().decode([Recipe].self, from: data) else { return [] }
-        return savedRecipes
-    }
-
-    /// methods for favorites but based on its id
-    func saveFavorites(_ ids: [Int]) {
-        defaults.set(ids, forKey: Keys.favoriteID.rawValue)
-    }
-
-    func loadFavorites() -> [Int] {
-        defaults.array(forKey: Keys.favoriteID.rawValue) as? [Int] ?? []
-    }
-
-    // MARK: Update
-    /// here can be methods for updating user's recipes
-
-    // MARK: Delete
-    func removeFromFavorites(recipeNumber: Int) {
-        guard let data = defaults.data(forKey: Keys.favoriteRecipes.rawValue),
-              var recipes = try? JSONDecoder().decode([Recipe].self, from: data) else { return }
-
-        recipes.removeAll { $0.number == recipeNumber }
-
-        if let newData = try? JSONEncoder().encode(recipes) {
-            defaults.set(newData, forKey: Keys.favoriteRecipes.rawValue)
-        }
     }
 }

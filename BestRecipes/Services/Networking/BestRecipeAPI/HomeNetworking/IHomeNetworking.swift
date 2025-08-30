@@ -9,8 +9,8 @@ import Foundation
 
 protocol IHomeNetworking {
     func fetchSearchRecipes(query: String) async throws -> [RecipeModel]
-    func fetchTrendingNowRecipes() async throws -> [RecipeModel]
-    func fetchPopularCategoryRecipes(_ category: MealType) async throws -> [RecipeModel]
+    func fetchTrendingNowRecipes(page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int)
+    func fetchPopularCategoryRecipes(_ category: MealType, page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int)
     func fetchCuisineByCountries(_ country: Cuisine) async throws -> [RecipeModel]
 }
 
@@ -27,16 +27,20 @@ final class HomeNetworking: IHomeNetworking {
         return response.results.map { $0.toUIModel() }
     }
     
-    func fetchTrendingNowRecipes() async throws -> [RecipeModel] {
-        let endpoint = Endpoint.trendingRecipes(number: 10, days: 7)
+    func fetchTrendingNowRecipes(page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int) {
+        let offset = page * perPage
+        let endpoint = Endpoint.trendingRecipes(number: perPage, offset: offset)
         let response: Recipe = try await networkingService.fetch(from: endpoint)
-        return response.results.map { $0.toUIModel() }
+        let totalPages = Int(ceil(Double(response.totalResults) / Double(perPage)))
+        return (response.results.map { $0.toUIModel() }, totalPages)
     }
     
-    func fetchPopularCategoryRecipes(_ category: MealType) async throws -> [RecipeModel] {
-        let endpoint = Endpoint.popularRecipes(number: 10, minLikes: 100, mealType: category)
+    func fetchPopularCategoryRecipes(_ category: MealType, page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int) {
+        let offset = page * perPage
+        let endpoint = Endpoint.popularRecipes(number: perPage, offset: offset, minLikes: 100, mealType: category)
         let response: Recipe = try await networkingService.fetch(from: endpoint)
-        return response.results.map { $0.toUIModel() }
+        let totalPages = Int(ceil(Double(response.totalResults) / Double(perPage)))
+        return (response.results.map { $0.toUIModel() }, totalPages)
     }
     
     func fetchCuisineByCountries(_ country: Cuisine) async throws -> [RecipeModel] {

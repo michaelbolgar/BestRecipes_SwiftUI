@@ -11,7 +11,7 @@ struct CreatedRecipeModel: Identifiable {
     let id: UUID
     let title: String
     let serves: Int
-    let cookTime: Int
+    let cookTime: String
     let ingredients: [String: String]
     let imageData: Data?
 }
@@ -21,7 +21,7 @@ extension CreatedRecipeModel {
         self.id = entity.id ?? UUID()
         self.title = entity.title ?? ""
         self.serves = Int(entity.serves)
-        self.cookTime = Int(entity.cookTime)
+        self.cookTime = entity.cookTime ?? ""
         self.ingredients = (entity.ingredients as? [String: String]) ?? [:]
         self.imageData = entity.imageData
     }

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PopularCell: View {
-    
     // MARK: - Properties
-    let recipe: RecipeFavoritable
+    let recipe: RecipeModel
+    var isFavorited: Bool
     let toggleBookmark: () -> Void
 
     enum Drawing {
@@ -31,7 +31,7 @@ struct PopularCell: View {
                         .foregroundStyle(.neutral10)
                     
                     VStack {
-                        Text(recipe.recipeDetails.title)
+                        Text(recipe.title)
                             .recipesTitleStyle()
                             .lineLimit(2)
                             .truncationMode(.tail)
@@ -43,14 +43,14 @@ struct PopularCell: View {
                                 Text("Time")
                                     .recipesPlaceholderStyle()
                                 
-                                Text(recipe.recipeDetails.readyInMinutes)
+                                Text(recipe.readyInMinutes)
                                     .recipesTitleStyle()
                             }
                             Spacer()
-                            BookmarkButton(isBookmarked: recipe.isFavorited, action: {
-                                print("bookmark button on Popular tapped")
-                                toggleBookmark()
-                            })
+                            FavoriteButton(
+                                isFavorited: isFavorited,
+                                action: toggleBookmark
+                            )
                         }
                         .padding(.leading, Offsets.x3)
                         .padding(.trailing, Offsets.x1)
@@ -65,7 +65,7 @@ struct PopularCell: View {
     
     // MARK: - Helper Methods
     private func roundImageView() -> some View {
-        AsyncImage(url: recipe.imageURL) { phase in
+        AsyncImage(url: recipe.image) { phase in
             switch phase {
             case .empty:
                 ShimmerCircle(size: Drawing.roundSize)
@@ -92,5 +92,5 @@ struct PopularCell: View {
 }
 
 #Preview {
-    PopularCell(recipe: RecipeFavoritable.trendingMockBookable.first!, toggleBookmark: {})
+    PopularCell(recipe: RecipeModel.trendingMockBookable.first!, isFavorited: false, toggleBookmark: {})
 }

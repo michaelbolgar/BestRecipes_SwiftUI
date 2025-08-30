@@ -10,10 +10,11 @@ import SwiftUI
 struct CustomButton: View {
     var image = ""
     var title = ""
+    var unitsOfMeasurement: String = ""
+    
     @State private var label = 0
     @State private var showPicker = false
-    @Binding var selectedValue: Int
-    
+    @Binding var selectedValue: String
     let pickerValues = Array(0...1000)
     
     var body: some View {
@@ -35,17 +36,20 @@ struct CustomButton: View {
                 VStack {
                     Picker("Enter value", selection: $selectedValue) {
                         ForEach(pickerValues, id: \.self) { value in
-                            Text("\(value)").tag(value)
+                            Text("\(value) \(unitsOfMeasurement)")
+                                .tag(value)
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .labelsHidden()
+                    .pickerStyle(.wheel)
+                    .frame(height: 150)
+                    
                     Button("Enter") {
-                        label = selectedValue
+                        label = selectedValue.hashValue
                         showPicker = false
                     }
                 }
             }
+            .presentationDetents([.height(280)])
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -55,5 +59,5 @@ struct CustomButton: View {
 }
 
 #Preview {
-    CustomButton(image: "Serves", title: "Serves", selectedValue: .constant(4))
+    CustomButton(image: "Serves", title: "Serves", selectedValue: .constant("4"))
 }

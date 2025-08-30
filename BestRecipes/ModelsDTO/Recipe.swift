@@ -8,6 +8,7 @@
 import Foundation
 
 struct Recipe: Codable {
+    let offset: Int
     let number: Int
     let totalResults: Int
     let results: [Result]
