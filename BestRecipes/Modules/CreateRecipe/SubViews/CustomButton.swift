@@ -12,10 +12,12 @@ struct CustomButton: View {
     var title = ""
     var unitsOfMeasurement: String = ""
     
-    @State private var label = 0
+    @State private var label = "0"
     @State private var showPicker = false
     @Binding var selectedValue: String
+    
     let pickerValues = Array(0...1000)
+    @State private var tempValue: Int = 0
     
     var body: some View {
         HStack {
@@ -28,13 +30,19 @@ struct CustomButton: View {
                 .font(.custom(AppFont.regular, size: 14))
                 .foregroundStyle(.secondary)
             Button {
+                // при открытии подставляем текущее значение
+                if let intValue = Int(selectedValue.filter("0123456789".contains)) {
+                    tempValue = intValue
+                } else {
+                    tempValue = 0
+                }
                 showPicker = true
             } label: {
                 Image("Arrow-Right")
             }
             .sheet(isPresented: $showPicker) {
-                VStack {
-                    Picker("Enter value", selection: $selectedValue) {
+                VStack(spacing: 16) {
+                    Picker("Enter value", selection: $tempValue) {
                         ForEach(pickerValues, id: \.self) { value in
                             Text("\(value) \(unitsOfMeasurement)")
                                 .tag(value)
@@ -44,12 +52,14 @@ struct CustomButton: View {
                     .frame(height: 150)
                     
                     Button("Enter") {
-                        label = selectedValue.hashValue
+                        label = "\(tempValue) \(unitsOfMeasurement)"
+                        selectedValue = "\(tempValue) \(unitsOfMeasurement)"
                         showPicker = false
                     }
                 }
+                .presentationDetents([.height(280)]) // ✅ только 280pt снизу
+                .presentationDragIndicator(.visible) // для красоты
             }
-            .presentationDetents([.height(280)])
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

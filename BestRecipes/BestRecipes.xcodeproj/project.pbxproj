@@ -184,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				5E6FA6B32E4E1B5B0050C809 /* Views */,
-				5E6FA6B22E4E09510050C809 /* ViewController */,
 				5E6FA6B12E4E09440050C809 /* ViewModel */,
 				5E6FA6AC2E4E02440050C809 /* Models */,
 			);
@@ -207,17 +206,10 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		5E6FA6B22E4E09510050C809 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				5E6FA6AA2E4E003F0050C809 /* RecipeDetailView.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		5E6FA6B32E4E1B5B0050C809 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5E6FA6AA2E4E003F0050C809 /* RecipeDetailView.swift */,
 				5E6FA6B42E4E23490050C809 /* CustomCheckbox.swift */,
 			);
 			path = Views;

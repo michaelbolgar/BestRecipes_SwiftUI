@@ -1,14 +1,7 @@
 
 import SwiftUI
 
-protocol IRecipeFavoritable {
-   var id: Int { get }
-   var title: String { get }
-   var image: URL { get }
-   var author: String { get }
-}
-
-struct RecipeModel: Identifiable, Equatable, Hashable, IRecipeFavoritable {
+struct RecipeModel: Identifiable, Equatable, Hashable {
     let id: Int
     let title: String
     let image: URL
@@ -35,8 +28,8 @@ extension RecipeModel {
         self.title = favorite.title ?? ""
         self.image = URL(string: favorite.imageString ?? "https://via.placeholder.com/300") ?? URL(string: "https://via.placeholder.com/300")!
         self.author = favorite.author ?? ""
-        self.spoonacularScore = 0
-        self.readyInMinutes = ""
+        self.spoonacularScore = favorite.spoonacularScore
+        self.readyInMinutes = favorite.readyInMinutes ?? ""
     }
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
+    // MARK: - Properties
   @StateObject var viewModel: RecipeDetailViewModel
     @EnvironmentObject private var coreDataService: CoreDataService
   @State private var ingredientCheckedStatus: [Int: Bool] = [:]
@@ -16,6 +17,7 @@ struct RecipeDetailView: View {
         self._viewModel = StateObject(wrappedValue: RecipeDetailViewModel(recipeID: recipeID))
     }
     
+    // MARK: - Body
   var body: some View {
     ZStack(alignment: .top) {
         Color.appBackground
@@ -131,15 +133,16 @@ struct RecipeDetailView: View {
           if let image = viewModel.ingredientImage[ingredient.id] {
             Image(uiImage: image)
               .resizable()
-              .scaledToFill()
+              .scaledToFit()
               .background(Color.white)
               .clipShape(RoundedRectangle(cornerRadius: 8))
+              .frame(width: 44, height: 44)
           } else {
             ShimmerView()
+                  .frame(width: 44, height: 44)
           }
         }
-        .frame(maxWidth: 52)
-        .frame(height: 52)
+       
         .onAppear {
           Task {
             await viewModel.fetchIngredientImage(imageName: ingredient.image, id: ingredient.id)
@@ -164,5 +167,6 @@ struct RecipeDetailView: View {
 #Preview("RecipeDetailView") {
     NavigationStack {
       RecipeDetailView(recipeID: 323)
+            .environmentObject(CoreDataService() )
     }
 }

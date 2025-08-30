@@ -81,7 +81,7 @@ final class CoreDataService: ObservableObject {
     func createCreatedRecipe(title: String, serves: String, cookTime: String, ingredients: [String:String], imageData: Data? = nil) {
         let recipe = CreatedRecipeEntity(context: viewContext)
         recipe.title = title
-        recipe.serves = Int16(serves.hashValue)
+        recipe.serves = Int16(serves) ?? 0
         recipe.cookTime = cookTime
         recipe.ingredients = ingredients as NSObject
         recipe.imageData = imageData
@@ -136,6 +136,8 @@ extension CoreDataService {
         favorite.title = favoriteRecipe.title
         favorite.author = favoriteRecipe.author
         favorite.imageString = favoriteRecipe.image.absoluteString
+        favorite.readyInMinutes = favoriteRecipe.readyInMinutes
+        favorite.spoonacularScore = favoriteRecipe.spoonacularScore
         favorite.dateAdded = Date()
         
         saveContext()

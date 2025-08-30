@@ -32,7 +32,7 @@ struct SavedRecipesCell: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     RatingView(rating: recipe.spoonacularScore)
-                    TimerView(timer: "\(recipe.readyInMinutes) min")
+                    TimerView(timer: "\(recipe.readyInMinutes)")
                 }
                 .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
