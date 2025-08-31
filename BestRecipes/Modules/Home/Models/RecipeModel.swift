@@ -1,7 +1,14 @@
 
 import SwiftUI
 
-struct RecipeModel: Identifiable, Equatable, Hashable {
+protocol IRecipeFavoritable {
+   var id: Int { get }
+   var title: String { get }
+   var image: URL { get }
+   var author: String { get }
+}
+
+struct RecipeModel: Identifiable, Equatable, Hashable, IRecipeFavoritable {
     let id: Int
     let title: String
     let image: URL

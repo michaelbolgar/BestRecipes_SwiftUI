@@ -61,6 +61,7 @@ struct CustomButton: View {
                 .presentationDetents([.height(280)])
                 .presentationDragIndicator(.visible)
             }
+            .presentationDetents([.height(280)])
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
