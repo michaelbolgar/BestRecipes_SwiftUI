@@ -59,14 +59,12 @@ struct HomeContentView: View {
                 case .seeAll(let type):
                     SeeAllView(
                         homeViewModel: viewModel,
-                        type: type,
-                        recipes: bindingForType(type)
+                        type: type
                     )
 
                 case .recipeDetail(let id):
                     RecipeDetailView(recipeID: id)
 
-                    
                 case .seeAllCuisine(let items):
                     CuisineSeeAll(cuisine: items) { country in
                         Task {
@@ -176,11 +174,7 @@ struct HomeContentView: View {
             TrendingNowSection(
                 recipe: viewModel.trendingNowRecipes,
                 showDetail: { recipeID in
-                    if let recipe = viewModel.trendingNowRecipes.first(where: { $0.id == recipeID }) {
-//                        viewModel.addRecentRecipe(<#T##RecentRecipesModel#>)
-                    }
                     navigationPath.append(Route.recipeDetail(id: recipeID))
-               
                 }
             )
             .padding(.top, Offsets.x0)
@@ -217,7 +211,6 @@ struct HomeContentView: View {
                 title: SeeAllType.recentRecipe.title,
                 isShowAll: !viewModel.recentRecipes.isEmpty
             ){
-                let items = viewModel.recentRecipes.map { RecipeModel(from: $0)}
                 navigationPath.append(Route.seeAll(
                     type: .recentRecipe)
                 )
@@ -265,22 +258,9 @@ extension HomeContentView {
     }
 }
 
-extension HomeContentView {
-    private func bindingForType(_ type: SeeAllType) -> Binding<[RecipeModel]> {
-        switch type {
-        case .trendingNow:
-            return $viewModel.trendingNowRecipes
-        case .popularCategories:
-            return $viewModel.popularCategoryRecipes
-        case .cuisineByCountry:
-            return $viewModel.cuisineByCountries
-        case .recentRecipe:
-            return $viewModel.popularCategoryRecipes //mock
-        }
-    }
-}
+
 
 #Preview {
     HomeContentView()
-        .environmentObject(CoreDataService())
+        .environmentObject(CoreDataService.preview)
 }

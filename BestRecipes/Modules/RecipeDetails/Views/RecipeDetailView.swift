@@ -49,6 +49,8 @@ struct RecipeDetailView: View {
     .listStyle(.plain)
     .padding(.horizontal, Offsets.x4)
     .navigationBarBackButtonHidden()
+    .navigationBarTitleDisplayMode(.inline)
+    .navigationTitle("Recipe detail")
     .toolbar {
         ToolbarItem(placement: .topBarLeading) {
             BackBarButtonView()

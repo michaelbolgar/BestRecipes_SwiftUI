@@ -13,7 +13,7 @@ struct SavedRecipesContentView: View {
             ScrollView {
                 LazyVStack(spacing: Offsets.x3) {
                     ForEach(coreDataService.favorites.favoriteRecipes, id: \.self) { recipe in
-                        SavedRecipesCell(
+                        SeeAllCell(
                             recipe: recipe,
                             isFavorited: coreDataService.favorites.isFavorite(recipeID: recipe.id),
                             toggleBookmark:
@@ -21,11 +21,12 @@ struct SavedRecipesContentView: View {
                                     {  coreDataService.favorites.toggleFavorite(recipe) }
                                 }
                         )
+                        .padding(.horizontal)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             navigationPath.append(recipe.id)
                         }
-                        .frame(maxWidth: .infinity)
+                     
                         .transition( .opacity)
                     }
                 }

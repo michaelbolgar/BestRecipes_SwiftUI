@@ -7,7 +7,7 @@ struct FavoriteButton: View {
     var body: some View {
         Button(action: action) {
             Image(isFavorited ? .savedRecipesActive : .savedRecipesInactive)
-                .padding(8)
+                .padding(4)
                 .background(Circle().fill(Color.white))
         }
         .buttonStyle(FavoriteButtonStyle())

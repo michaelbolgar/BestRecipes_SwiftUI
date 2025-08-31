@@ -1,16 +1,18 @@
 //
-//  TrendingNowCell.swift
+//  SeeAllCell.swift
 //  BestRecipes
 //
-//  Created by Келлер Дмитрий on 19.08.2025.
+//  Created by Келлер Дмитрий on 31.08.2025.
 //
 
 
 import SwiftUI
 
-struct SearchRecipeCell: View {
+struct SeeAllCell: View {
     // MARK: - Properties
     let recipe: RecipeModel
+    var isFavorited: Bool
+    let toggleBookmark: () -> Void
     
     enum Drawing {
         static let imageHeight: CGFloat = 200
@@ -38,16 +40,25 @@ struct SearchRecipeCell: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(Offsets.x2)
                 
+                FavoriteButton(
+                    isFavorited: isFavorited,
+                    action: toggleBookmark
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .padding(Offsets.x2)
+                
+                authorView()
+                    .padding(.horizontal, Offsets.x1)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text(recipe.title)
                         .font(.categoryButtonText)
                         .foregroundStyle(.appWhite)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
                     HStack {
-                        if let ingredients = recipe.ingredients, !ingredients.isEmpty {
-                            Text("\(ingredients.count) Ingredients")
-                        } else {
-                            Text("Not available")
-                        }
+                        Text("cooking time")
                         Text("|")
                         Text(recipe.readyInMinutes)
                     }
@@ -86,8 +97,16 @@ struct SearchRecipeCell: View {
             }
         }
     }
+    
+    private func authorView() -> some View {
+        Text("by_ \(recipe.author)")
+            .font(.custom(AppFont.regular, size: 12))
+            .foregroundStyle(.appWhite)
+            .lineLimit(1)
+            .frame(width: 150)
+    }
 }
 
 #Preview {
-    SearchRecipeCell(recipe: RecipeModel.popularCategoryMock.first!)
+    SeeAllCell(recipe: RecipeModel.popularCategoryMock.first!, isFavorited: true, toggleBookmark: { })
 }

@@ -51,7 +51,7 @@ struct TrendingNowCell: View {
                     action: toggleBookmark
                 )
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                
+                    .padding(Offsets.x2)
                 authorView()
             }
             .clipShape(RoundedRectangle(cornerRadius: Drawing.imageCornerRadius))
