@@ -76,7 +76,7 @@ extension ProfileContentView {
     
     func searchResultView() -> some View {
         LazyVStack(alignment: .leading, spacing: Offsets.x4) {
-            ForEach(coreDataService.createdRecipes) { recipe in
+            ForEach(coreDataService.created.createdRecipes) { recipe in
                 SearchRecipeCell(recipe: recipe)
             }
         }

@@ -48,7 +48,7 @@ struct HomeContentView: View {
                 await viewModel.fetchTrendingNowRecipes()
                 await viewModel.fetchPopularCategoryRecipes()
             }
-            .onReceive(coreDataService.$recentRecipes, perform: { entities in
+            .onReceive(coreDataService.recent.$recentRecipes, perform: { entities in
                 let recentRecepesItems: [RecentRecipesModel] = entities.map { RecentRecipesModel(with: $0)}
                 viewModel.fetchRecentRecipe(recentRecepesItems)
             })

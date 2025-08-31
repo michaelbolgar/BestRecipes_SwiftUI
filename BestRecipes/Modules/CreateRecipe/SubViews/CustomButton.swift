@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CustomButton: View {
+    // MARK: - Properties
     var image = ""
     var title = ""
     var unitsOfMeasurement: String = ""
@@ -19,6 +20,7 @@ struct CustomButton: View {
     let pickerValues = Array(0...1000)
     @State private var tempValue: Int = 0
     
+    // MARK: - Body
     var body: some View {
         HStack {
             Image(image)
@@ -30,7 +32,6 @@ struct CustomButton: View {
                 .font(.custom(AppFont.regular, size: 14))
                 .foregroundStyle(.secondary)
             Button {
-                // при открытии подставляем текущее значение
                 if let intValue = Int(selectedValue.filter("0123456789".contains)) {
                     tempValue = intValue
                 } else {
@@ -57,8 +58,8 @@ struct CustomButton: View {
                         showPicker = false
                     }
                 }
-                .presentationDetents([.height(280)]) // ✅ только 280pt снизу
-                .presentationDragIndicator(.visible) // для красоты
+                .presentationDetents([.height(280)])
+                .presentationDragIndicator(.visible)
             }
         }
         .padding(.horizontal, 16)

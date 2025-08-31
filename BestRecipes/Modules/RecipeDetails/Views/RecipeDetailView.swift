@@ -56,11 +56,11 @@ struct RecipeDetailView: View {
         
         ToolbarItem(placement: .topBarTrailing) {
            FavoriteButton(
-            isFavorited: coreDataService.isFavorite(recipeID: viewModel.recipeID),
+            isFavorited: coreDataService.favorites.isFavorite(recipeID: viewModel.recipeID),
             action:{
                 let recipe = viewModel.items.map { RecipeModel(from: $0) }
                 guard let recipe else { return }
-                coreDataService.toggleFavorite(recipe)
+                coreDataService.favorites.toggleFavorite(recipe)
             }
            )
         }
@@ -140,7 +140,10 @@ struct RecipeDetailView: View {
         .foregroundColor(.neutral10)
         .cornerRadius(12)
       HStack(spacing: 12) {
-        Group {
+          ZStack {
+          RoundedRectangle(cornerRadius: 8)
+              .fill(Color(.systemBackground))
+              .frame(width: 50, height: 50)
           if let image = viewModel.ingredientImage[ingredient.id] {
             Image(uiImage: image)
               .resizable()

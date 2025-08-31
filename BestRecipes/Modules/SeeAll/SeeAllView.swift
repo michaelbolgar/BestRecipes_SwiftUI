@@ -25,8 +25,8 @@ struct SeeAllView: View {
                     } label: {
                         TrendingNowCell(
                             recipe: recipe,
-                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
-                            toggleBookmark: { coreDataService.toggleFavorite(recipe)}
+                            isFavorited: coreDataService.favorites.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.favorites.toggleFavorite(recipe)}
                         )
                             .padding(.vertical, Offsets.x2)
                     }
