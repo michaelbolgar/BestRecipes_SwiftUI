@@ -35,8 +35,19 @@ extension RecipeModel {
         self.title = favorite.title ?? ""
         self.image = URL(string: favorite.imageString ?? "https://via.placeholder.com/300") ?? URL(string: "https://via.placeholder.com/300")!
         self.author = favorite.author ?? ""
-        self.spoonacularScore = 0
-        self.readyInMinutes = ""
+        self.spoonacularScore = favorite.spoonacularScore
+        self.readyInMinutes = favorite.readyInMinutes ?? ""
+    }
+}
+
+extension RecipeModel {
+    init(from detailedRecipe: DetailedRecipe) {
+        self.id = detailedRecipe.id
+        self.title = detailedRecipe.title
+        self.image = detailedRecipe.image
+        self.author = detailedRecipe.sourceName
+        self.spoonacularScore = detailedRecipe.aggregateLikes
+        self.readyInMinutes = String(detailedRecipe.readyInMinutes) + "min"
     }
 }
 

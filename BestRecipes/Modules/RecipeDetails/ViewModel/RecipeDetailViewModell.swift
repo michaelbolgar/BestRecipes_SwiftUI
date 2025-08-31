@@ -32,7 +32,7 @@ final class RecipeDetailViewModel: ObservableObject {
                 self.items = result
                 if let coreDataService {
                     let recentRecipe = RecentRecipesModel(from: result)
-                    coreDataService.createRecentRecipe(recipe: recentRecipe)
+                    coreDataService.recent.createRecentRecipe(recipe: recentRecipe)
                 }
             }
         } catch {

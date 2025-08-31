@@ -25,8 +25,8 @@ struct TrendingNowSection: View {
                     ForEach(Array(recipe.enumerated()), id: \.element.id) { index, recipe in
                         TrendingNowCell(
                             recipe: recipe,
-                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
-                            toggleBookmark: { coreDataService.toggleFavorite(recipe) }
+                            isFavorited: coreDataService.favorites.isFavorite(recipeID: recipe.id),
+                            toggleBookmark: { coreDataService.favorites.toggleFavorite(recipe) }
                         )
                             .padding(.vertical, Offsets.x2)
                             .opacity(appearedIndexes.contains(index) ? 1 : 0)

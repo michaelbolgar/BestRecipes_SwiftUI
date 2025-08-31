@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
+    // MARK: - Properties
   @StateObject var viewModel: RecipeDetailViewModel
     @EnvironmentObject private var coreDataService: CoreDataService
   @State private var ingredientCheckedStatus: [Int: Bool] = [:]
@@ -16,6 +17,7 @@ struct RecipeDetailView: View {
         self._viewModel = StateObject(wrappedValue: RecipeDetailViewModel(recipeID: recipeID))
     }
     
+    // MARK: - Body
   var body: some View {
     ZStack(alignment: .top) {
         Color.appBackground
@@ -50,6 +52,17 @@ struct RecipeDetailView: View {
     .toolbar {
         ToolbarItem(placement: .topBarLeading) {
             BackBarButtonView()
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+           FavoriteButton(
+            isFavorited: coreDataService.favorites.isFavorite(recipeID: viewModel.recipeID),
+            action:{
+                let recipe = viewModel.items.map { RecipeModel(from: $0) }
+                guard let recipe else { return }
+                coreDataService.favorites.toggleFavorite(recipe)
+            }
+           )
         }
     }
   }
@@ -127,19 +140,23 @@ struct RecipeDetailView: View {
         .foregroundColor(.neutral10)
         .cornerRadius(12)
       HStack(spacing: 12) {
-        Group {
+          ZStack {
+          RoundedRectangle(cornerRadius: 8)
+              .fill(Color(.systemBackground))
+              .frame(width: 50, height: 50)
           if let image = viewModel.ingredientImage[ingredient.id] {
             Image(uiImage: image)
               .resizable()
-              .scaledToFill()
+              .scaledToFit()
               .background(Color.white)
               .clipShape(RoundedRectangle(cornerRadius: 8))
+              .frame(width: 44, height: 44)
           } else {
             ShimmerView()
+                  .frame(width: 44, height: 44)
           }
         }
-        .frame(maxWidth: 52)
-        .frame(height: 52)
+       
         .onAppear {
           Task {
             await viewModel.fetchIngredientImage(imageName: ingredient.image, id: ingredient.id)
@@ -164,5 +181,6 @@ struct RecipeDetailView: View {
 #Preview("RecipeDetailView") {
     NavigationStack {
       RecipeDetailView(recipeID: 323)
+            .environmentObject(CoreDataService.preview)
     }
 }

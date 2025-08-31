@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct CustomButton: View {
+    // MARK: - Properties
     var image = ""
     var title = ""
     var unitsOfMeasurement: String = ""
     
-    @State private var label = 0
+    @State private var label = "0"
     @State private var showPicker = false
     @Binding var selectedValue: String
-    let pickerValues = Array(0...1000)
     
+    let pickerValues = Array(0...1000)
+    @State private var tempValue: Int = 0
+    
+    // MARK: - Body
     var body: some View {
         HStack {
             Image(image)
@@ -28,13 +32,18 @@ struct CustomButton: View {
                 .font(.custom(AppFont.regular, size: 14))
                 .foregroundStyle(.secondary)
             Button {
+                if let intValue = Int(selectedValue.filter("0123456789".contains)) {
+                    tempValue = intValue
+                } else {
+                    tempValue = 0
+                }
                 showPicker = true
             } label: {
                 Image("Arrow-Right")
             }
             .sheet(isPresented: $showPicker) {
-                VStack {
-                    Picker("Enter value", selection: $selectedValue) {
+                VStack(spacing: 16) {
+                    Picker("Enter value", selection: $tempValue) {
                         ForEach(pickerValues, id: \.self) { value in
                             Text("\(value) \(unitsOfMeasurement)")
                                 .tag(value)
@@ -44,10 +53,13 @@ struct CustomButton: View {
                     .frame(height: 150)
                     
                     Button("Enter") {
-                        label = selectedValue.hashValue
+                        label = "\(tempValue) \(unitsOfMeasurement)"
+                        selectedValue = "\(tempValue) \(unitsOfMeasurement)"
                         showPicker = false
                     }
                 }
+                .presentationDetents([.height(280)])
+                .presentationDragIndicator(.visible)
             }
             .presentationDetents([.height(280)])
         }

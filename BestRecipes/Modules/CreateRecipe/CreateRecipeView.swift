@@ -128,7 +128,7 @@ struct CreateRecipeView: View {
     private func saveRecipe() {
         if !title.isEmpty {
             let dictIngredients = Dictionary(uniqueKeysWithValues: ingredients.map {($0.name, $0.quantity)})
-            coredataService.createCreatedRecipe(
+            coredataService.created.createCreatedRecipe(
                 title: title,
                 serves: serves,
                 cookTime: cookTime,

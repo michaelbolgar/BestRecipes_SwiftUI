@@ -12,13 +12,13 @@ struct SavedRecipesContentView: View {
         NavigationStack(path: $navigationPath) {
             ScrollView {
                 LazyVStack(spacing: Offsets.x3) {
-                    ForEach(coreDataService.favoriteRecipes, id: \.self) { recipe in
+                    ForEach(coreDataService.favorites.favoriteRecipes, id: \.self) { recipe in
                         SavedRecipesCell(
                             recipe: recipe,
-                            isFavorited: coreDataService.isFavorite(recipeID: recipe.id),
+                            isFavorited: coreDataService.favorites.isFavorite(recipeID: recipe.id),
                             toggleBookmark:
                                 withAnimation(.easeOut(duration: 0.2)) {
-                                    {  coreDataService.toggleFavorite(recipe) }
+                                    {  coreDataService.favorites.toggleFavorite(recipe) }
                                 }
                         )
                         .contentShape(Rectangle())
