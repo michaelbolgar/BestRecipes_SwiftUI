@@ -36,6 +36,7 @@ struct SuggestionsContentView: View {
             mainModeView
         case .suggestion:
             SuggestionView(suggestion: vm.suggestion ?? Suggestion.mockSuggestion)
+                .environmentObject(vm)
                 .transition(.move(edge: .bottom))
         }
     }
@@ -112,6 +113,7 @@ struct SuggestionsContentView: View {
 
 struct SuggestionView: View {
     let suggestion: Suggestion
+    @EnvironmentObject var vm: SuggestionsViewModel
 
     var body: some View {
         ScrollView {
@@ -170,6 +172,19 @@ struct SuggestionView: View {
             }
             .padding()
         }
+        Button(action: {
+            vm.mode = .main
+        }) {
+            Text("Назад к выбору")
+                .font(.headline)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.redPrimary80)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+                .padding(.horizontal)
+        }
+        .padding()
     }
 }
 

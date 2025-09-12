@@ -8,7 +8,7 @@ final class SuggestionsViewModel: ObservableObject {
     }
 
     // MARK: Properties
-    @Published var mode: Mode = .suggestion
+    @Published var mode: Mode = .main
     @Published var suggestion: Suggestion?
     @Published var error: Error? = nil
     private let networkingService: SuggestionsNetworkingProtocol
