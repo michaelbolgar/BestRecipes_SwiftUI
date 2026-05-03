@@ -37,7 +37,7 @@
 		E12D13F12E51BB02009C587A /* CuisineSeeAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D13F02E51BB02009C587A /* CuisineSeeAll.swift */; };
 		E12D141F2E51CB11009C587A /* CurvedTabbarShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D141D2E51CB11009C587A /* CurvedTabbarShape.swift */; };
 		E12D14202E51CB11009C587A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D141E2E51CB11009C587A /* TabbarView.swift */; };
-		E12D14232E51CB2A009C587A /* IHomeNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14212E51CB2A009C587A /* IHomeNetworking.swift */; };
+		E12D14232E51CB2A009C587A /* HomeNetworkingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14212E51CB2A009C587A /* HomeNetworkingProtocol.swift */; };
 		E12D142A2E51CB3F009C587A /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14282E51CB3F009C587A /* NetworkRouter.swift */; };
 		E12D142B2E51CB3F009C587A /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14272E51CB3F009C587A /* NetworkingService.swift */; };
 		E12D142C2E51CB3F009C587A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D14262E51CB3F009C587A /* NetworkError.swift */; };
@@ -105,7 +105,7 @@
 		E12D13F02E51BB02009C587A /* CuisineSeeAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSeeAll.swift; sourceTree = "<group>"; };
 		E12D141D2E51CB11009C587A /* CurvedTabbarShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurvedTabbarShape.swift; sourceTree = "<group>"; };
 		E12D141E2E51CB11009C587A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
-		E12D14212E51CB2A009C587A /* IHomeNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IHomeNetworking.swift; sourceTree = "<group>"; };
+		E12D14212E51CB2A009C587A /* HomeNetworkingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNetworkingProtocol.swift; sourceTree = "<group>"; };
 		E12D14242E51CB3F009C587A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		E12D14252E51CB3F009C587A /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		E12D14262E51CB3F009C587A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -322,7 +322,7 @@
 		E12D14222E51CB2A009C587A /* HomeNetworking */ = {
 			isa = PBXGroup;
 			children = (
-				E12D14212E51CB2A009C587A /* IHomeNetworking.swift */,
+				E12D14212E51CB2A009C587A /* HomeNetworkingProtocol.swift */,
 			);
 			path = HomeNetworking;
 			sourceTree = "<group>";
@@ -699,7 +699,7 @@
 				E12B35CA2E4C896400050A82 /* TrendingNowSection.swift in Sources */,
 				F49E6F5F2E5BD30600EA82B4 /* SavedRecipesViewModel.swift in Sources */,
 				5210E3672E4BAF1F00B6E177 /* TimerView.swift in Sources */,
-				E12D14232E51CB2A009C587A /* IHomeNetworking.swift in Sources */,
+				E12D14232E51CB2A009C587A /* HomeNetworkingProtocol.swift in Sources */,
 				5210E3632E4BA4FC00B6E177 /* RatingView.swift in Sources */,
 				6D2FA36D2E4D64BD000BB6AE /* MealType.swift in Sources */,
 				5E6FA6B02E4E04EC0050C809 /* RecipeDetailViewModell.swift in Sources */,

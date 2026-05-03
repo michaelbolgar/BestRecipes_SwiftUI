@@ -1,73 +1,60 @@
-//
-//  HomeViewModel.swift
-//  BestRecipes
-//
-//  Created by Келлер Дмитрий on 13.08.2025.
-//
-
 import Foundation
 
 @MainActor
 final class HomeViewModel: ObservableObject {
     // MARK: - Properties
-    private let networkService: IHomeNetworking
-    private let searchHistoryService: ISearchHistory
-    private let userDefaultsService: UserDefaultsService
-
-    private var currentSearchTask: Task<Void, Never>?
+    private let networkService: HomeNetworkingProtocol
+    private let searchHistoryService: SearchHistoryProtocol
 
     @Published var searchText: String = "" {
-        didSet {
-            debounceSearchTask()
-        }
+        didSet { debounceSearchTask() }
     }
     
-    @Published var searchResults: [RecipeModel] = []
-    @Published var recentSearches: [String] = []
+    @Published private(set) var searchResults: [RecipeModel] = []
+    @Published private(set) var recentSearches: [String] = []
 
     /// models for fetching data from API
-    @Published var trendingNowRecipes: [RecipeModel] = []
-    @Published var popularCategoryRecipes: [RecipeModel] = []
-    @Published var cuisineByCountries: [RecipeModel] = []
+    @Published private(set) var trendingNowRecipes: [RecipeModel] = []
+    @Published private(set) var popularCategoryRecipes: [RecipeModel] = []
+    @Published private(set) var cuisineByCountries: [RecipeModel] = []
+    @Published private(set) var recentRecipes: [RecentRecipesModel] = []
 
-    @Published var recentRecipes: [RecentRecipesModel] = []
+    @Published var error: Error?
 
-    private var apiRecipes: [RecipeModel] = []
-    
-    private var isLoading = false
-
-    // MARK: - Pagination State
-    private var pages: [SeeAllType: Int] = [
-        .trendingNow: 0,
-        .popularCategories: 0
-    ]
-    private let perPage = 10
-    
     @Published var currentCategory: MealType = .mainCourse {
         didSet {
-            Task {
-                await fetchPopularCategoryRecipes() 
+            Task { [weak self] in
+                await self?.fetchPopularCategoryRecipes()
             }
         }
     }
 
+    private var currentSearchTask: Task<Void, Never>?
+    private var pages: [SeeAllType: Int] = [.trendingNow: 0, .popularCategories: 0]
+    private let perPage = 10
+
+    private var apiRecipes: [RecipeModel] = []
+    private var isLoading = false
+
     let countries: [Cuisine] = Cuisine.allCases
-    @Published var error: Error? = nil
 
     // MARK: - Init
     init(
-        networkService: IHomeNetworking = HomeNetworking(),
-        searchHistoryService: ISearchHistory = SearchHistoryService(),
-        userDefaultsService: UserDefaultsService = UserDefaultsServiceImpl()
+        networkService: HomeNetworkingProtocol,
+        searchHistoryService: SearchHistoryProtocol,
     ) {
         self.networkService = networkService
         self.searchHistoryService = searchHistoryService
-        self.userDefaultsService = userDefaultsService
-    
     }
     
     // MARK: - Fetch Data
-    
+    func loadInitialData() async {
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { await self.fetchTrendingNowRecipes() }
+            group.addTask { await self.fetchPopularCategoryRecipes() }
+        }
+    }
+
     func fetchSearchRecipes() async {
         do {
             addSearchQuery(searchText)
@@ -122,7 +109,9 @@ final class HomeViewModel: ObservableObject {
     func addRecentRecipe(_ recipe: RecentRecipesModel) {
         recentRecipes.removeAll(where: { $0.id == recipe.id })
         recentRecipes.insert(recipe, at: 0)
-        // save into coredata
+        if recentRecipes.count > 10 {
+            recentRecipes.removeLast()
+        }
     }
 
     //    MARK: - Search Methods

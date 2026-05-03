@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol IHomeNetworking {
+protocol HomeNetworkingProtocol {
     func fetchSearchRecipes(query: String) async throws -> [RecipeModel]
     func fetchTrendingNowRecipes(page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int)
     func fetchPopularCategoryRecipes(_ category: MealType, page: Int, perPage: Int) async throws -> (recipes: [RecipeModel], totalPages: Int)
     func fetchCuisineByCountries(_ country: Cuisine) async throws -> [RecipeModel]
 }
 
-final class HomeNetworking: IHomeNetworking {
+final class HomeNetworking: HomeNetworkingProtocol {
     private let networkingService: NetworkingService
     
     init(networkingService: NetworkingService = NetworkingService()) {

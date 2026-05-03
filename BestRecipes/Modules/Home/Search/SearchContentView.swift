@@ -87,7 +87,3 @@ extension SearchContentView {
         }
     }
 }
-
-#Preview {
-    SearchContentView(viewModel: HomeViewModel(), onSelectRecipe: {_ in})
-}

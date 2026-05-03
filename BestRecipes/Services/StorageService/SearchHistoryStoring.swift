@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol ISearchHistory {
+protocol SearchHistoryProtocol {
     func loadHistory() -> [String]
     func saveQuery(_ query: String)
     func clearRecentSearches(_ query: String)
 }
 
-final class SearchHistoryService: ISearchHistory {
+final class SearchHistoryService: SearchHistoryProtocol {
     private let key = "search_history"
     private let maxItems: Int
     

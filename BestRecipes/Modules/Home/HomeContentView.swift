@@ -21,16 +21,22 @@ struct HomeContentView: View {
     }
     
     //    MARK: - INIT
-    init() {
-        self._viewModel = StateObject(wrappedValue: HomeViewModel())
+    init(networkService: HomeNetworkingProtocol = HomeNetworking(),
+         searchService: SearchHistoryProtocol = SearchHistoryService()
+    ) {
+        _viewModel = StateObject(wrappedValue: HomeViewModel(
+            networkService: networkService,
+            searchHistoryService: searchService
+        ))
     }
-    
+
     // MARK: - Body
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ZStack(alignment: .top) {
                 Color(.appBackground)
                     .ignoresSafeArea(.all)
+
                 VStack(spacing: Offsets.x2) {
                     hederView(searchText: $viewModel.searchText)
                     
@@ -45,8 +51,7 @@ struct HomeContentView: View {
             }
             
             .task {
-                await viewModel.fetchTrendingNowRecipes()
-                await viewModel.fetchPopularCategoryRecipes()
+                await viewModel.loadInitialData()
             }
             .onReceive(coreDataService.recent.$recentRecipes, perform: { entities in
                 let recentRecepesItems: [RecentRecipesModel] = entities.map { RecentRecipesModel(with: $0)}
@@ -54,32 +59,7 @@ struct HomeContentView: View {
             })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
-            .navigationDestination(for: Route.self) { route in
-                switch route {
-                case .seeAll(let type):
-                    SeeAllView(
-                        homeViewModel: viewModel,
-                        type: type,
-                        recipes: bindingForType(type)
-                    )
-
-                case .recipeDetail(let id):
-                    RecipeDetailView(recipeID: id)
-
-                    
-                case .seeAllCuisine(let items):
-                    CuisineSeeAll(cuisine: items) { country in
-                        Task {
-                            await viewModel.fetchCuisineByCountries(country)
-                            navigationPath.append(
-                                Route.seeAll(
-                                    type: .cuisineByCountry
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+            .navigationDestination(for: Route.self, destination: handleNavigation)
         }
     }
     
@@ -266,16 +246,42 @@ extension HomeContentView {
 }
 
 extension HomeContentView {
+    @ViewBuilder
+    private func handleNavigation(_ route: Route) -> some View {
+        switch route {
+        case .seeAll(let type):
+            SeeAllView(
+                homeViewModel: viewModel,
+                type: type,
+                recipes: bindingForType(type)
+            )
+
+        case .recipeDetail(let id):
+            RecipeDetailView(recipeID: id)
+
+        case .seeAllCuisine(let items):
+            CuisineSeeAll(cuisine: items) { country in
+                Task {
+                    await viewModel.fetchCuisineByCountries(country)
+                    navigationPath.append(Route.seeAll(type: .cuisineByCountry))
+                }
+            }
+        }
+    }
+}
+
+extension HomeContentView {
     private func bindingForType(_ type: SeeAllType) -> Binding<[RecipeModel]> {
         switch type {
         case .trendingNow:
-            return $viewModel.trendingNowRecipes
+            return Binding.constant(viewModel.trendingNowRecipes)
         case .popularCategories:
-            return $viewModel.popularCategoryRecipes
+            return Binding.constant(viewModel.popularCategoryRecipes)
         case .cuisineByCountry:
-            return $viewModel.cuisineByCountries
+            return Binding.constant(viewModel.cuisineByCountries)
         case .recentRecipe:
-            return $viewModel.popularCategoryRecipes //mock
+            let recentAsRecipe = viewModel.recentRecipes.map { RecipeModel(from: $0) }
+            return Binding.constant(recentAsRecipe)
         }
     }
 }
